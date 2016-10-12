@@ -21,7 +21,7 @@ class mainPage extends Component {
 	console.log(state);
     return (
     	<section className="content">
-    		신청한 강의 목록
+    		<div className="page-header"><h3>신청한 강의 목록</h3></div>
     		<ul className="lecture-list">
     		{state.lectures.map(lecture => (
     			
@@ -29,7 +29,7 @@ class mainPage extends Component {
     		))}
     		</ul>
     		
-    		강의 신청하기
+    		<div className="page-header"><h3>강의 신청하기</h3></div>
         <Apply/>
         </section>
     )

@@ -24,6 +24,9 @@ export default function ViewerPage(state = initialViewerState, action) {
 		case Actions.GET_COURSE:
 			state.course = action.course;
 			return Object.assign({}, state);
+		case Actions.ADD_GOAL:
+			state.course.goals.push(action.goal);
+			return Object.assign({}, state);
 	}
 	return state;
 }

@@ -3,10 +3,11 @@ import CourseListPage from './CourseListPage'
 import Apply from './Apply'
 import Viewer from './Viewer'
 import MyLectures from './MyLectures'
-
+import ProfessorPage from './ProfessorPage'
 export default  combineReducers({
   Apply,
   CourseListPage,
   Viewer,
-  MyLectures
+  MyLectures,
+  ProfessorPage
 })

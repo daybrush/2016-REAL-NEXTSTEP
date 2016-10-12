@@ -14,6 +14,7 @@ import { browserHistory, Router, Route, IndexRoute } from 'react-router'
 
 import CourseListPage from './pages/CourseListPage'
 import mainPage from './pages/mainPage'
+import ProfessorPage from './pages/ProfessorPage'
 
 const loggerMiddleware = createLogger();
 
@@ -34,6 +35,8 @@ render(
     	<IndexRoute component={mainPage} />
       <Route path="/lecture/:lectureId" component={CourseListPage} />
       <Route path="/view/:courseId" component={CourseListPage} />      
+      <Route path="/professor/:professorId" component={ProfessorPage} />            
+      
     </Route>
   </Router>
   </Provider>,

@@ -9,6 +9,9 @@ export const loadProfessorAll = (professors) => {
 export const loadMyLectures = (lectures) => {
 	return { type: types.GET_MY_LECTURES , lectures} ;
 };
+export const loadProfessor = (professor) => {
+	return { type: types.GET_PROFESSOR , professor} ;
+};
 export const fetchLoadProfessorAll = (actions) => {
 	return new Promise((resolve, reject) => {
 	let professors = [
@@ -81,6 +84,30 @@ export const fetchLoadMyLectures = (actions) => {
 	setTimeout(()=>{
 		actions.loadMyLectures(lectures);
 		resolve(lectures);
+	}, 1000);
+	
+	});
+}
+export const fetchLoadProfessor = (actions, professorId) => {
+	return new Promise((resolve, reject) => {
+	let professor = 
+	  {
+	    name: '박재성',
+	    lectures : [
+		  {
+		    name: '실전프로젝트',
+		    id: 0,
+		  },
+		  {
+		    name: '실전프로젝트2',
+		    id: 1,
+		  }
+		],
+	    id: 0
+	  };
+	setTimeout(()=>{
+		actions.loadProfessor(professor);
+		resolve(professor);
 	}, 1000);
 	
 	});
@@ -252,4 +279,25 @@ export const loadCourseAll = (lecture) => {
 };
 
 
+export const load = (option) => {
+	const {type, value, target, by} = option;
+	let obj = {type: (type+"_" + target).toUpperCase()};
+	obj[target] = value;
+	
+	return obj;
+}
+
+export const fetch = (actions, option) => {
+	const {type, value, target, by, is_load} = option;
+	
+	
+	
+	return new Promise((resolve, reject) => {
+		setTimeout(()=>{
+			if(is_load)
+				actions.load(option);
+			resolve(value);
+		}, 1000);
+	});	
+}
 

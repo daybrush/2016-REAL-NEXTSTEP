@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import * as NEXTActions from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import './css/LectureCard.css'
 
 
 class LectureCard extends Component {
@@ -13,6 +13,10 @@ class LectureCard extends Component {
 
 //\f007
 applyCourse = (e) => {
+	if(!confirm("강의를 신청하시겠습니까?"))
+		return;
+		
+		
 	const {actions, lecture} = this.props;
 	NEXTActions.fetchAddMyLecture(actions, lecture.id);
 }
@@ -31,8 +35,10 @@ renderLink() {
     const {  name, id , professor} = this.props.lecture;
 	return (
    <Link to={"/lecture/"+ id} className="lecture-title">
-    	<span className="lecture-title-name">{name}</span>
-	<span className="lecture-professor-name">{professor.name}</span>    	
+    	<p className="lecture-title-name">{name}</p>
+    	{(professor)?(
+	<p className="lecture-professor-name">{professor.name}</p>
+	) : ""}
     	<span className="lecture-card-options">
     		<i className="fa fa-star-o"></i>
     	</span>
@@ -43,7 +49,7 @@ renderLink() {
   	const {isLink} = this.props;
     
     return (
-      <li className="lecture-card">
+      <li className="lecture-card col-xs-12 col-sm-6 col-md-3">
 		{
 			isLink?this.renderLink():this.renderApply()
 		}	    
