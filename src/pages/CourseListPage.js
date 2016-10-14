@@ -69,19 +69,20 @@ class CourseListPage extends Component {
 		const lecture = this.props.state.lecture;
   		const {courses} = lecture;
   		
-		console.log(this.props.state);
+		console.log("RENDER", this.props.state);
   		return (
   		<div>
   		{this.renderViewer()}
   		<div className="course-list-wrapper">
   			{this.renderHeader()}
   			<div className="course-list">
-	  			{courses.map(course =>
-		  			(<CourseCard key={course.id} lecture={lecture} course={course}/>)
+	  			{courses.map((course,i) =>
+		  			(<CourseCard key={course.id} position={i} lecture={lecture} course={course}/>)
 		  		)}
 		  		<AddCourseCard actions={this.props.actions} lecture={lecture}/>
 		  	</div>
   		</div>
+  		<div className="course-participant-list"></div>
   		</div>
   		)
   	}

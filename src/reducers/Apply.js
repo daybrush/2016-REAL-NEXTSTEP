@@ -16,7 +16,6 @@ export default function mainPage(state = initialState, action) {
 			
 			return Object.assign({}, state);
 			break;
-		case Actions.ADD_COURSE:
 		case Actions.GET_PROFESSOR_ALL:
 			state.professors = action.professors;
 			

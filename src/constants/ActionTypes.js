@@ -17,3 +17,6 @@ export const ADD_MY_LECTURE = 'ADD_MY_LECTURE'
 export const PAGE_LOADED = 'PAGE_LOADED'
 export const REQUIRE_UPDATE = 'REQUIRE_UPDATE'
 
+
+export const SWAP_COURSE = 'SWAP_COURSE'
+export const SWAP_ISSUE = 'SWAP_ISSUE'

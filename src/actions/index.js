@@ -301,3 +301,23 @@ export const fetch = (actions, option) => {
 	});	
 }
 
+
+
+export const swap = (target, myPosition, targetPosition) => {
+	return {type: ("SWAP_" + target).toUpperCase(), myPosition, targetPosition};
+}
+
+
+export const fetchSwap = (actions, target, id, targetId) => {
+	let obj = {
+		swap:[id, targetId]
+	}
+	
+	return new Promise((resolve, reject) => {
+		setTimeout(()=>{
+			resolve(obj);
+		}, 1000);
+	});	
+	
+	
+}
