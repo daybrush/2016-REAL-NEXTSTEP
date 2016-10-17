@@ -37,7 +37,12 @@ class Viewer extends Component {
       	<h4 className="lecture-goals-title"><span className="glyphicon glyphicon-education"></span>Goals</h4>
         <div className="lecture-goals">
         	{goals.map(goal => (
-        	<div className="lecture-goal alert alert-info goal-card" role="alert"><strong>{goal.title}</strong> </div>
+        	<div className="lecture-goal alert alert-info goal-card" role="alert">
+        		<div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style={{width:"45%"}}>
+        			<span>45%</span> 
+    			</div>
+        		<strong>{goal.title}</strong>
+        	</div>
         	))}
         	<AddGoal course={course}/>
         </div>

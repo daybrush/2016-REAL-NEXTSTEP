@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import CourseCard from '../components/CourseCard'
 import AddCourseCard from '../components/CourseCard.add'
 import Viewer from '../components/Viewer'
+import Participants from '../components/Participants'
 import './css/CourseListPage.css'
 
 class CourseListPage extends Component {
@@ -69,10 +70,10 @@ class CourseListPage extends Component {
 		const lecture = this.props.state.lecture;
   		const {courses} = lecture;
   		
-		console.log("RENDER", this.props.state);
   		return (
   		<div>
   		{this.renderViewer()}
+  		<Participants id={lecture.id}/>
   		<div className="course-list-wrapper">
   			{this.renderHeader()}
   			<div className="course-list">

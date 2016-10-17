@@ -8,3 +8,19 @@
 .lecture-goals {
 	margin-left: 20px;
 }
+.goal-card {
+	position: relative;
+	overflow: hidden;
+}
+.goal-card .progress-bar {
+	position: absolute;
+	left: 0;
+	top:0;
+	opacity: 0.3;
+	line-height: 40px;
+	text-align: right;
+}
+.goal-card .progress-bar span {
+	color: rgba(0, 0, 0, 0.8);
+	margin-right: 10px;
+}
