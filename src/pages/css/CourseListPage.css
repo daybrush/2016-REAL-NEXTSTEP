@@ -8,7 +8,7 @@
 .lecture-header {
 	padding: 10px;
 }
-.lecture-header span {
+.lecture-header span, .lecture-header span a {
 	vertical-align: middle;
 	margin-right: 10px;
 	margin-left: 5px;

@@ -5,8 +5,7 @@ const initialState = {
 }
 export default function mainPage(state = initialState, action) {
 	switch(action.type ) {
-		case Actions.GET_COURSE_ALL:
-		case Actions.GET_COURSE_IN_PROFESSOR:
+		case Actions.GET_LECTURES_IN_PROFESSOR:
 			const professors = state.professors.filter(professor => {    
 				return professor.id === action.id
 			});
@@ -16,7 +15,7 @@ export default function mainPage(state = initialState, action) {
 			
 			return Object.assign({}, state);
 			break;
-		case Actions.GET_PROFESSOR_ALL:
+		case Actions.GET_LECTURES:
 			state.professors = action.professors;
 			
 			return Object.assign({}, state);

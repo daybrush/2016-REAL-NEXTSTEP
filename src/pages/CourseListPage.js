@@ -8,6 +8,8 @@ import AddCourseCard from '../components/CourseCard.add'
 import Viewer from '../components/Viewer'
 import Participants from '../components/Participants'
 import './css/CourseListPage.css'
+import { Link } from 'react-router'
+
 
 class CourseListPage extends Component {
 	
@@ -42,7 +44,7 @@ class CourseListPage extends Component {
 		return (
 			<div className="lecture-header">
 				<span className="lecture-header-name">{name}</span>
-				<span className="lecture-header-professor">{professor.name}</span>				
+				<span className="lecture-header-professor"><Link to={"/professor/"+professor.id}>{professor.name}</Link></span>				
 				<span className={classNames({
 					label:true,
 					"label-danger": status == 2,

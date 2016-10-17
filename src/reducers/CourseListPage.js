@@ -6,6 +6,7 @@ const initiallecturePageState = {
 		courses:[],
 		professor:0,
 		status: -1,
+		participants : []
 	},
 }
 
@@ -26,6 +27,9 @@ export default function CourseListPage(state = initiallecturePageState, action) 
 			courses.splice(action.targetPosition,0, b);
 			
 			return Object.assign({}, state);
+		case Actions.GET_PARTICIPATNS:
+			state.lecture.participants = state.participants;
+			return Object.assign({}, state);			
 	}
 	return state;
 }

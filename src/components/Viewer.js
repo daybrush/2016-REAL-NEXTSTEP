@@ -8,7 +8,7 @@ import { Link } from 'react-router'
 
 import AddGoal from './Viewer.add.goal'
 
-
+//import Go from "../class/Go"
 import './css/Viewer.css'
 
 
@@ -22,15 +22,22 @@ class Viewer extends Component {
 	handleClose = (e) => {
 		document.body.classList.remove("modal-open");
 	}
+	handleOutsideClose = (e) => {
+		if(e.target !== this.refs.modal)
+			return;
+		
+		this.refs.close.handleClick(e);
+		
+	}
   render() {
   	const course = this.props.state.course;
 	 const {title, goals, lectureId} = course;
     return (
-<div className="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style={{display:"block", background:"rgba(0,0,0,0.3)"}}>
+<div className="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style={{display:"block", background:"rgba(0,0,0,0.3)"}} onClick={this.handleOutsideClose} ref="modal">
   <div className="modal-dialog" role="document">
     <div className="modal-content">
       <div className="modal-header">
-        <Link to={"/lecture/" + lectureId} onClick={this.handleClose}><button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></Link>
+        <Link to={"/lecture/" + lectureId} onClick={this.handleClose} ref="close"><button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></Link>
         <h3 className="modal-title" id="myModalLabel">{title}</h3>
       </div>
       <div className="modal-body">

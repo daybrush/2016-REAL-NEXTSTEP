@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as NEXTActions from '../actions'
 import { bindActionCreators } from 'redux'
 import DragDrop from "../class/dragdrop"
+
 export default connect(
 	state => ({state: state.CourseListPage}),
 	dispatch => ({ actions: bindActionCreators(NEXTActions, dispatch), dispatch})

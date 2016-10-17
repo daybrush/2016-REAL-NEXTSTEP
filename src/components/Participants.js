@@ -8,28 +8,39 @@ import { connect } from 'react-redux'
 class component extends Component {
 
 state = {
-	edit : false
+	show : false
 }
 
+show = () => {
+	
+}
+hide = () => {
+	
+}
+componentWillMount() {
+}
   render() {
-  	const {isLink} = this.props;
-  	const is_edit = this.state.edit;
+
     
     return (
       <div className="lecture-participants">
       	<ul>
+      		<li></li>
       	</ul>
       </div>
     )
   }
 }
 
+
+
+
 const mapStateToProps = state => {
-	return {state: state.MyLectures}
+	return {state: state.CourseListPage}
 }
 
 const mapDispatchToProps = dispatch => {
-  return{  actions: bindActionCreators(NEXTActions, dispatch), dispatch}
+  return{  actions: bindActionCreators(NEXTActions, dispatch)}
 }
 
 export default connect(
