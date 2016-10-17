@@ -3,7 +3,7 @@ import * as Actions from '../constants/ActionTypes'
 const initialViewerState = {
 	course: {
 		title:"",
-		goals: [
+		issues: [
 		{id: 0, name : "goal1"},
 		{id: 1, name : "goal2"},
 		{id: 2, name : "goal3"},

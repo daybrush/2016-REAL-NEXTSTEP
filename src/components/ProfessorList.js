@@ -4,11 +4,10 @@ import ProfessorBoard from './ProfessorBoard'
 export default class ProfessorList extends Component {
   static propTypes = {
     professors: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
   }
 
   render() {
-    const { professors, actions } = this.props
+    const { professors } = this.props
     console.log(professors);
 
     return (

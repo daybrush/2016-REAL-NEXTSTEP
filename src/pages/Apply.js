@@ -9,13 +9,15 @@ class Apply extends Component {
 		const {actions} = this.props;
 
 
-		NEXTActions.fetchLoadProfessorAll(actions).then(professors=> {
-			console.log(professors);
+		NEXTActions.fetchAbout(actions, {
+			is_load: true,
+			type: "get",
+			target: "lectures",
 		});
 	}
 
   render() {
-	const {state, actions} = this.props
+	const {state} = this.props
     return (
         <ProfessorList professors={state.professors}/>
     )

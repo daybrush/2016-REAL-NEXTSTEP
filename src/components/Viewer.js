@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import { Link } from 'react-router'
 
-import AddGoal from './Viewer.add.goal'
+import AddIssue from './Viewer.add.issue'
 
 //import Go from "../class/Go"
 import './css/Viewer.css'
@@ -16,7 +16,7 @@ class Viewer extends Component {
 	componentWillMount() {
 		const {actions, courseId} = this.props;
 		
-		NEXTActions.fetchLoadCourse(actions, courseId);
+		NEXTActions.fetchAbout(actions, {type:"get", target:"course", body:"id=" + courseId});
 		document.body.classList.add("modal-open");
 	}
 	handleClose = (e) => {
@@ -31,7 +31,7 @@ class Viewer extends Component {
 	}
   render() {
   	const course = this.props.state.course;
-	 const {title, goals, lectureId} = course;
+	 const {title, issues, lectureId} = course;
     return (
 <div className="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style={{display:"block", background:"rgba(0,0,0,0.3)"}} onClick={this.handleOutsideClose} ref="modal">
   <div className="modal-dialog" role="document">
@@ -41,17 +41,17 @@ class Viewer extends Component {
         <h3 className="modal-title" id="myModalLabel">{title}</h3>
       </div>
       <div className="modal-body">
-      	<h4 className="lecture-goals-title"><span className="glyphicon glyphicon-education"></span>Goals</h4>
-        <div className="lecture-goals">
-        	{goals.map(goal => (
-        	<div className="lecture-goal alert alert-info goal-card" role="alert">
+      	<h4 className="lecture-issues-title"><span className="glyphicon glyphicon-education"></span>issues</h4>
+        <div className="lecture-issues">
+        	{issues.map(issue => (
+        	<div className="lecture-issue alert alert-info issue-card" role="alert">
         		<div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style={{width:"45%"}}>
         			<span>45%</span> 
     			</div>
-        		<strong>{goal.title}</strong>
+        		<strong>{issue.title}</strong>
         	</div>
         	))}
-        	<AddGoal course={course}/>
+        	<AddIssue course={course}/>
         </div>
       </div>
       <div className="modal-footer">

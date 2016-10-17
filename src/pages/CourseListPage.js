@@ -18,11 +18,22 @@ class CourseListPage extends Component {
 		const {actions, params} = this.props;
 		const {lectureId, courseId} = params;
 	
-		if(typeof lectureId !== "undefined")
-			NEXTActions.fetchLoadCourseAll(actions, lectureId);
+		if(typeof lectureId !== "undefined") {
+			NEXTActions.fetchAbout(actions, {
+				is_load: true,
+				type: "get",
+				target: "courses",
+				body:"id=" + lectureId
+			})
+		}
 		else if(typeof courseId !== "undefined")
-			NEXTActions.fetchLoadCourseAllByCourseId(actions, courseId);
-			
+			//by Course Id
+			NEXTActions.fetchAbout(actions, {
+				is_load: true,
+				type: "get",
+				target: "courses",
+				body:"courseId=" + courseId
+			})
 	}
 	renderHeader() {
 		const {name, professor, status} = this.props.state.lecture;
@@ -47,9 +58,9 @@ class CourseListPage extends Component {
 				<span className="lecture-header-professor"><Link to={"/professor/"+professor.id}>{professor.name}</Link></span>				
 				<span className={classNames({
 					label:true,
-					"label-danger": status == 2,
-					"label-success": status == 1,
-					"label-warning": status == 0,
+					"label-danger": status === 2,
+					"label-success": status === 1,
+					"label-warning": status === 0,
 					
 				})}>{statusName}</span>
 			</div>

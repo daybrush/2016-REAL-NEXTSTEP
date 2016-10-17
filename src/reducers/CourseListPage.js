@@ -12,7 +12,7 @@ const initiallecturePageState = {
 
 export default function CourseListPage(state = initiallecturePageState, action) {
 	switch(action.type ) {
-		case Actions.GET_COURSE_ALL:
+		case Actions.GET_COURSES:
 			state.lecture = action.lecture;
 			return Object.assign({}, state);
 		case Actions.ADD_COURSE:

@@ -1,59 +1,6 @@
 import * as types from '../constants/ActionTypes'
 
 
-export const loadProfessorAll = (professors) => {
-	return { type: types.GET_PROFESSOR_ALL , professors} ;
-};
-export const loadMyLectures = (lectures) => {
-	return { type: types.GET_MY_LECTURES , lectures} ;
-};
-export const loadProfessor = (professor) => {
-	return { type: types.GET_PROFESSOR , professor} ;
-};
-export const fetchLoadProfessorAll = (actions) => {
-	return fetch("http://daybrush.com/NEXTSTEP/lectures.json").then((res) => (res.json())).then((json) => {
-		console.log("FETCH", json);
-		return json;
-	});
-	//actions.loadProfessorAll(professors);
-}
-export const fetchLoadMyLectures = (actions) => {
-	return new Promise((resolve, reject) => {
-	let lectures = [{
-		    name: '실전프로젝트',
-		    id: 0,
-		    status : 0,
-		    
-		    professor: {
-			    name: "박재성1"
-		    }
-		    
-		    },{
-		    name: '실전프로젝트2',
-		    id: 1,
-		    status : 0,
-		    
-		    		    professor: {
-			    name: "박재성2"
-		    }
-		    
-		    },{
-		    name: '실전프로젝트3',
-		    id: 2,
-		    status : 0,
-		    
-		    		    professor: {
-			    name: "박재성3"
-		    }
-		    
-		    }]
-	setTimeout(()=>{
-		actions.loadMyLectures(lectures);
-		resolve(lectures);
-	}, 1000);
-	
-	});
-}
 export const fetchLoadProfessor = (actions, professorId) => {
 	return new Promise((resolve, reject) => {
 	let professor = 
@@ -100,35 +47,6 @@ export const addMyLecture = (lecture) => {
 	
 	return { type: types.ADD_MY_LECTURE , lecture};
 };
-export const loadCourse = (course) => {
-	return { type: types.GET_COURSE , course} ;
-};
-export const fetchLoadCourse = (actions, id) => {
-	let course =  {
-		title:"실습1-1",
-		lectureId: 0,
-		id: 0,
-		goals: [
-		{id: 0, title : "goal1"},
-		{id: 1, title : "goal2"},
-		{id: 2, title : "goal3"},
-],
-	
-		attachments: [
-		{id: 0, name : "att1"},
-		{id: 1, name : "att2"},
-		{id: 2, name : "att3"},
-		]
-		
-	};
-	return new Promise((resolve, reject) => {
-		setTimeout(()=>{
-			actions.loadCourse(course);
-			resolve(course);
-		}, 1000);
-	});
-};
-
 
 export const fetchAddCourse = (actions, title, lectureId) => {
 	let course =
@@ -160,112 +78,68 @@ export const addCourse = (course) => {
 	
 	return { type: types.ADD_COURSE , course};
 };
-export const fetchLoadCourseAllByCourseId = (actions, courseId) => {
-	let lecture = {
-		    name: '실전프로젝트',
-		    id: 0,
-		    status : 0,
-		    courses:[
-		  {
-		    title: '실프1-1',
-		    id: 0,
-		    course: 0,
-		    goals:[
-		{id: 0, title : "goal1"},
-		{id: 1, title : "goal2"},
-		{id: 2, title : "goal3"},
-]
-		  },
-		  {
-		    title: '실프1-2',
-		    id: 1,
-		    course: 0,
-		    goals:[
-		{id: 0, title : "goal1"},
-		{id: 1, title : "goal2"},
-		{id: 2, title : "goal3"},
-]
-		  }
-		],
-	    professor:{
-		    name: '박재성',
-		    id: 0
-		  }
-		  };
-	return new Promise((resolve, reject) => {
-		setTimeout(()=>{
-			actions.loadCourseAll(lecture);
-			resolve(lecture);
-		}, 1000);
-	});
-};
-export const fetchLoadCourseAll = (actions, lectureId) => {
-	let lecture = {
-		    name: '실전프로젝트',
-		    id: 0,
-		    status : 0,
-		    courses:[
-		  {
-		    title: '실프1-1',
-		    id: 0,
-		    course: 0,
-		    goals:[
-		{id: 0, title : "goal1"},
-		{id: 1, title : "goal2"},
-		{id: 2, title : "goal3"},
-]
-		  },
-		  {
-		    title: '실프1-2',
-		    id: 1,
-		    course: 0,
-		    goals:[
-		{id: 0, title : "goal1"},
-		{id: 1, title : "goal2"},
-		{id: 2, title : "goal3"},
-]
-		  }
-		],
-	    professor:{
-		    name: '박재성',
-		    id: 0
-		  },
-		  };
 
-	return new Promise((resolve, reject) => {
-		setTimeout(()=>{
-			actions.loadCourseAll(lecture);
-			resolve(lecture);
-		}, 1000);
-	});
-};
-export const loadCourseAll = (lecture) => {
-	
-	return { type: types.GET_COURSE_ALL , lecture};
-};
-
-
-export const load = (option) => {
-	const {type, value, target, by} = option;
-	let obj = {type: (type+"_" + target).toUpperCase()};
-	obj[target] = value;
+export const loadAbout = (option) => {
+	const {type, target} = option;
+	let obj = {type: type};
+	for(let key in option) {
+		switch(key) {
+			case "type":
+			case "target":
+			case "by":
+			case "in":
+			case "is_load":
+				continue;
+		}
+		obj[key] = option[key];	
+	}
 	
 	return obj;
 }
 
 let links = {
-	
+	"DOMAIN" : 	"http://daybrush.com/NEXTSTEP/json.php"
 }
-//links[types.GET_COURSE_ALL];
+links[types.GET_LECTURES] = "?file=lectures.json";
+links[types.GET_MY_LECTURES] = "?file=mylectures.json";
+links[types.GET_COURSES] = "?file=courses.json";
+links[types.GET_COURSE] = "?file=course.json";
 export const fetchAbout = (actions, option) => {
 	const {type, value, target, by, is_load} = option;
 	
-	
+	let _type = (type+"_" + target).toUpperCase();
+	option.type = _type;
+	if(_type in links) {
+		let method = "GET";
+		let myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+		
+		let info = {
+			method: method,
+			headers : myHeaders,
+		};
+		let link = links.DOMAIN + links[_type];
+		if(option.body ) {
+			if(method === "GET") {
+				link += "&" + option.body;			
+			} else {
+				info.body = option.body;
+			}
+		}
+
+		
+		return fetch(link, info).then((res) => {console.log(res);return res.json()}).then((json) => {
+			console.log("FETCH", json);
+			json.type = _type;
+			actions.loadAbout(json);
+			return json;
+		});	
+	}
 	
 	return new Promise((resolve, reject) => {
 		setTimeout(()=>{
 			if(is_load)
-				actions.load(option);
+				actions.loadAbout(option);
 			resolve(value);
 		}, 1000);
 	});	

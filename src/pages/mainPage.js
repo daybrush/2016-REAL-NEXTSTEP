@@ -12,7 +12,11 @@ class mainPage extends Component {
 
 		document.body.className = "";
 		
-		NEXTActions.fetchLoadMyLectures(actions);
+		NEXTActions.fetchAbout(actions, {
+			is_load: true,
+			type: "get",
+			target: "my_lectures",
+		});
 		
 	}
 

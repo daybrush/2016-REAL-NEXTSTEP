@@ -69,7 +69,7 @@ getNodeIndex = (node) => {
     return index;
 }
   render() {
-    const {  id, title, goals } = this.props.course;
+    const {  id, title, issues } = this.props.course;
     const lectureId = this.props.lecture.id;
 
 
@@ -82,8 +82,8 @@ getNodeIndex = (node) => {
 
 	        	<h2 title="실전 프로젝트" dir="auto" className="course-title-name">{title}</h2>
 	       		<Link to={"/view/" + lectureId}>
-	        	<ul className="course-card-goals">
-	        		{goals.map(goal => (<li key={goal.id}>{goal.title}</li>))}
+	        	<ul className="course-card-issues">
+	        		{issues.map(issue => (<li key={issue.id}>{issue.title}</li>))}
 	        	</ul>
 	        	</Link>
         	</div>

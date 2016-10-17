@@ -1,7 +1,6 @@
 export const GET_PROFESSOR_ALL = 'GET_PROFESSOR_ALL'
 export const GET_PROFESSOR = 'GET_PROFESSOR'
 export const ADD_PROFESSOR = 'ADD_PROFESSOR'
-export const GET_COURSES = 'GET_COURSES'
 export const GET_COURSE_IN_PROFESSOR = 'GET_COURSE_IN_PROFESSOR'
 export const ADD_COURSE = 'ADD_COURSE'
 
@@ -10,7 +9,7 @@ export const ADD_COURSE = 'ADD_COURSE'
 export const GET_LECTURE_ALL = 'GET_LECTURE_ALL'
 export const ADD_LECTURE = 'ADD_LECTURE'
 
-
+export const GET_COURSES = 'GET_COURSES'
 export const GET_COURSE = 'GET_COURSE'
 export const GET_LECTURES = 'GET_LECTURES'
 export const GET_MY_LECTURES = 'GET_MY_LECTURES'
