@@ -74,7 +74,7 @@ class CourseListPage extends Component {
 			return;
 			
 		return (
-			<Viewer/>
+			<Viewer id={courseId}/>
 		)
 	}
 	render() {
@@ -84,18 +84,17 @@ class CourseListPage extends Component {
   		const {courses} = lecture;
   		
   		return (
-  		<div>
+  		<div className="course-list-wrapper">
   		{this.renderViewer()}
   		<Participants id={lecture.id}/>
-  		<div className="course-list-wrapper">
-  			{this.renderHeader()}
-  			<div className="course-list">
-	  			{courses.map((course,i) =>
-		  			(<CourseCard key={course.id} position={i} lecture={lecture} course={course}/>)
-		  		)}
-		  		<AddCourseCard actions={this.props.actions} lecture={lecture}/>
-		  	</div>
-  		</div>
+		{this.renderHeader()}
+		<div className="course-list">
+			{courses.map((course,i) =>
+				(<CourseCard key={course.id} position={i} lecture={lecture} course={course}/>)
+			)}
+			<AddCourseCard actions={this.props.actions} lecture={lecture}/>
+		</div>
+
   		<div className="course-participant-list"></div>
   		</div>
   		)

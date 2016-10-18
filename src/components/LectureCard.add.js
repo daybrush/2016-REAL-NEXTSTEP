@@ -53,7 +53,7 @@ close = (e) => {
       </div>
       <div className="modal-body">
           <div className="form-group">
-            <label for="recipient-name" className="control-label">Name:</label>
+            <label className="control-label">Name:</label>
             <input type="text" className="form-control" id="recipient-name" ref="name"/>
           </div>
       </div>

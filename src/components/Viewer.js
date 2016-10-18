@@ -12,12 +12,19 @@ import AddIssue from './Viewer.add.issue'
 import './css/Viewer.css'
 
 
+
+
+
 class Viewer extends Component {
 	componentWillMount() {
-		const {actions, courseId} = this.props;
+		const {actions, id} = this.props;
 		
-		NEXTActions.fetchAbout(actions, {type:"get", target:"course", body:"id=" + courseId});
+		NEXTActions.fetchAbout(actions, {type:"get", target:"course", body:"id=" + id});
 		document.body.classList.add("modal-open");
+		
+		
+            
+		//console.log("req", require);
 	}
 	handleClose = (e) => {
 		document.body.classList.remove("modal-open");
@@ -33,7 +40,7 @@ class Viewer extends Component {
   	const course = this.props.state.course;
 	 const {title, issues, lectureId} = course;
     return (
-<div className="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style={{display:"block", background:"rgba(0,0,0,0.3)"}} onClick={this.handleOutsideClose} ref="modal">
+<div className="modal fade in" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" style={{display:"block", background:"rgba(0,0,0,0.3)"}} onClick={this.handleOutsideClose} ref="modal">
   <div className="modal-dialog" role="document">
     <div className="modal-content">
       <div className="modal-header">
@@ -43,8 +50,8 @@ class Viewer extends Component {
       <div className="modal-body">
       	<h4 className="lecture-issues-title"><span className="glyphicon glyphicon-education"></span>issues</h4>
         <div className="lecture-issues">
-        	{issues.map(issue => (
-        	<div className="lecture-issue alert alert-info issue-card" role="alert">
+        	{issues.map((issue,i) => (
+        	<div className="lecture-issue alert alert-info issue-card" role="alert" key={i}>
         		<div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style={{width:"45%"}}>
         			<span>45%</span> 
     			</div>

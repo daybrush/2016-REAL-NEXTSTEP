@@ -15,7 +15,7 @@ class Page extends Component {
 		const {actions, params} = this.props;
 		const {professorId} = params;
 	
-		NEXTActions.fetchLoadProfessor(actions, professorId);
+		NEXTActions.fetchAbout(actions, {type:"get", target:"professor", body:"id=" + professorId});
 		
 			
 	}

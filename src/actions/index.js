@@ -1,30 +1,5 @@
 import * as types from '../constants/ActionTypes'
 
-
-export const fetchLoadProfessor = (actions, professorId) => {
-	return new Promise((resolve, reject) => {
-	let professor = 
-	  {
-	    name: '박재성',
-	    lectures : [
-		  {
-		    name: '실전프로젝트',
-		    id: 0,
-		  },
-		  {
-		    name: '실전프로젝트2',
-		    id: 1,
-		  }
-		],
-	    id: 0
-	  };
-	setTimeout(()=>{
-		actions.loadProfessor(professor);
-		resolve(professor);
-	}, 1000);
-	
-	});
-}
 export const fetchAddMyLecture = (actions, lectureId) => {
 	return new Promise((resolve, reject) => {
 	let lecture = {
@@ -104,13 +79,14 @@ links[types.GET_LECTURES] = "?file=lectures.json";
 links[types.GET_MY_LECTURES] = "?file=mylectures.json";
 links[types.GET_COURSES] = "?file=courses.json";
 links[types.GET_COURSE] = "?file=course.json";
+links[types.GET_PROFESSOR] = "?file=professor.json";
 export const fetchAbout = (actions, option) => {
 	const {type, value, target, by, is_load} = option;
 	
 	let _type = (type+"_" + target).toUpperCase();
 	option.type = _type;
 	if(_type in links) {
-		let method = "GET";
+		let method = option.method || "GET";
 		let myHeaders = new Headers();
 		myHeaders.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
 		
@@ -129,20 +105,11 @@ export const fetchAbout = (actions, option) => {
 
 		
 		return fetch(link, info).then((res) => {console.log(res);return res.json()}).then((json) => {
-			console.log("FETCH", json);
 			json.type = _type;
 			actions.loadAbout(json);
 			return json;
 		});	
 	}
-	
-	return new Promise((resolve, reject) => {
-		setTimeout(()=>{
-			if(is_load)
-				actions.loadAbout(option);
-			resolve(value);
-		}, 1000);
-	});	
 }
 
 

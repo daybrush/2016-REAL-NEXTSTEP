@@ -15,8 +15,9 @@ render(){
 	 return (
   <div>
   	<Header/>
-  	{children}
-
+  	<div className="body-wrapper">
+  		{children}
+  	</div>
   </div>
   );
 }

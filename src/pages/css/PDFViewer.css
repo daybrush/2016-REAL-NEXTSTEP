@@ -1,0 +1,45 @@
+body.pdf-open {
+	 background: #3F3F3F;
+}
+.pdf-wrapper {
+/* 	padding: 10px; */
+}
+.pdf-page {
+	position: relative;
+	margin: 10px auto;
+	border: 1px solid black;
+	
+}
+.text-layer {
+	position: absolute;
+	top:0;
+	left: 0;
+}
+.text-layer>div {
+
+    color: transparent;
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+    -webkit-transform-origin: 0% 0%;
+    -moz-transform-origin: 0% 0%;
+    -o-transform-origin: 0% 0%;
+    -ms-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+}
+
+.pdf-comments-wrapper {
+	right: 0;
+	position: fixed;
+	top: 0px;
+	width: 200px;
+	height: 100%;
+	padding-top: 50px;
+}
+.pdf-comments {
+	
+}
+.pdf-comment-form {
+	position: absolute;
+	bottom: 0;
+}
