@@ -20,7 +20,16 @@ closeEdit = () => {
 addCourse = () => {
 	console.log(this);
 	const title = this.refs.title.value;
-	NEXTActions.fetchAddCourse(this.props.actions, title, this.props.lecture.id);
+	NEXTActions.fetchAbout(this.props.actions, {type:"add", target:"course", id:this.props.lecture.id, course: {
+		    "title": title,
+		    "id": Math.random(0, 40),
+		    "course": 0,
+		    "issues":[
+		{"id": 0, "title" : "goal1"},
+		{"id": 1, "title" : "goal2"},
+		{"id": 2, "title" : "goal3"}
+]
+		  }   });
 	this.setState({edit:false});
 	//NEXTActions
 }
