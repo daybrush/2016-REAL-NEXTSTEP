@@ -80,6 +80,7 @@ links[types.GET_MY_LECTURES] = "?file=mylectures.json";
 links[types.GET_COURSES] = "?file=courses.json";
 links[types.GET_COURSE] = "?file=course.json";
 links[types.GET_PROFESSOR] = "?file=professor.json";
+links["GET_COMMENTS"] = "?file=comments.json";
 export const fetchAbout = (actions, option) => {
 	const {type, value, target, by, is_load} = option;
 	
@@ -110,6 +111,8 @@ export const fetchAbout = (actions, option) => {
 			return json;
 		});	
 	}
+	
+	actions.loadAbout(option);
 }
 
 

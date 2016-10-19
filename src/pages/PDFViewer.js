@@ -6,11 +6,11 @@ import { connect } from 'react-redux'
 
 import { Link } from 'react-router'
 
-import * as JSLoader from '../js/Loader.js'
+import {JSLoad} from '../js/Loader.js'
 import PDFLoader from '../class/PDFLoader.js'
 
 import Page from "../pdf/PDFPage"
-import PDFComments from "../components/PDFComments"
+import PDFComments from "../pdf/PDFComments"
 
 import "./css/PDFViewer.css"
 
@@ -27,7 +27,7 @@ class Viewer extends Component {
 		NEXTActions.fetchAbout(actions, {type:"get", target:"attachment", body:"id=" + id});
 		const self = this;
 		
-		JSLoader.load("/js/pdf.js").then((js) => {
+		JSLoad("/js/pdf.js").then((js) => {
 			self.pdfjs = new PDFLoader("/lec02a.pdf");
 			self.pdfjs.init().then(() => {
 				self.setState({pdf_load:true});
@@ -38,11 +38,29 @@ class Viewer extends Component {
 	componentWillUnmount() {
 		document.body.className="";
 	}
+	
+	addZoom = () => {
+		this.pdfjs.addZoom();
+	}
+	minusZoom = () => {
+		this.pdfjs.minusZoom();		
+	}
+	renderButtons() {
+	return (
+		<div className="pdf-btn-wrapper">
+			<a className="pdf-btn btn btn-default" role="button" onClick={this.addZoom}>+</a>
+			<a className="pdf-btn btn btn-default" role="button" onClick={this.minusZoom}>-</a>
+			<a className="pdf-btn btn btn-default" role="button">꽉</a>
+		</div>
+	)
+}
+
   render() {
   	if(!this.state.pdf_load)
   		return (<div></div>);
   		
     return (<div className="pdf-wrapper">
+    {this.renderButtons()}
     	<div className="pdf-page-wrapper">
     	{[1,2].map(page => (
     		<Page pageNum={page} key={page} pdfjs={this.pdfjs}/>
@@ -59,7 +77,7 @@ class Viewer extends Component {
 
 
 const mapStateToProps = state => {
-	return {state: state.Viewer}
+	return {state: state.PDFView}
 }
 
 const mapDispatchToProps = dispatch => {

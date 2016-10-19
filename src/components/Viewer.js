@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 
 import { Link } from 'react-router'
-
+import IssueCard from './IssueCard'
 import AddIssue from './Viewer.add.issue'
 
 //import Go from "../class/Go"
@@ -51,12 +51,7 @@ class Viewer extends Component {
       	<h4 className="lecture-issues-title"><span className="glyphicon glyphicon-education"></span>issues</h4>
         <div className="lecture-issues">
         	{issues.map((issue,i) => (
-        	<div className="lecture-issue alert alert-info issue-card" role="alert" key={i}>
-        		<div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style={{width:"45%"}}>
-        			<span>45%</span> 
-    			</div>
-        		<strong>{issue.title}</strong>
-        	</div>
+	        	<IssueCard issue={issue} key={i}  position={i}/>
         	))}
         	<AddIssue course={course}/>
         </div>
