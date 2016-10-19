@@ -55,6 +55,17 @@ class Viewer extends Component {
 	)
 }
 
+
+renderPages() {
+
+	if(!this.pdfjs.numPages)
+		return (<div></div>)
+		
+		
+	return Array.from(Array(this.pdfjs.numPages - 1).keys()).map(i=>(<Page pageNum={i+1} key={i+1} pdfjs={this.pdfjs}/>))
+}
+
+
   render() {
   	if(!this.state.pdf_load)
   		return (<div></div>);
@@ -62,9 +73,9 @@ class Viewer extends Component {
     return (<div className="pdf-wrapper">
     {this.renderButtons()}
     	<div className="pdf-page-wrapper">
-    	{[1,2].map(page => (
-    		<Page pageNum={page} key={page} pdfjs={this.pdfjs}/>
-    	))}
+
+    	{this.renderPages()}
+
     	</div>
     	<PDFComments />
     </div>

@@ -5,7 +5,7 @@ pdfFile = "";
 textContentsElements = {};
 pages = {};
 scale = 1;
-
+numPages = 0;
 
 constructor(fileName) {
 	this.fileName = fileName;
@@ -44,7 +44,7 @@ init = () => {
 	const self = this;
 	return window.PDFJS.getDocument(this.fileName).then(pdf => {
 	    self.pdfFile = pdf;
-	    
+	    self.numPages = pdf.numPages;
 	    return pdf;
     });
 	
@@ -69,8 +69,9 @@ class PDFPage {
 	}
 	zoom(scale = this.scale) {
 		this.scale = scale;
-		
-		this.render();
+	
+		if(this.textContentsText)
+			this.render();
 	}
 	_renderTextLayer = (textLayerElem) => {
 		//pageElem.appe
