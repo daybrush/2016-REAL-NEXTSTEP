@@ -1,12 +1,13 @@
 
 export default class DragDrop {
+	
 	constructor() {
 		
 	}
 	clonNode = ""
 	
 	
-	dragstart = (e, parent, content) => {
+	dragstart = (e, parent, content, ) => {
 		console.log(parent, content);
 		const {width, height, top, left} = content.getBoundingClientRect();	
 		parent.style.width = width  + "px";

@@ -62,6 +62,9 @@ class PDFPage {
 	pageNumber = 1;
 	page = "";
 	pageElem = "";
+	width = 0;
+	height = 0;
+	
 	constructor(pageNumber, pageElem, page) {
 		this.pageNumber = pageNumber;
 		this.page = page;
@@ -70,8 +73,7 @@ class PDFPage {
 	zoom(scale = this.scale) {
 		this.scale = scale;
 	
-		if(this.textContentsText)
-			this.render();
+		this.render();
 	}
 	_renderTextLayer = (textLayerElem) => {
 		//pageElem.appe
@@ -107,14 +109,24 @@ class PDFPage {
 		const viewport = page.getViewport(scale);
 		
 	
-		const canvas = pageElem.querySelector('.canvas-layer');
-		const context = canvas.getContext('2d');
-		const {width, height} = viewport;
-		canvas.width = width;
-		canvas.height = height;
+
 		
+		const {width, height} = viewport;
+		this.width = width;
+		this.height =  height;
+
+	
 		pageElem.style.width = width +"px";
 		pageElem.style.height = height +"px";
+		
+		return;
+		
+		
+		canvas.width = width;
+		canvas.height = height;
+		const canvas = pageElem.querySelector('.canvas-layer');
+		const context = canvas.getContext('2d');
+		
 		
 		const renderContext = {
 			canvasContext: context,

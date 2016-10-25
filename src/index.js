@@ -15,7 +15,7 @@ import { browserHistory, Router, Route, IndexRoute } from 'react-router'
 import CourseListPage from './pages/CourseListPage'
 import mainPage from './pages/mainPage'
 import ProfessorPage from './pages/ProfessorPage'
-import PDFViewer from './pages/PDFViewer'
+import View from './pages/View'
 
 const loggerMiddleware = createLogger();
 
@@ -37,7 +37,7 @@ render(
       <Route path="/lecture/:lectureId" component={CourseListPage} />
       <Route path="/view/:courseId" component={CourseListPage} />      
       <Route path="/professor/:professorId" component={ProfessorPage} />            
-      <Route path="/pdf/:id" component={PDFViewer} />            
+      <Route path="/issue/:id" component={View} />            
       
     </Route>
   </Router>

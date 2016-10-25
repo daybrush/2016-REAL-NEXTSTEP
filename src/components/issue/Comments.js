@@ -1,11 +1,11 @@
 import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import {JSLoad, CSSLoad} from '../js/Loader.js'
-import PDFComment from './PDFComment.js'
+import {JSLoad, CSSLoad} from '../../js/Loader.js'
+import Comment from './Comment.js'
 
 
 class component extends Component {
@@ -55,11 +55,11 @@ submitComment = (e) => {
 renderComments() {
 	const {comments} = this.props.state;	
 	if(!this.state.load_mark)
-		return(<div className="pdf-comments"></div>)
-	return(<div className="pdf-comments">
+		return(<div className="comments"></div>)
+	return(<div className="comments">
     		<ul>
     			{ comments.map((comment,i) => (
-	    			<PDFComment comment={comment} key={i} mde={this.mde}/>
+	    			<Comment comment={comment} key={i} mde={this.mde}/>
     			))}
     			
     		</ul>
@@ -70,12 +70,12 @@ render() {
 
     return (
     	<div className={classNames({
-    		"pdf-comments-wrapper":true,
+    		"comments-wrapper":true,
     		"show":this.state.show,
     	})}>
     		
 	    	{this.renderComments()}
-	    	<div className="pdf-comment-form form-group">
+	    	<div className="comment-form form-group">
 	            	{this.textarea}
                    <button type="button" className="btn btn-info comment-submit" onClick={this.submitComment}> POST </button>
           </div>

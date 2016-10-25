@@ -1,14 +1,17 @@
 body.pdf-open {
 	 background: #3F3F3F;
 }
-.pdf-wrapper {
-/* 	padding: 10px; */
+
+.issue-wrapper {
+
+
 }
+
+
 .pdf-page {
 	position: relative;
 	margin: 10px auto;
 	border: 1px solid black;
-	
 }
 .text-layer {
 	position: absolute;
@@ -27,18 +30,22 @@ body.pdf-open {
     -ms-transform-origin: 0% 0%;
     transform-origin: 0% 0%;
 }
-
-.pdf-comments-wrapper {
+.tab-wrapper {
 	right: 0;
 	position: fixed;
 	top: 0px;
 	width: 300px;
 	height: 100%;
+}
+.comments-wrapper {
+
+	padding-top: 50px;
+	height: 100%;
 	background: #383838;
 	border-left: 1px solid #2f2f2f;
 
 }
-.pdf-comments {
+.comments-tab {
     overflow: auto;
     height: 100%;
     width: 100%;
@@ -47,16 +54,16 @@ body.pdf-open {
     padding: 50px 10px 240px;
     position: absolute;
 }
-.pdf-comment {
+.comment {
 	margin: 5px 0px;
 	padding: 5px;
 	background: #333;
 	min-height: 50px;
 }
-.pdf-comment {
+.comment {
 		color: white;
 }
-.pdf-comment-form {
+.comment-form {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -82,23 +89,59 @@ body.pdf-open {
 	line-height: 50px;
 	padding: 0px;
 }
-.pdf-comments-wrapper .editor-toolbar {
+.comments-wrapper .editor-toolbar {
 /* 	opacity: 1; */
 	background: #fff;
 	
 }
-.pdf-comments-wrapper .editor-toolbar a {
+.comments-wrapper .editor-toolbar a {
 	width: 20px;
 	height: 20px;
 	margin-right: 5px;
 }
-.pdf-comments-wrapper .editor-toolbar a:before {
+.comments-wrapper .editor-toolbar a:before {
 	line-height: 20px;
 }
-.pdf-comments-wrapper .CodeMirror{
+.comments-wrapper .CodeMirror{
     height: 100px;
     min-height: 100px;
 }
-.pdf-comments-wrapper .CodeMirror-scroll {
+.comments-wrapper .CodeMirror-scroll {
 	min-height: 100px;
+}
+
+.tab-mover {
+	width: 5px;
+	cursor:move;
+	height: 100%;
+	position:absolute;
+	background: rgba(0, 0, 0, 0);
+}
+.tabs {
+	position: absolute;
+	left: -49px;
+	width: 50px;
+	height: 150px;
+	top: 50px;
+}
+.tabs li {
+	width: 50px;
+	height: 50px;
+	box-sizing: border-box;
+	background: #383838;
+	border: 1px solid #2A2A2A;
+	border-top:none;
+	
+	background-image: url("/images/tab.png");
+	background-size: 90% auto;
+	background-position: center 0px;
+}
+.tabs li:hover, .tabs li.selected {
+	background-color: #222;
+}
+.tabs li:nth-child(2) {
+	background-position: center -40px;	
+}
+.tabs li:nth-child(3) {
+	background-position: center -84px;	
 }
