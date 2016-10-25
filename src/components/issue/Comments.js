@@ -53,7 +53,7 @@ submitComment = (e) => {
 	this.mde.value("");
 }
 renderComments() {
-	const {comments} = this.props.state;	
+	const {comments} = this.props.state.issue;
 	if(!this.state.load_mark)
 		return(<div className="comments"></div>)
 	return(<div className="comments">
@@ -90,7 +90,7 @@ componentDidUpdate() {
 }
 
 const mapStateToProps = state => {
-	return {state: state.PDFView}
+	return {state: state.issue}
 }
 
 const mapDispatchToProps = dispatch => {

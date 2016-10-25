@@ -4,7 +4,7 @@ const initiallecturePageState = {
 	lecture: {
 		name:"",
 		courses:[],
-		professor:0,
+		instructors:[],
 		status: -1,
 		participants : []
 	},
@@ -12,7 +12,7 @@ const initiallecturePageState = {
 
 export default function CourseListPage(state = initiallecturePageState, action) {
 	switch(action.type ) {
-		case Actions.GET_COURSES:
+		case Actions.GET_LECTURE:
 			state.lecture = action.lecture;
 			return Object.assign({}, state);
 		case Actions.ADD_COURSE:

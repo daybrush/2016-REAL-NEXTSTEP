@@ -4,12 +4,12 @@ import Apply from './Apply'
 import Viewer from './Viewer'
 import MyLectures from './MyLectures'
 import ProfessorPage from './ProfessorPage'
-import PDFView from './PDFView'
+import issue from './issue'
 export default  combineReducers({
   Apply,
   CourseListPage,
   Viewer,
   MyLectures,
   ProfessorPage,
-  PDFView
+  issue
 })

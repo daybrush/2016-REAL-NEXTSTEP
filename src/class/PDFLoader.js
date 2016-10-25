@@ -34,11 +34,14 @@ loadPage = (pageNumber, pageElem) => {
 		this._loadPage(pageNumber, pageElem);
 		return;
 	}
-	this.pdfFile.getPage(pageNumber).then(function (page) {
+	return this.pdfFile.getPage(pageNumber).then(function (page) {
 		self.pages[pageNumber] = new PDFPage(pageNumber, pageElem, page);
 		self._loadPage(pageNumber, pageElem);
 	});
+}
 
+getPage = (pageNumber) => {
+	return this.pages[pageNumber];
 }
 init = () => {
 	const self = this;
@@ -64,7 +67,7 @@ class PDFPage {
 	pageElem = "";
 	width = 0;
 	height = 0;
-	
+	is_show = false;
 	constructor(pageNumber, pageElem, page) {
 		this.pageNumber = pageNumber;
 		this.page = page;
@@ -74,6 +77,25 @@ class PDFPage {
 		this.scale = scale;
 	
 		this.render();
+	}
+	
+	show = () => {
+		if(this.is_show)
+			return;
+			
+		this.is_show = true;
+		this.render();
+		
+		this.pageElem.classList.remove("hide-page");
+	}
+	
+	hide = () => {
+		if(!this.is_show)
+			return;
+			
+		this.is_show = false;
+		
+		this.pageElem.classList.add("hide-page");
 	}
 	_renderTextLayer = (textLayerElem) => {
 		//pageElem.appe
@@ -119,13 +141,17 @@ class PDFPage {
 		pageElem.style.width = width +"px";
 		pageElem.style.height = height +"px";
 		
-		return;
+		if(!this.is_show)
+			return;
+
+
+		const canvas = pageElem.querySelector('.canvas-layer');
+		const context = canvas.getContext('2d');
 		
 		
 		canvas.width = width;
 		canvas.height = height;
-		const canvas = pageElem.querySelector('.canvas-layer');
-		const context = canvas.getContext('2d');
+
 		
 		
 		const renderContext = {

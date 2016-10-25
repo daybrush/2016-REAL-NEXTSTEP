@@ -7,6 +7,7 @@ export const ADD_COURSE = 'ADD_COURSE'
 
 
 export const GET_LECTURE_ALL = 'GET_LECTURE_ALL'
+export const GET_LECTURE = 'GET_LECTURE'
 export const ADD_LECTURE = 'ADD_LECTURE'
 
 export const GET_COURSES = 'GET_COURSES'

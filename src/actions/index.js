@@ -73,15 +73,16 @@ export const loadAbout = (option) => {
 }
 
 let links = {
-	"DOMAIN" : 	"http://daybrush.com/NEXTSTEP/json.php"
+	"DOMAIN" : 	"/json/"
 }
 
-links[types.GET_LECTURES] = "?file=lectures.json";
-links[types.GET_MY_LECTURES] = "?file=mylectures.json";
-links[types.GET_COURSES] = "?file=courses.json";
-links[types.GET_COURSE] = "?file=course.json";
-links[types.GET_PROFESSOR] = "?file=professor.json";
-links["GET_COMMENTS"] = "?file=comments.json";
+links[types.GET_LECTURES] = "lectures.json";
+links[types.GET_MY_LECTURES] = "mylectures.json";
+links[types.GET_LECTURE] = "lecture.json";
+links[types.GET_COURSE] = "course.json";
+links[types.GET_PROFESSOR] = "professor.json";
+links["GET_COMMENTS"] = "comments.json";
+links["GET_ISSUE"] = "issue.json";
 
 
 export const fetchAbout = (actions, option) => {
@@ -99,13 +100,15 @@ export const fetchAbout = (actions, option) => {
 			headers : myHeaders,
 		};
 		let link = links.DOMAIN + links[_type];
-		if(option.body ) {
+		/*
+if(option.body ) {
 			if(method === "GET") {
 				link += "&" + option.body;			
 			} else {
 				info.body = option.body;
 			}
 		}
+*/
 
 		
 		return fetch(link, info).then((res) => {console.log(res);return res.json()}).then((json) => {

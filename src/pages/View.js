@@ -18,7 +18,9 @@ class Viewer extends Component {
 	pdfjs = "";
 	
 	state = {
-		pdf_load : false
+		pdf_load : false,
+		is_finish_load : false,
+		finish_load_count : 0
 	}
 	option = {
 		tab_width : 300,
@@ -26,11 +28,12 @@ class Viewer extends Component {
 		now_width : 300
 	}
 	componentWillMount() {
-		document.body.onscroll = this.scroll;
+		document.body.onscroll = this.showInnerView;
+		window.onresize = this.showInnerView;
 		const {actions, id} = this.props;
 		document.body.className="pdf-open";
 		
-		NEXTActions.fetchAbout(actions, {type:"get", target:"attachment", body:"id=" + id});
+		NEXTActions.fetchAbout(actions, {type:"get", target:"issue", body:"id=" + id});
 		const self = this;
 		
 		JSLoad("/js/pdf.js").then((js) => {
@@ -44,6 +47,7 @@ class Viewer extends Component {
 	componentWillUnmount() {
 		document.body.className="";
 		document.body.onscroll = "";
+		window.onresize = "";
 	}
 	
 	addZoom = () => {
@@ -76,6 +80,18 @@ class Viewer extends Component {
 		this.refs.pagewrapper.style.marginRight = this.option.tab_width +"px";
 	}
 	
+	addFinishLoadCount = () => {
+		if(this.state.is_finish_load)
+			return;
+			
+			
+		this.state.finish_load_count++;
+		if(this.state.finish_load_count === this.pdfjs.numPages) {
+			this.showInnerView()
+			this.state.is_finish_load = true;
+		}
+	}
+	
 	
 	renderButtons() {
 		return (
@@ -87,8 +103,28 @@ class Viewer extends Component {
 		)
 	}
 
-scroll = (e) => {
-	console.log("SCROLL");
+showInnerView = (e) => {
+	if(!this.state.pdf_load)
+		return;
+
+	const windowHeight = window.innerHeight;
+	
+	let pageElem, rect, page;
+	for(let i = 1; i <= this.pdfjs.numPages; ++i) {
+		page = this.pdfjs.getPage(i);
+		pageElem = page.pageElem
+		
+
+		rect = pageElem.getBoundingClientRect();
+		if(rect.top  <  windowHeight && rect.top > 0 || rect.bottom  <  windowHeight && rect.bottom > 0 ) {
+			//console.log(i+"page", y, y2, rect.top, rect.bottom);
+			page.show();
+		} else {
+			page.hide();
+		}
+		
+	}
+
 }
 
 renderPages() {
@@ -97,7 +133,7 @@ renderPages() {
 		return (<div></div>)
 		
 
-	return Array.from(Array(this.pdfjs.numPages).keys()).map(i=>(<Page pageNum={i+1} key={i+1} pdfjs={this.pdfjs}/>))
+	return Array.from(Array(this.pdfjs.numPages).keys()).map(i=>(<Page pageNum={i+1} key={i+1} pdfjs={this.pdfjs} addFunc={this.addFinishLoadCount}/>))
 }
 
 
@@ -105,7 +141,7 @@ renderPages() {
   	if(!this.state.pdf_load)
   		return (<div></div>);
   		
-    return (<div onDragOver={this.dragover}  >
+    const html = (<div onDragOver={this.dragover}  >
     {this.renderButtons()}
     	<div className="issue-wrapper" onScroll={this.scroll}>
 	    	<div className="page-wrapper" ref="pagewrapper">
@@ -119,11 +155,15 @@ renderPages() {
     			<li></li>
     			<li></li>    			
     		</ul>
-	    	<Comments />
+	    	<Comments/>
     	</div>
     </div>
      
     )
+    
+
+    
+    return html;
   }
   
   
@@ -131,7 +171,7 @@ renderPages() {
 
 
 const mapStateToProps = state => {
-	return {state: state.PDFView}
+	return {state: state.issue}
 }
 
 const mapDispatchToProps = dispatch => {

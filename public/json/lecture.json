@@ -1,31 +1,47 @@
-{
-  "id": 1,
+
+
+{"lecture":{
+	"id": 1,
   "name": "강의 이름",
   "instructors": [
     {
       "id": 1,
       "name": "교수 이름",
       "avatar_url": "https://..."
+    },
+     {
+      "id": 1,
+      "name": "교수 이름2",
+      "avatar_url": "https://..."
     }
   ],
-  "courses": [
+
+		    "courses":
+		    
+		    
+		    [
 		  {
-		    "title": '실프1-1',
+		    "title": "실프1-1",
 		    "id": 0,
+		    "lecture": 0,
 		    "issues":[
 		{"id": 0, "title" : "goal1"},
 		{"id": 1, "title" : "goal2"},
-		{"id": 2, "title" : "goal3"},
+		{"id": 2, "title" : "goal3"}
 ]
 		  },
+		  
+		  
 		  {
-		    "title": '실프1-2',
+		    "title": "실프1-2",
 		    "id": 1,
+		    "lecture":0,
 		    "issues":[
 		{"id": 0, "title" : "goal1"},
 		{"id": 1, "title" : "goal2"},
-		{"id": 2, "title" : "goal3"},
+		{"id": 2, "title" : "goal3"}
 ]
 		  }
 		]
+}
 }

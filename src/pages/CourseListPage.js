@@ -22,7 +22,7 @@ class CourseListPage extends Component {
 			NEXTActions.fetchAbout(actions, {
 				is_load: true,
 				type: "get",
-				target: "courses",
+				target: "lecture",
 				body:"id=" + lectureId
 			})
 		}
@@ -31,14 +31,13 @@ class CourseListPage extends Component {
 			NEXTActions.fetchAbout(actions, {
 				is_load: true,
 				type: "get",
-				target: "courses",
+				target: "lecture",
 				body:"courseId=" + courseId
 			})
 	}
 	renderHeader() {
-		const {name, professor, status} = this.props.state.lecture;
-		if(!professor)
-			return;
+		const {name, instructors, status} = this.props.state.lecture;
+
 			
 		let statusName;
 		
@@ -55,7 +54,9 @@ class CourseListPage extends Component {
 		return (
 			<div className="lecture-header">
 				<span className="lecture-header-name">{name}</span>
-				<span className="lecture-header-professor"><Link to={"/professor/"+professor.id}>{professor.name}</Link></span>				
+				{instructors.map((instructor,i) => (
+				<span className="lecture-header-professor" key={i}><Link to={"/professor/"+instructor.id} >{instructor.name}</Link></span>				
+				))}
 				<span className={classNames({
 					label:true,
 					"label-danger": status === 2,

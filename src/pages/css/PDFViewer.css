@@ -12,6 +12,10 @@ body.pdf-open {
 	position: relative;
 	margin: 10px auto;
 	border: 1px solid black;
+	overflow: hidden;
+}
+.pdf-page.hide-page *{
+	display: none;
 }
 .text-layer {
 	position: absolute;
