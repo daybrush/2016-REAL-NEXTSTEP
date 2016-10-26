@@ -12,16 +12,16 @@ numPages = 0;
 constructor(fileName) {
 	this.fileName = fileName;
 }
-addZoom = () => {
-	this.zoom(this.scale + 0.2);
+addZoom = async function() {
+	await this.zoom(this.scale + 0.2);
 }
-minusZoom = () => {
-	this.zoom(this.scale - 0.2);
+minusZoom = async function() {
+	await this.zoom(this.scale - 0.2);
 }
-zoom = (scale) => {
+zoom = async function(scale) {
 	this.scale = scale;
 	for(let pageNumber in this.pages) {
-		this.pages[pageNumber].zoom(scale);
+		await this.pages[pageNumber].zoom(scale);
 	}
 }
 
@@ -69,10 +69,10 @@ class PDFPage {
 		this.page = page;
 		this.pageElem = pageElem;
 	}
-	zoom(scale = this.scale) {
+	zoom = async function(scale = this.scale) {
 		this.scale = scale;
 	
-		this.render();
+		await this.render();
 	}
 	
 	show = () => {

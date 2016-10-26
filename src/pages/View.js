@@ -12,7 +12,9 @@ import PDFLoader from '../class/PDFLoader.js'
 import Page from "../components/issue/PDFPage"
 import Comments from "../components/issue/Comments"
 
-import "./css/PDFViewer.css"
+
+import SimpleMDE from 'simplemde';
+import "./css/View.css"
 
 class Viewer extends Component {
 	pdfjs = "";
@@ -28,8 +30,8 @@ class Viewer extends Component {
 		now_width : 300
 	}
 	componentWillMount() {
-		document.body.onscroll = this.showInnerView;
-		window.onresize = this.showInnerView;
+		document.body.onscroll = this.refreshView;
+		window.onresize = this.refreshView;
 		const {actions, id} = this.props;
 		document.body.className="pdf-open";
 		
@@ -50,10 +52,14 @@ class Viewer extends Component {
 	}
 	
 	addZoom = () => {
-		this.pdfjs.addZoom();
+		this.pdfjs.addZoom().then(() => {
+			this.refreshView();
+		});
 	}
 	minusZoom = () => {
-		this.pdfjs.minusZoom();		
+		this.pdfjs.minusZoom().then(() => {
+			this.refreshView();
+		});		
 	}
 	
 	dragstart = e => {
@@ -76,7 +82,7 @@ class Viewer extends Component {
 		option.tab_width = option.now_width;
 		
 		
-		this.refs.pagewrapper.style.marginRight = this.option.tab_width +"px";
+		this.refs.wrapper.style.marginRight = this.option.tab_width +"px";
 	}
 	
 	addFinishLoadCount = () => {
@@ -86,7 +92,7 @@ class Viewer extends Component {
 			
 		this.state.finish_load_count++;
 		if(this.state.finish_load_count === this.pdfjs.numPages) {
-			this.showInnerView()
+			this.refreshView()
 			this.state.is_finish_load = true;
 		}
 	}
@@ -102,49 +108,60 @@ class Viewer extends Component {
 		)
 	}
 
-showInnerView = (e) => {
-	if(!this.state.pdf_load)
-		return;
-
-	const windowHeight = window.innerHeight;
+	refreshView = (e) => {
+		if(!this.state.pdf_load)
+			return;
 	
-	let pageElem, rect, page;
-	for(let i = 1; i <= this.pdfjs.numPages; ++i) {
-		page = this.pdfjs.getPage(i);
-		pageElem = page.pageElem
+		const windowHeight = window.innerHeight;
 		
-
-		rect = pageElem.getBoundingClientRect();
-		if(rect.top  <  windowHeight && rect.top > 0 || rect.bottom  <  windowHeight && rect.bottom > 0 ) {
-			//console.log(i+"page", y, y2, rect.top, rect.bottom);
-			page.show();
-		} else {
-			page.hide();
+		let pageElem, rect, page;
+		for(let i = 1; i <= this.pdfjs.numPages; ++i) {
+			page = this.pdfjs.getPage(i);
+			pageElem = page.pageElem
+			
+	
+			rect = pageElem.getBoundingClientRect();
+			if(rect.top  <  windowHeight && rect.top > 0 || rect.bottom  <  windowHeight && rect.bottom > 0 ) {
+				//console.log(i+"page", y, y2, rect.top, rect.bottom);
+				page.show();
+			} else {
+				page.hide();
+			}
+			
 		}
-		
+	
 	}
 
-}
+renderPages(pdfjs) {
 
-renderPages() {
-
-	if(!this.pdfjs.numPages)
+	if(!pdfjs.numPages)
 		return (<div></div>)
 		
 
-	return Array.from(Array(this.pdfjs.numPages).keys()).map(i=>(<Page pageNum={i+1} key={i+1} pdfjs={this.pdfjs} addFunc={this.addFinishLoadCount}/>))
+	return Array.from(Array(pdfjs.numPages).keys()).map(i=>(<Page pageNum={i+1} key={i+1} pdfjs={pdfjs} addFunc={this.addFinishLoadCount}/>))
 }
 
-
+componentDidMount() {
+	const mde = new SimpleMDE({
+		status:false,
+		showIcons: ["code"],
+		placeholder: "Type here...",
+		hideIcons: ["guide", "italic", "fullscreen", "side-by-side","ordered-list", "preview"],		
+		toolbar: false,
+		previewRender: function(plainText) {
+	        return plainText; // Returns HTML from a custom parser
+	    },
+	})
+}
   render() {
   	if(!this.state.pdf_load)
   		return (<div></div>);
   		
     const html = (<div onDragOver={this.dragover}  >
     {this.renderButtons()}
-    	<div className="issue-wrapper" onScroll={this.scroll}>
-	    	<div className="page-wrapper" ref="pagewrapper">
-		    	{this.renderPages()}
+    	<div className="issue-wrapper"  ref="wrapper">
+	    	<div className="page-wrapper">
+		    	{this.renderPages(this.pdfjs)}
 	    	</div>
 	    </div>
     	<div className="tab-wrapper" ref="tabwrapper">
