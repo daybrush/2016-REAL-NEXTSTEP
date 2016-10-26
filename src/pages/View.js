@@ -13,7 +13,7 @@ import Page from "../components/issue/PDFPage"
 import Comments from "../components/issue/Comments"
 
 
-import SimpleMDE from 'simplemde';
+import marked from 'marked';
 import "./css/View.css"
 
 class Viewer extends Component {
@@ -142,16 +142,10 @@ renderPages(pdfjs) {
 }
 
 componentDidMount() {
-	const mde = new SimpleMDE({
-		status:false,
-		showIcons: ["code"],
-		placeholder: "Type here...",
-		hideIcons: ["guide", "italic", "fullscreen", "side-by-side","ordered-list", "preview"],		
-		toolbar: false,
-		previewRender: function(plainText) {
-	        return plainText; // Returns HTML from a custom parser
-	    },
-	})
+	let mde = marked("# 123")
+	
+	console.log(mde);
+		
 }
   render() {
   	if(!this.state.pdf_load)

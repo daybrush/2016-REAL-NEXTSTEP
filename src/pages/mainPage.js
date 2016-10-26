@@ -27,9 +27,9 @@ class mainPage extends Component {
     	<section className="content">
     		<div className="page-header"><h3>신청한 강의 목록</h3></div>
     		<ul className="lecture-list">
-    		{state.lectures.map(lecture => (
+    		{state.lectures.map((lecture, i) => (
     			
-    			<LectureCard isLink="true" lecture={lecture} />
+    			<LectureCard isLink="true" lecture={lecture} key={i} />
     		))}
     		</ul>
     		

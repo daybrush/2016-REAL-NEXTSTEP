@@ -112,8 +112,9 @@ if(option.body ) {
 
 		
 		return fetch(link, info).then((res) => {console.log(res);return res.json()}).then((json) => {
-			json.type = _type;
-			actions.loadAbout(json);
+			const obj = {type:_type};
+			obj[target] = json;
+			actions.loadAbout(obj);
 			return json;
 		});	
 	}

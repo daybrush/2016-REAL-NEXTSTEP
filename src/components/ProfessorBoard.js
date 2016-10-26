@@ -6,11 +6,11 @@ import { Link } from 'react-router'
 
 export default class ProfessorBoard extends Component {
   static propTypes = {
-    professor: PropTypes.object.isRequired,
+    instructor: PropTypes.object.isRequired,
   }
 
   renderHeader() {
-    const { id, name } = this.props.professor
+    const { id, name } = this.props.instructor
 	return (
 	 <div className="professor-board-header">
 
@@ -20,7 +20,7 @@ export default class ProfessorBoard extends Component {
   }
 
   render() {
-    const { lectures, name, actions } = this.props.professor
+    const { lectures, name, actions } = this.props.instructor
 
     return (
     	<div className="professor-board">

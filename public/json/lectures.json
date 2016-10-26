@@ -1,32 +1,34 @@
-{
-	"professors": [
+[
+  {
+    "name": "박재성",
+    "id": 1,
+    "nickname" : "Javajigi",
+    "profile" : "profile",
+    "lectures" : [
 	  {
-	    "name": "박재성",
-	    "lectures" : [
-		  {
-		    "name": "실전프로젝트",
-		    "id": 0
-		  },
-		  {
-		    "name": "실전프로젝트2",
-		    "id": 1
-		  }
-		],
+	    "name": "실전프로젝트",
 	    "id": 0
 	  },
 	  {
-	    "name": "박재성2",
-	    "lectures" : [
-		  {
-		    "name": "실전프로젝트",
-		    "id": 0
-		  },
-		  {
-		    "name": "실전프로젝트2",
-		    "id": 1
-		  }
-		],
+	    "name": "실전프로젝트2",
 	    "id": 1
 	  }
 	]
-}
+  },
+  {
+    "name": "박재성2",
+    "id": 2,
+    "nickname" : "Javajigi",
+    "profile" : "profile",
+    "lectures" : [
+	  {
+	    "name": "실전프로젝트",
+	    "id": 0
+	  },
+	  {
+	    "name": "실전프로젝트2",
+	    "id": 1
+	  }
+	]
+  }
+]

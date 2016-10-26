@@ -42,14 +42,15 @@ class CourseListPage extends Component {
 		let statusName;
 		
 		switch(status) {
-			case 0:
-				statusName = "강의 예정";
-				break;
 			case 1:
 				statusName = "수강중";
 				break;
 			case 2:
 				statusName = "강의 끝";
+				break;
+			default:
+				statusName = "강의 예정";
+				break;
 		}
 		return (
 			<div className="lecture-header">

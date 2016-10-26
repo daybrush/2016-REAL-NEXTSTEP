@@ -7,7 +7,7 @@ const initialState = {
 export default function ViewerPage(state = initialState, action) {
 	switch(action.type ) {
 		case Actions.GET_MY_LECTURES:
-			state.lectures = action.lectures;
+			state.lectures = action.my_lectures;
 			return Object.assign({}, state);
 		case Actions.ADD_MY_LECTURE:
 			state.lectures.push(action.lecture);

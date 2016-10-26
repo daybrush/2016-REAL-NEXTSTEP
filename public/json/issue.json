@@ -1,25 +1,24 @@
-{"issue" :{
-	  "id": 1,
-	  "course": {
-	    "id": 1,
-	    "title": "수업 제목"
-	  },
-	  "comments": [
-	    {
-	      "content": "This is a first comment.",
-	      "attachmentUrl": "https://..."
-	    },
-	    {
-	      "content": "This is a second comment.",
-	      "attachmentUrl": "https://..."
-	    }
-	  ],
-	  "discussions": [
-	  ],
-	  "attachments": [
-	  	{"id":"1", "url" : "rec02a.pdf"},
-	  	{"id":"1", "url" : "rec02a.pdf"}
-	  ],
-	  "content" : "[!!!]  descsdfsdf  [???????] sdsdsdsdsdsdsd  [2323232323232] "
-	}
+{
+  "id": 1,
+  "course": {
+    "id": 1,
+    "title": "수업 제목"
+  },
+  "comments": [
+    {
+      "content": "This is a first comment.",
+      "attachmentUrl": "https://..."
+    },
+    {
+      "content": "This is a second comment.",
+      "attachmentUrl": "https://..."
+    }
+  ],
+  "discussions": [
+  ],
+  "attachments": [
+  	{"id":"1", "url" : "rec02a.pdf"},
+  	{"id":"1", "url" : "rec02a.pdf"}
+  ],
+  "content" : "[!!!]  descsdfsdf  [???????] sdsdsdsdsdsdsd  [2323232323232] "
 }

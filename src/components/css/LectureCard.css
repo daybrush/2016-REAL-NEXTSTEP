@@ -9,11 +9,9 @@
 	padding: 10px;
 	height: 80px;
 }
-
 .lecture-card a:hover {
 	background: #005994;
-}
-.lecture-card a:hover {
+	color: white;
 	text-decoration: none;
 }
 .lecture-card p {

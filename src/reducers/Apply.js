@@ -1,24 +1,24 @@
 import * as Actions from '../constants/ActionTypes'
 
 const initialState = {
-	professors:[],
+	instructors:[],
 }
 export default function mainPage(state = initialState, action) {
 	switch(action.type ) {
 		case Actions.GET_LECTURES_IN_PROFESSOR:
-			const professors = state.professors.filter(professor => {    
-				return professor.id === action.id
+			const instructors = state.instructors.filter(professor => {    
+				return instructors.id === action.id
 			});
-			if(professors.length !== 1)
+			if(instructors.length !== 1)
 				return state;
-			professors[0].courses = Object.assign([], action.courses);
+			instructors[0].courses = Object.assign([], action.courses);
 			
 			return Object.assign({}, state);
 		case Actions.GET_LECTURES:
-			if(!action.professors)
+			if(!action.lectures)
 				return state;
 				
-			state.professors = action.professors;
+			state.instructors = action.lectures;
 			
 			return Object.assign({}, state);
 		case Actions.GET_PROFESSOR:

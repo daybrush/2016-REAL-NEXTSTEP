@@ -19,7 +19,7 @@ class Apply extends Component {
   render() {
 	const {state} = this.props
     return (
-        <ProfessorList professors={state.professors}/>
+        <ProfessorList instructors={state.instructors}/>
     )
   }
 }

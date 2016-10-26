@@ -1,6 +1,4 @@
-
-
-{"lecture":{
+{
 	"id": 1,
   "name": "강의 이름",
   "instructors": [
@@ -42,6 +40,5 @@
 		{"id": 2, "title" : "goal3"}
 ]
 		  }
-		]
-}
+		] 	
 }

@@ -4,14 +4,13 @@ import * as NEXTActions from '../../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import marked from 'marked';
 
 export default class component extends Component {
 	render() {
-		const {mde, comment} = this.props;
-		console.log(mde, comment);
-		console.log(mde.markdown(comment.content));
+		const {comment} = this.props;
 		return (
-			<li className="comment" dangerouslySetInnerHTML={{__html:mde.markdown(comment.content)}}>
+			<li className="comment" dangerouslySetInnerHTML={{__html:marked(comment.content)}}>
 
 	    	</li>
 	    )

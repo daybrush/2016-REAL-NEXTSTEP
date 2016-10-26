@@ -59,7 +59,7 @@ renderComments() {
 	return(<div className="comments">
     		<ul>
     			{ comments.map((comment,i) => (
-	    			<Comment comment={comment} key={i} mde={this.mde}/>
+	    			<Comment comment={comment} key={i} />
     			))}
     			
     		</ul>
