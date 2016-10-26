@@ -17,6 +17,10 @@
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "todomvc-app-css": "^2.0.6"
+"bootstrap": "^3.3.7",
+      "classnames": "^2.2.5",
+     "normalize.css": "^5.0.0",
+     "pdfjs-dist": "^1.6.264",
   },
   "scripts": {
     "start": "react-scripts start",

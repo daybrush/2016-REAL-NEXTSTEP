@@ -1,3 +1,5 @@
+import { PDFJS } from 'pdfjs-dist';
+
 
 export default class PDFLoader {
 fileName = "";
@@ -27,30 +29,24 @@ _loadPage = (pageNumber, pageElem) => {
 	const page = this.pages[pageNumber];
 	page.render();
 }
-loadPage = (pageNumber, pageElem) => {
-	const self = this;
-	
+loadPage = async function(pageNumber, pageElem) {
 	if(this.pages[pageNumber]) {
 		this._loadPage(pageNumber, pageElem);
 		return;
 	}
-	return this.pdfFile.getPage(pageNumber).then(function (page) {
-		self.pages[pageNumber] = new PDFPage(pageNumber, pageElem, page);
-		self._loadPage(pageNumber, pageElem);
-	});
+	const page = await this.pdfFile.getPage(pageNumber);
+	this.pages[pageNumber] = new PDFPage(pageNumber, pageElem, page);
+	this._loadPage(pageNumber, pageElem);
 }
 
 getPage = (pageNumber) => {
 	return this.pages[pageNumber];
 }
-init = () => {
-	const self = this;
-	return window.PDFJS.getDocument(this.fileName).then(pdf => {
-	    self.pdfFile = pdf;
-	    self.numPages = pdf.numPages;
-	    return pdf;
-    });
-	
+
+init = async function() {
+	const pdf = await PDFJS.getDocument(this.fileName);
+    this.pdfFile = pdf;
+    this.numPages = pdf.numPages;	
 }
 	
 }
@@ -108,21 +104,22 @@ class PDFPage {
 	renderTextLayer = (textLayerElem, viewport, textContent) => {
       let textDivs = [];
       let textLayerFrag = document.createDocumentFragment();
-      let textLayerRenderTask = window.PDFJS.renderTextLayer({
+      let textLayerRenderTask = PDFJS.renderTextLayer({
         textContent: textContent,
         container: textLayerFrag,
         viewport: viewport,
         textDivs: textDivs,
       });
+      const self = this;
       textLayerRenderTask.promise.then(() => {
         textLayerElem.appendChild(textLayerFrag);
-        this.textContentsText = textLayerElem.innerHTML;
+        self.textContentsText = textLayerElem.innerHTML;
       });
 
 
 
       }
-	render(scale = this.scale) {
+	render = async function(scale = this.scale) {
 		const self = this;
 		const page = this.page;
 		const pageElem = this.pageElem;
@@ -164,9 +161,8 @@ class PDFPage {
 		if(this.textContentsText) {
 			this._renderTextLayer(textLayerElem);
 		} else {
-			page.getTextContent().then(function (textContent) {
-				self.renderTextLayer(textLayerElem, viewport, textContent);
-			});
+			const textContent = await page.getTextContent();
+			this.renderTextLayer(textLayerElem, viewport, textContent);
 		}
 		page.render(renderContext);	
 	}

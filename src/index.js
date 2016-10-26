@@ -17,6 +17,14 @@ import mainPage from './pages/mainPage'
 import ProfessorPage from './pages/ProfessorPage'
 import View from './pages/View'
 
+
+
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+ 
+ 
+ 
 const loggerMiddleware = createLogger();
 
 const createStoreWithMiddleware = applyMiddleware(

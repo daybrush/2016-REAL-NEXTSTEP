@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import { Link } from 'react-router'
 
-import {JSLoad} from '../js/Loader.js'
+
 import PDFLoader from '../class/PDFLoader.js'
 
 import Page from "../components/issue/PDFPage"
@@ -36,11 +36,10 @@ class Viewer extends Component {
 		NEXTActions.fetchAbout(actions, {type:"get", target:"issue", body:"id=" + id});
 		const self = this;
 		
-		JSLoad("/js/pdf.js").then((js) => {
-			self.pdfjs = new PDFLoader("/lec02a.pdf");
-			self.pdfjs.init().then(() => {
-				self.setState({pdf_load:true});
-			});
+		
+		this.pdfjs = new PDFLoader("/lec02a.pdf");
+		this.pdfjs.init().then(() => {
+			self.setState({pdf_load:true});
 		});
             
 	}
