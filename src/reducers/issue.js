@@ -13,7 +13,7 @@ const initialState = {
 	  ],
 	  "attachments": [
 	  ],
-	  "contents" : ""
+	  "content" : ""
 	}
 }
 

@@ -41,6 +41,7 @@ componentDidMount() {
 }
 submitComment = (e) => {
 	const value = this.mde.value();
+	alert(value);
 	NEXTActions.fetchAbout(this.props.actions, {
 		is_load: true,
 		type: "add",

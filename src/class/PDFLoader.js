@@ -8,6 +8,7 @@ textContentsElements = {};
 pages = {};
 scale = 1;
 numPages = 0;
+loadPageCount = 0;
 
 constructor(fileName) {
 	this.fileName = fileName;
@@ -25,9 +26,9 @@ zoom = async function(scale) {
 	}
 }
 
-_loadPage = (pageNumber, pageElem) => {
+_loadPage = async function(pageNumber, pageElem) {
 	const page = this.pages[pageNumber];
-	page.render();
+	await page.render();
 }
 loadPage = async function(pageNumber, pageElem) {
 	if(this.pages[pageNumber]) {
@@ -36,7 +37,13 @@ loadPage = async function(pageNumber, pageElem) {
 	}
 	const page = await this.pdfFile.getPage(pageNumber);
 	this.pages[pageNumber] = new PDFPage(pageNumber, pageElem, page);
-	this._loadPage(pageNumber, pageElem);
+	await this._loadPage(pageNumber, pageElem);
+	
+	this.loadPageCount++;
+}
+
+isFinishLoad = function() {
+	return this.numPages > 0 && this.numPages === this.loadPageCount;
 }
 
 getPage = (pageNumber) => {

@@ -14,9 +14,8 @@ state = {
 componentDidMount() {
 	this.pageNum = this.props.pageNum
 	
-	const self = this;
 	this.props.pdfjs.loadPage(this.pageNum, this.refs.page).then(() => {
-		self.props.addFunc();
+		this.props.addFunc(this.props.pdfjs);
 	});
 }
   render() {

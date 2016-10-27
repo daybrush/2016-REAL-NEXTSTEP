@@ -17,10 +17,13 @@ import marked from 'marked';
 import "./css/View.css"
 
 class Viewer extends Component {
-	pdfjs = "";
+	contentArray = [];
+	content = ""
+	
+	
 	
 	state = {
-		pdf_load : false,
+		embed_load : false,
 		is_finish_load : false,
 		finish_load_count : 0
 	}
@@ -36,13 +39,10 @@ class Viewer extends Component {
 		document.body.className="pdf-open";
 		
 		NEXTActions.fetchAbout(actions, {type:"get", target:"issue", body:"id=" + id});
-		const self = this;
+		
+				
 		
 		
-		this.pdfjs = new PDFLoader("/lec02a.pdf");
-		this.pdfjs.init().then(() => {
-			self.setState({pdf_load:true});
-		});
             
 	}
 	componentWillUnmount() {
@@ -85,15 +85,9 @@ class Viewer extends Component {
 		this.refs.wrapper.style.marginRight = this.option.tab_width +"px";
 	}
 	
-	addFinishLoadCount = () => {
-		if(this.state.is_finish_load)
-			return;
-			
-			
-		this.state.finish_load_count++;
-		if(this.state.finish_load_count === this.pdfjs.numPages) {
+	addFinishLoadCount = (pdfjs) => {
+		if(pdfjs.isFinishLoad()) {
 			this.refreshView()
-			this.state.is_finish_load = true;
 		}
 	}
 	
@@ -107,55 +101,104 @@ class Viewer extends Component {
 			</div>
 		)
 	}
-
-	refreshView = (e) => {
-		if(!this.state.pdf_load)
+	_refreshView = (pdfjs) => {
+		if(!pdfjs.isFinishLoad())
 			return;
-	
-		const windowHeight = window.innerHeight;
-		
+			
 		let pageElem, rect, page;
-		for(let i = 1; i <= this.pdfjs.numPages; ++i) {
-			page = this.pdfjs.getPage(i);
+		const windowHeight = window.innerHeight;
+		for(let i = 1; i <= pdfjs.numPages; ++i) {
+			page = pdfjs.getPage(i);
 			pageElem = page.pageElem
 			
 	
 			rect = pageElem.getBoundingClientRect();
 			if(rect.top  <  windowHeight && rect.top > 0 || rect.bottom  <  windowHeight && rect.bottom > 0 ) {
-				//console.log(i+"page", y, y2, rect.top, rect.bottom);
 				page.show();
 			} else {
 				page.hide();
 			}
 			
 		}
+	}
+	refreshView = (e) => {
+		this.contentArray.forEach(content => {
+			if(content.type === "pdf") {
+				this._refreshView(content.value);
+			}
+		});
+			
 	
 	}
-
+renderContents() {
+	return this.contentArray.map((content,i) => {
+		if(content.type === "html") {
+			return (<div dangerouslySetInnerHTML={{__html:content.value}} key={i}></div>)
+		}else if(content.type === "pdf") {
+			if(!content.is_load)
+				return "Loading....";
+				
+				
+			return this.renderPages(content.value) 
+		}		
+		return "";
+	});
+}
 renderPages(pdfjs) {
 
 	if(!pdfjs.numPages)
-		return (<div></div>)
+		return ""
 		
 
 	return Array.from(Array(pdfjs.numPages).keys()).map(i=>(<Page pageNum={i+1} key={i+1} pdfjs={pdfjs} addFunc={this.addFinishLoadCount}/>))
 }
 
-componentDidMount() {
-	let mde = marked("# 123")
+componentWillUpdate(nextProps, nextState) {
+	let content = nextProps.state.issue.content;
 	
-	console.log(mde);
-		
+
+	if(this.content === content)
+		return;
+	
+
+	this.content = content;
+	let contentArray = content.split(/(\[embeded[pdf|video]+:[^\]]+\])/g);
+	this.contentArray = contentArray.map((_content) => {
+		let _contentArray = _content.split(/\[embeded(pdf|video):([^\]]+)\]/ig);
+
+		if(_contentArray.length === 4) {
+			const type = _contentArray[1];
+			const url = _contentArray[2];
+			let pdfjs = new PDFLoader("/lec02a.pdf");
+			
+			const state = {
+				type : type,
+				value : pdfjs,
+				is_load : false,
+			};
+			
+			pdfjs.init().then(() => {
+				state.is_load = true;
+				this.setState({embed_load:true})
+			});
+			return state;
+		}
+
+
+		return {
+			type : "html",
+			value : marked(_content)
+		}		
+	});
+
+
 }
   render() {
-  	if(!this.state.pdf_load)
-  		return (<div></div>);
-  		
     const html = (<div onDragOver={this.dragover}  >
     {this.renderButtons()}
     	<div className="issue-wrapper"  ref="wrapper">
 	    	<div className="page-wrapper">
-		    	{this.renderPages(this.pdfjs)}
+	    		{this.renderContents()}
 	    	</div>
 	    </div>
     	<div className="tab-wrapper" ref="tabwrapper">
