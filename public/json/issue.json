@@ -20,5 +20,5 @@
   	{"id":"1", "url" : "rec02a.pdf"},
   	{"id":"1", "url" : "rec02a.pdf"}
   ],
-  "content" : "[embededpdf:/lec02a.pdf]  descsdfsdf  [???????] sdsdsdsdsdsdsd  [2323232323232] "
+  "content" : "[embededpdf:/lec02a.pdf]  # HI descsdfsdf  [???????] sdsdsdsdsdsdsd  [2323232323232] [embededpdf:/pdf.pdf] "
 }

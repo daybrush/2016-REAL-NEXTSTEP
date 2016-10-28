@@ -25,7 +25,8 @@ class Viewer extends Component {
 	state = {
 		embed_load : false,
 		is_finish_load : false,
-		finish_load_count : 0
+		finish_load_count : 0,
+		scale : 1
 	}
 	option = {
 		tab_width : 300,
@@ -52,14 +53,32 @@ class Viewer extends Component {
 	}
 	
 	addZoom = () => {
-		this.pdfjs.addZoom().then(() => {
-			this.refreshView();
-		});
+		let scale = this.state.scale + 0.2;
+		this.zoom(scale);
+		
+
 	}
 	minusZoom = () => {
-		this.pdfjs.minusZoom().then(() => {
-			this.refreshView();
-		});		
+		let scale = this.state.scale - 0.2;
+		if(scale <= 0)
+			scale = 0.2;
+			
+			
+		this.zoom(scale);
+		
+	}
+	zoom = (scale) => {			
+		this.contentArray.forEach((content,i) => {
+			switch(content.type) {
+			case "pdf":
+				content.value.zoom(scale).then(() => {
+					this.refreshView();
+				})
+				break;
+			}
+		});
+		
+		this.setState({scale:scale});
 	}
 	
 	dragstart = e => {
@@ -101,7 +120,7 @@ class Viewer extends Component {
 			</div>
 		)
 	}
-	_refreshView = (pdfjs) => {
+	_refreshView = (pdfjs, now) => {
 		if(!pdfjs.isFinishLoad())
 			return;
 			
@@ -113,27 +132,41 @@ class Viewer extends Component {
 			
 	
 			rect = pageElem.getBoundingClientRect();
-			if(rect.top  <  windowHeight && rect.top > 0 || rect.bottom  <  windowHeight && rect.bottom > 0 ) {
+			if(i === 1) {
+				console.log(rect, windowHeight);
+			}
+			if(rect.top  <=  windowHeight && rect.bottom > 0 || rect.bottom  <  windowHeight && rect.bottom > 0 ) {
 				page.show();
+				if(now && now.page === 0) {
+					now.page = i;
+					now.value = pdfjs.fileName +" - " + i + " / " + pdfjs.numPages;
+				}
 			} else {
 				page.hide();
 			}
 			
+
 		}
 	}
 	refreshView = (e) => {
+		let now = {
+			page : 0,
+			value : ""
+		}
 		this.contentArray.forEach(content => {
 			if(content.type === "pdf") {
-				this._refreshView(content.value);
+				this._refreshView(content.value, now);
 			}
 		});
+		
+		console.log("NOW - " + now.value);
 			
 	
 	}
 renderContents() {
 	return this.contentArray.map((content,i) => {
 		if(content.type === "html") {
-			return (<div dangerouslySetInnerHTML={{__html:content.value}} key={i}></div>)
+			return (<div className="html-page" style={{transform:"scale("+this.state.scale+")"}} dangerouslySetInnerHTML={{__html:content.value}} key={i}></div>)
 		}else if(content.type === "pdf") {
 			if(!content.is_load)
 				return "Loading....";
@@ -169,7 +202,7 @@ componentWillUpdate(nextProps, nextState) {
 		if(_contentArray.length === 4) {
 			const type = _contentArray[1];
 			const url = _contentArray[2];
-			let pdfjs = new PDFLoader("/lec02a.pdf");
+			let pdfjs = new PDFLoader(url);
 			
 			const state = {
 				type : type,

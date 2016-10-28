@@ -22,7 +22,7 @@ componentDidMount() {
 
     return (
     
-    <div className="pdf-page" ref="page" data-page-number={this.pageNum}>
+    <div className="pdf-page hide-page" ref="page" data-page-number={this.pageNum}>
     	<canvas className="canvas-layer"></canvas>
     	<div className="text-layer"></div>
       </div>

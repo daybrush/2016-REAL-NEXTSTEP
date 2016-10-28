@@ -1,3 +1,4 @@
+
 body.pdf-open {
 	 background: #3F3F3F;
 }
@@ -57,6 +58,9 @@ body.pdf-open {
     padding: 50px 10px 240px;
     position: absolute;
 }
+.comments {
+	margin: 5px;
+}
 .comment {
 	margin: 5px 0px;
 	padding: 5px;
@@ -108,6 +112,7 @@ body.pdf-open {
 .comments-wrapper .CodeMirror{
     height: 100px;
     min-height: 100px;
+    padding: 5px;
 }
 .comments-wrapper .CodeMirror-scroll {
 	min-height: 100px;
@@ -147,4 +152,11 @@ body.pdf-open {
 }
 .tabs li:nth-child(3) {
 	background-position: center -84px;	
+}
+
+
+.html-page {
+	color: white;
+	margin: 30px auto;
+	width: 400px;
 }

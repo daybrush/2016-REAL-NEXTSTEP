@@ -83,7 +83,7 @@ getNodeIndex = (node) => {
 	        	<h2 title="실전 프로젝트" dir="auto" className="course-title-name">{title}</h2>
 	       		<Link to={"/view/" + lectureId}>
 	        	<ul className="course-card-issues">
-	        		{issues.map(issue => (<li key={issue.id}>{issue.title}</li>))}
+	        		{issues.map(issue => (<li key={issue.id}><Link to={"/issue/" + issue.id}>{issue.title}</Link></li>))}
 	        	</ul>
 	        	</Link>
         	</div>
