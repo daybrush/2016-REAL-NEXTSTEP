@@ -8,7 +8,10 @@
     "react-scripts": "^0.6.0"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
+    "highlight.js": "^9.7.0",
+    "pdfjs-dist": "^1.6.264",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",
@@ -16,11 +19,8 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
-    "todomvc-app-css": "^2.0.6",
-	"bootstrap": "^3.3.7",
-    "classnames": "^2.2.5",
     "simplemde": "^1.11.2",
-    "pdfjs-dist": "^1.6.264"
+    "todomvc-app-css": "^2.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
