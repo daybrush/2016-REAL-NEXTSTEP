@@ -1,0 +1,22 @@
+[
+    {
+      "id": 1,
+      "title": "Discussion 1",
+      "creator": {
+        "id": 1,
+        "name": "이름",
+        "avatar_url": "https://..."
+      },
+      "created": "20161013T223842Z"
+    },
+    {
+      "id": 7,
+      "title": "Discussion 2",
+      "creator": {
+        "id": 1,
+        "name": "이름",
+        "avatar_url": "https://..."
+      },
+      "created": "20161013T223842Z"
+    }
+]

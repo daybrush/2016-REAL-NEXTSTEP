@@ -82,7 +82,7 @@ links[types.GET_LECTURE] = "lecture.json";
 links[types.GET_COURSE] = "course.json";
 links[types.GET_PROFESSOR] = "professor.json";
 links["GET_COMMENTS"] = "comments.json";
-links["GET_ISSUE"] = "issue.json";
+links["GET_SESSION"] = "session.json";
 
 
 export const fetchAbout = (actions, option) => {

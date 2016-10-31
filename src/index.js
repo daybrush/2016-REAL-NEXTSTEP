@@ -15,7 +15,7 @@ import { browserHistory, Router, Route, IndexRoute } from 'react-router'
 import CourseListPage from './pages/CourseListPage'
 import mainPage from './pages/mainPage'
 import ProfessorPage from './pages/ProfessorPage'
-import View from './pages/View'
+import Session from './pages/Session'
 
 
 
@@ -45,7 +45,7 @@ render(
       <Route path="/lecture/:lectureId" component={CourseListPage} />
       <Route path="/view/:courseId" component={CourseListPage} />      
       <Route path="/professor/:professorId" component={ProfessorPage} />            
-      <Route path="/issue/:id" component={View} />            
+      <Route path="/session/:id" component={Session} />            
       
     </Route>
   </Router>
