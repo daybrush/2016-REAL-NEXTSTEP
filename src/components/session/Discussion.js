@@ -15,12 +15,24 @@ export default class component extends Component {
 		this.discussion =  this.discussion.replace(/\n/g, "<br/>");
 	}
 	componentDidMount() {
-		hljs.highlightBlock(this.refs.discussion);
+		hljs.highlightBlock(this.refs.content);
 	}
 	render() {
+		const {discussion} = this.props
+		const {creator, title, id, created} = discussion
+		//					{title}
 		return (
-			<li className="discussion" dangerouslySetInnerHTML={{__html:marked(this.discussion)}} ref="discussion">
+			<li className="discussion">
+				<div className="dicussion-header">
+					<img src={creator.avatar_url} alt="profile" className="discussion-author-thumb"/>
+					<div className="dicussion-text">
+						<p className="dicussion-author-name">{creator.name}</p>
+						<p className="dicussion-time">{created}</p>
+						</div>
 
+				</div>
+				<div className="discussion-content"  dangerouslySetInnerHTML={{__html:marked(this.discussion)}} ref="content">
+				</div>
 	    	</li>
 	    )
 	}

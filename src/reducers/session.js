@@ -19,13 +19,9 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
 	switch(action.type ) {
-		case "GET_COMMENTS":
-			state.session.comments = action.comments;
+		case "ADD_DISCUSSION":
+			state.session.discussions.push(action.discussion);
 			return Object.assign({}, state);
-		case "ADD_COMMENT":
-			state.session.comments.push(action.comment);
-			return Object.assign({}, state);
-			
 		case "GET_DISCUSSIONS":
 			state.session.discussions = action.discussions
 			return Object.assign({}, state);

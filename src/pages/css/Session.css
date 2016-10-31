@@ -41,58 +41,6 @@ body.pdf-open {
 	width: 300px;
 	height: 100%;
 }
-.discussions-wrapper {
-
-	padding-top: 50px;
-	height: 100%;
-	background: #383838;
-	border-left: 1px solid #2f2f2f;
-
-}
-.discussions-tab {
-    overflow: auto;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    padding: 50px 10px 240px;
-    position: absolute;
-}
-.discussions {
-	position: absolute;
-	width: 100%;
-	left: 0;
-	top:0;
-	height: 100%;
-	overflow: auto;
-	padding-top: 50px;
-	padding-bottom: 220px;
-}
-.discussion {
-	margin: 5px;
-	padding: 5px;
-	background: #333;
-	min-height: 50px;
-}
-.discussion {
-		color: white;
-}
-.discussion-form {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	box-sizing: border-box;
-	background: inherit;
-	padding: 10px;
-}
-.discussion-input {
-/* 	margin-bottom: 10px; */
-}
-
-.discussion-submit {
-	margin-top: 10px;
-}
 .btn-wrapper {
 	position: fixed;
 	z-index: 10;
@@ -104,27 +52,7 @@ body.pdf-open {
 	line-height: 50px;
 	padding: 0px;
 }
-.discussions-wrapper .editor-toolbar {
-/* 	opacity: 1; */
-	background: #fff;
-	
-}
-.discussions-wrapper .editor-toolbar a {
-	width: 20px;
-	height: 20px;
-	margin-right: 5px;
-}
-.discussions-wrapper .editor-toolbar a:before {
-	line-height: 20px;
-}
-.discussions-wrapper .CodeMirror{
-    height: 100px;
-    min-height: 100px;
-    padding: 5px;
-}
-.discussions-wrapper .CodeMirror-scroll {
-	min-height: 100px;
-}
+
 
 .tab-mover {
 	width: 5px;
@@ -177,6 +105,116 @@ body.pdf-open {
 	display: block;
 }
 
+
+
+.discussions-wrapper {
+
+	padding-top: 50px;
+	height: 100%;
+	background: #383838;
+	border-left: 1px solid #2f2f2f;
+
+}
+.discussions-tab {
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 50px 10px 240px;
+    position: absolute;
+}
+.discussions {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top:0;
+	height: 100%;
+	overflow: auto;
+	padding-top: 50px;
+	padding-bottom: 220px;
+}
+.discussion {
+	margin: 5px;
+	padding: 5px;
+	background: #333;
+	min-height: 50px;
+}
+
+
+/*DICUSSION-FORM-INPUT*/
+.discussion-form {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
+	background: inherit;
+	padding: 10px;
+}
+.discussion-input {
+/* 	margin-bottom: 10px; */
+}
+
+.discussion-submit {
+	margin-top: 10px;
+}
+.discussions-wrapper .editor-toolbar {
+/* 	opacity: 1; */
+	background: #fff;
+	
+}
+.discussions-wrapper .editor-toolbar a {
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+}
+.discussions-wrapper .editor-toolbar a:before {
+	line-height: 20px;
+}
+.discussions-wrapper .CodeMirror{
+    height: 100px;
+    min-height: 100px;
+    padding: 5px;
+}
+.discussions-wrapper .CodeMirror-scroll {
+	min-height: 100px;
+}
+/*DISCUSSION - MAIN*/
+.discussion {
+	background: white;
+}
+.discussion-author-thumb {
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;	
+	display: inline-block;
+}
+.dicussion-text {
+	display: inline-block;
+	height: 50px;
+	vertical-align: middle;
+	box-sizing: border-box;
+	padding: 5px;
+	margin-left: 5px;
+}
+.dicussion-text p {
+	margin: 0;
+	line-height: 20px;
+}
+.dicussion-author-name {
+	color: #007CEB;
+	font-weight: bold;
+}
+.dicussion-time {
+	font-size: 12px;
+	color:#999;
+}
+.discussion-content.hljs {
+	background: inherit;
+	padding: 0;
+	margin-top: 10px;
+}
 .hljs-wrapper {
 	position: relative;
 }

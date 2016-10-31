@@ -16,7 +16,7 @@ const links = {
 	},
 	"POST" : {
 		"http://domain.com/courses/[\\d]" : "/json/lecture.add.json",
-		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussions.add.json",
+		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussion.add.json",
 	}
 }
 
