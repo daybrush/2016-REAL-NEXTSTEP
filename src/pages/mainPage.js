@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ProfessorList from '../components/ProfessorList'
 import Apply from './Apply'
-import LectureCard from '../components/LectureCard'
+import CourseCard from '../components/CourseCard'
 
 class mainPage extends Component {
 	componentWillMount() {
@@ -15,21 +15,20 @@ class mainPage extends Component {
 		NEXTActions.fetchAbout(actions, {
 			is_load: true,
 			type: "get",
-			target: "my_lectures",
+			target: "my_courses",
 		});
 		
 	}
 
   render() {
 	const {state, actions} = this.props
-	console.log(state);
     return (
     	<section className="content">
     		<div className="page-header"><h3>신청한 강의 목록</h3></div>
-    		<ul className="lecture-list">
-    		{state.lectures.map((lecture, i) => (
+    		<ul className="course-list">
+    		{state.courses.map((course, i) => (
     			
-    			<LectureCard isLink="true" lecture={lecture} key={i} />
+    			<CourseCard isLink="true" course={course} key={i} />
     		))}
     		</ul>
     		
@@ -42,7 +41,7 @@ class mainPage extends Component {
 
 
 const mapStateToProps = state => {
-	return {state: state.MyLectures}
+	return {state: state.MyCourses}
 }
 
 const mapDispatchToProps = dispatch => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../actions/Session'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -10,11 +10,12 @@ import { Link } from 'react-router'
 import PDFLoader from '../class/PDFLoader.js'
 import PDFPages from '../components/session/PDFPages'
 import Video from '../components/session/Video'
+import Html from '../components/session/Html'
 
-import Comments from "../components/session/Comments"
+import Discussions from "../components/session/Discussions"
 
 
-import marked from 'marked';
+import marked from '../js/custommarked';
 import "./css/Session.css"
 import "highlight.js/styles/default.css"
 class Viewer extends Component {
@@ -35,15 +36,23 @@ class Viewer extends Component {
 	componentWillMount() {
 		document.body.onscroll = this.refreshView;
 		window.onresize = this.refreshView;
-		const {actions, id} = this.props;
+		const {actions, params} = this.props;
+		
+		const {id} = params;
+		
+		
 		document.body.className="pdf-open";
 		
-		NEXTActions.fetchAbout(actions, {type:"get", target:"session", body:"id=" + id});    
+		actions.fetchGetSession(id);
 	}
 	componentWillUnmount() {
 		document.body.className="";
 		document.body.onscroll = "";
 		window.onresize = "";
+	}
+	componentDidMount() {
+
+
 	}
 	
 	addZoom = () => {
@@ -130,7 +139,6 @@ class Viewer extends Component {
 			} else {
 				page.hide();
 			}
-			
 
 		}
 	}
@@ -165,14 +173,14 @@ class Viewer extends Component {
 	
 			if(_contentArray.length === 5) {
 				const type = _contentArray[1];
-				const url = _contentArray[2];
+				let value = _contentArray[2];
 				const position = _contentArray[3];
-				let value;
+
 				if(type === "pdf")
-					value = new PDFLoader(url);
-				else
-					value = url;
+					value = new PDFLoader(value);
 				
+				
+
 				const state = {
 					type : type,
 					value : value,
@@ -182,7 +190,10 @@ class Viewer extends Component {
 				
 				return state;
 			}
-	
+			if(_content === "")
+				return "";
+				
+				
 			return {
 				type : "html",
 				value : marked(_content)
@@ -203,17 +214,17 @@ class Viewer extends Component {
 		
 	renderContents() {
 		return this.contentArray.map((content,i) => {
+			if(!content)
+				return "";
+				
+				
 			if(content.type === "html") {
-				return (<div className="html-page" key={i}>
-					<div className="html-page-inner"  style={{transform:"scale("+this.state.scale+")"}} dangerouslySetInnerHTML={{__html:content.value}} >
-					</div>
-				</div>)
+				return (<Html state={content} key={i} scale={this.state.scale}/>)
 			}else if(content.type === "pdf") {					
 				return this.renderPages(content, i) 
 			} else if(content.type === "video") {
 				return (<Video state={content} key={i}/>);
 			}
-			return "";
 		});
 	}
 	renderPages(state, key) {
@@ -237,7 +248,7 @@ class Viewer extends Component {
 	    			<li></li>
 	    			<li></li>    			
 	    		</ul>
-		    	<Comments/>
+		    	<Discussions sessionId={this.props.params.id}/>
 	    	</div>
 	    </div>
 	     

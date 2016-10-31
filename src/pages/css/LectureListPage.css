@@ -1,34 +1,34 @@
-.view-lecture {
+.view-course {
 	background: #0079BF;	
 }
 .course-list-wrapper {
 /* 	margin-top: 50px; */
 }
 
-.lecture-header {
+.course-header {
 	padding: 10px;
 }
-.lecture-header span, .lecture-header span a {
+.course-header span, .course-header span a {
 	vertical-align: middle;
 	margin-right: 10px;
 	margin-left: 5px;
 	color: white;
 }
-.lecture-header-name {
+.course-header-name {
 	color:white;
 	font-weight: bold;
 	font-size: 18px;
 	vertical-align: middle;
 }
-.lecture-header-professor {
+.course-header-professor {
 	font-size: 14px;
 }
-.lecture-header .lecture-header-status {
+.course-header .course-header-status {
 	
 }
 
 
-.course-card {
+.lecture-card {
 	position: relative;
 	display: inline-block;
 	padding: 0px;
@@ -39,56 +39,60 @@
 /* 	overflow: hidden; */
 }
 
-.course-card.dragmove .course-card-content {
+.lecture-card.dragmove .lecture-card-content {
 	transform: rotate(10deg);
 }
-.course-card.placeholder {
+.lecture-card.placeholder {
     background-color: rgba(0,0,0,.2);
     border-color: transparent;
     box-shadow: none;
     border-radius: 3px;
 }
-.course-card.placeholder .course-card-content {
+.lecture-card.placeholder .lecture-card-content {
 	position: fixed;
 	visibility: hidden;
 }
-.course-card .course-card-content {
+.lecture-card .lecture-card-content {
 
 	padding: 10px;
 	background: #E2E4E6;
 	border-radius: 3px;
 	width: 300px;
 }
-.course-card .add-course-card-content {
+.lecture-card .add-lecture-card-content {
 	padding: 10px;
 	background: #0068AD;
 	border-radius: 3px;
 	width: 300px;	
 }
-.course-card .add-course-card-content:hover {
+.lecture-card .add-lecture-card-content:hover {
 	background: #00538A;
 }
-.course-card h2 {
+.lecture-card h2 {
 	margin:0;
 	font-size: 16px;
 	font-weight: bold;
 	margin-bottom: 10px;
 }
-.course-card .course-card-content a {
+.lecture-card .lecture-card-content a {
 	color: black;
 }
 
-.course-card-issues li {
+.lecture-card-sessions li {
 	background: #fff;
 	border-radius: 3px;
 	padding: 5px 10px;
 	margin-bottom:  5px;
 }
-
-.course-add-controls input {
+.lecture-card-sessions li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.lecture-add-controls input {
 	margin-bottom: 10px;
 }
 
-.course-add-controls .btn-success {
+.lecture-add-controls .btn-success {
 	margin-right: 10px;
 }

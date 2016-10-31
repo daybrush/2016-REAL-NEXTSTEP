@@ -1,7 +1,7 @@
-.lecture-card {
+.course-card {
 	position: relative;
 }
-.lecture-card a {
+.course-card a {
 	background: #0064A7;
 	color: white;
 	display: block;
@@ -9,18 +9,18 @@
 	padding: 10px;
 	height: 80px;
 }
-.lecture-card a:hover {
+.course-card a:hover {
 	background: #005994;
 	color: white;
 	text-decoration: none;
 }
-.lecture-card p {
+.course-card p {
 	margin-bottom: 5px;
 }
-.lecture-card .lecture-title-name {
+.course-card .course-title-name {
 	font-weight: bold;
 }
-.lecture-card .lecture-professor-name {
+.course-card .course-professor-name {
 	font-size: 13px;
 	color: #ddd;
 }

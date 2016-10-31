@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import LectureCard from './LectureCard'
+import CourseCard from './CourseCard'
 import './css/ProfessorBoard.css'
 import { Link } from 'react-router'
 
@@ -20,14 +20,14 @@ export default class ProfessorBoard extends Component {
   }
 
   render() {
-    const { lectures, name, actions } = this.props.instructor
+    const { courses, name, actions } = this.props.instructor
 
     return (
     	<div className="professor-board">
     	{this.renderHeader()}  
-    	<ul className="lecture-list row">
-          {lectures.map(lecture =>
-            <LectureCard lecture={lecture} key={lecture.id} actions={actions} />
+    	<ul className="course-list">
+          {courses.map(course =>
+            <CourseCard course={course} key={course.id} actions={actions} />
           )}
 
     	</ul>

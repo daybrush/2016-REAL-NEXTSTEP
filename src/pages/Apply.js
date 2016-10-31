@@ -12,7 +12,7 @@ class Apply extends Component {
 		NEXTActions.fetchAbout(actions, {
 			is_load: true,
 			type: "get",
-			target: "lectures",
+			target: "courses",
 		});
 	}
 

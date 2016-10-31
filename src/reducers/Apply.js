@@ -14,11 +14,11 @@ export default function mainPage(state = initialState, action) {
 			instructors[0].courses = Object.assign([], action.courses);
 			
 			return Object.assign({}, state);
-		case Actions.GET_LECTURES:
-			if(!action.lectures)
+		case "GET_COURSES":
+			if(!action.courses)
 				return state;
 				
-			state.instructors = action.lectures;
+			state.instructors = action.courses;
 			
 			return Object.assign({}, state);
 		case Actions.GET_PROFESSOR:

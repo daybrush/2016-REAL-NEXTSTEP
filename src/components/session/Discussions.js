@@ -1,14 +1,16 @@
 import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
-import * as NEXTActions from '../../actions'
+import * as NEXTActions from '../../actions/Session'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import Comment from './Comment.js'
 
 
 import SimpleMDE from 'simplemde';
 import 'simplemde/dist/simplemde.min.css';
+
+
+import Discussion from './Discussion'
 
 class component extends Component {
 
@@ -17,14 +19,9 @@ state = {
 	load_mark : false
 }
 mde = "";
-textarea  = (<textarea className="form-control comment-input" ref="name"></textarea>)
+textarea  = (<textarea className="form-control discussion-input" ref="name"></textarea>)
 componentWillMount() {
-
-	NEXTActions.fetchAbout(this.props.actions, {
-		is_load: true,
-		type: "get",
-		target: "comments",
-	});
+	this.props.actions.fetchGetDiscusssions(this.props.sessionId);
 
 }
 componentDidMount() {
@@ -39,27 +36,22 @@ componentDidMount() {
 			});
 		this.setState({load_mark:true});
 }
-submitComment = (e) => {
+submitDiscussion = (e) => {
 	const value = this.mde.value();
-	NEXTActions.fetchAbout(this.props.actions, {
-		is_load: true,
-		type: "add",
-		target: "comment",
-		comment : {
-			id: 10,
-			content: value
-		}
-	});
+
+	this.props.actions.fetchAddDiscusssion(this.props.sessionId, value);
+	
+	
 	this.mde.value("");
 }
-renderComments() {
-	const {comments} = this.props.state.session;
+renderDiscussions() {
+	const {discussions} = this.props.state.session;
 	if(!this.state.load_mark)
-		return(<div className="comments"></div>)
-	return(<div className="comments">
+		return(<div className="discussions"></div>)
+	return(<div className="discussions">
     		<ul>
-    			{ comments.map((comment,i) => (
-	    			<Comment comment={comment} key={i} />
+    			{ discussions.map((discussion,i) => (
+	    			<Discussion discussion={discussion} key={i} />
     			))}
     			
     		</ul>
@@ -70,14 +62,14 @@ render() {
 
     return (
     	<div className={classNames({
-    		"comments-wrapper":true,
+    		"discussions-wrapper":true,
     		"show":this.state.show,
     	})}>
     		
-	    	{this.renderComments()}
-	    	<div className="comment-form form-group">
+	    	{this.renderDiscussions()}
+	    	<div className="discussion-form form-group">
 	            	{this.textarea}
-                   <button type="button" className="btn btn-info comment-submit" onClick={this.submitComment}> POST </button>
+                   <button type="button" className="btn btn-info discussion-submit" onClick={this.submitDiscussion}> POST </button>
           </div>
       </div>
     )
@@ -94,7 +86,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return{  actions: bindActionCreators(NEXTActions, dispatch), dispatch}
+  return{actions: bindActionCreators(NEXTActions, dispatch)}
 }
 
 export default connect(

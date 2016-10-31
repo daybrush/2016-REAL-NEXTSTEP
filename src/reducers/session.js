@@ -9,7 +9,7 @@ const initialState = {
 	  },
 	  "comments": [
 	  ],
-	  "discussion": [
+	  "discussions": [
 	  ],
 	  "attachments": [
 	  ],
@@ -25,6 +25,11 @@ export default function reducer(state = initialState, action) {
 		case "ADD_COMMENT":
 			state.session.comments.push(action.comment);
 			return Object.assign({}, state);
+			
+		case "GET_DISCUSSIONS":
+			state.session.discussions = action.discussions
+			return Object.assign({}, state);
+						
 		case "GET_SESSION":
 			state.session = action.session;
 			return Object.assign({}, state);

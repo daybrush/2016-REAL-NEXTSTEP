@@ -1,58 +1,22 @@
 import * as types from '../constants/ActionTypes'
+import {links} from './Links'
 
-export const fetchAddMyLecture = (actions, lectureId) => {
-	return new Promise((resolve, reject) => {
-	let lecture = {
-		    name: '실전프로젝트',
-		    id: 0,
-		    status : 0,
-		    
-		    		    professor: {
-			    name: "박재성1"
-		    }
-		  };
-	setTimeout(()=>{
-		actions.addMyLecture(lecture);
-		resolve(lecture);
-	}, 1000);
-	
-	});
-}
-export const addMyLecture = (lecture) => {
-	
-	return { type: types.ADD_MY_LECTURE , lecture};
-};
+import fetch from './fetch'
 
-export const fetchAddCourse = (actions, title, lectureId) => {
-	let course =
-		  {
-		    title: title,
-		    id: Math.random(0, 30),
-		    lectureId : lectureId,
-		    goals: [
-		{id: 0, title : "goal1"},
-		{id: 1, title : "goal2"},
-		{id: 2, title : "goal3"},
-],
-	
-		attachments: [
-		{id: 0, name : "att1"},
-		{id: 1, name : "att2"},
-		{id: 2, name : "att3"},
-		]
-		  };
-		  
-	return new Promise((resolve, reject) => {
-		setTimeout(()=>{
-			actions.addCourse(course);
-			resolve(course);
-		}, 1000);
-	});
-};
-export const addCourse = (course) => {
-	
-	return { type: types.ADD_COURSE , course};
-};
+
+/*
+
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import * as reducers from '../reducers'
+
+let reducer = combineReducers(reducers)
+// applyMiddleware supercharges createStore with middleware:
+export const store = createStore(reducer, applyMiddleware(thunk))
+*/
+
+
+
 
 export const loadAbout = (option) => {
 	const {type, target} = option;
@@ -68,30 +32,22 @@ export const loadAbout = (option) => {
 		}
 		obj[key] = option[key];	
 	}
-	
 	return obj;
 }
-
-let links = {
-	"DOMAIN" : 	"/json/"
+const defaultType = {
+	"get" : "GET",
+	"add" : "POST",
 }
 
-links[types.GET_LECTURES] = "lectures.json";
-links[types.GET_MY_LECTURES] = "mylectures.json";
-links[types.GET_LECTURE] = "lecture.json";
-links[types.GET_COURSE] = "course.json";
-links[types.GET_PROFESSOR] = "professor.json";
-links["GET_COMMENTS"] = "comments.json";
-links["GET_SESSION"] = "session.json";
 
-
+export const fetchData = (data) => fetchAbout("", data)
 export const fetchAbout = (actions, option) => {
 	const {type, value, target, by, is_load} = option;
 	
 	let _type = (type+"_" + target).toUpperCase();
 	option.type = _type;
 	if(_type in links) {
-		let method = option.method || "GET";
+		let method = option.method || defaultType[type] || "GET";
 		let myHeaders = new Headers();
 		myHeaders.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
 		
@@ -100,22 +56,27 @@ export const fetchAbout = (actions, option) => {
 			headers : myHeaders,
 		};
 		let link = links.DOMAIN + links[_type];
-		/*
-if(option.body ) {
+
+		if(option.body ) {
 			if(method === "GET") {
 				link += "&" + option.body;			
 			} else {
 				info.body = option.body;
 			}
 		}
-*/
-
-		
+		const matchArray = link.match(/\$([a-zA-Z]+)/g);
+		if(matchArray)
+			matchArray.forEach((param) => {
+				link = link.replace(param, option[param.replace("$", "")]);
+			});
+	
+	
 		return fetch(link, info).then((res) => {console.log(res);return res.json()}).then((json) => {
 			const obj = {type:_type};
 			obj[target] = json;
-			actions.loadAbout(obj);
-			return json;
+			if(actions)
+				actions.loadAbout(obj);
+			return obj;
 		});	
 	}
 	

@@ -1,72 +1,94 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
+import classNames from 'classnames'
+import { connect } from 'react-redux';
 import * as NEXTActions from '../actions'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import './css/LectureCard.css'
+import DragDrop from "../class/dragdrop"
 
+export default connect(
+	state => ({state: state.LectureListPage}),
+	dispatch => ({ actions: bindActionCreators(NEXTActions, dispatch), dispatch})
+)
+(class LectureCard extends Component {
 
-class LectureCard extends Component {
-  static propTypes = {
-    lecture: PropTypes.object.isRequired
+  state = {
+	  drag : false
   }
+  dragndrop = new DragDrop();
+  
+dragover = (e) => {
+	const {card, content} = this.refs;
+	
+	this.dragndrop.dragover(e, card, content);
 
-//\f007
-applyCourse = (e) => {
-	if(!confirm("강의를 신청하시겠습니까?"))
+	if(!this.state.drag)
+		return;
+
+}
+dragstart= (e) => {
+	console.log("dragstart");
+	this.setState({drag:true});
+	
+	const {card, content} = this.refs;
+	this.dragndrop.dragstart(e,card,content);
+
+}
+dragend = (e) => {
+	if(!this.state.drag)
 		return;
 		
+	this.setState({drag:false});
+	
+	const {card, content} = this.refs;
+	this.dragndrop.dragend(e, card, content);
+
+
+
+	const lectures = this.props.state.course.lectures;	
+	const myPosition = this.props.position, targetPosition = this.getNodeIndex(card);
+	if(myPosition === targetPosition)
+		return;
 		
-	const {actions, lecture} = this.props;
-	NEXTActions.fetchAddMyLecture(actions, lecture.id);
+	const myCourse = lectures[myPosition], targetCourse = lectures[targetPosition];
+	const myId = myCourse.id, targetId = targetCourse.id;
+	
+	
+	this.props.actions.swap("lecture", myPosition, targetPosition);
+	NEXTActions.fetchSwap("", "lecture", myId, targetId);
+	
 }
-renderApply() {
-    const {  name, id} = this.props.lecture;	
-	return (
-   <a href="#" className="lecture-title" onClick={this.applyCourse}>
-    	<span className="lecture-title-name">{name}</span>
-    	<span className="lecture-card-options">
-    		<i className="fa fa-star-o"></i>
-    	</span>
-	</a>
-        )
-}
-renderLink() {
-    const {  name, id , professor} = this.props.lecture;
-	return (
-   <Link to={"/lecture/"+ id} className="lecture-title">
-    	<p className="lecture-title-name">{name}</p>
-    	{(professor)?(
-	<p className="lecture-professor-name">{professor.name}</p>
-	) : ""}
-    	<span className="lecture-card-options">
-    		<i className="fa fa-star-o"></i>
-    	</span>
-	</Link>
-        )
+
+getNodeIndex = (node) => {
+    var index = 0;
+    while ( (node = node.previousSibling) ) {
+        if (node.nodeType != 3 || !/^\s*$/.test(node.data)) {
+            index++;
+        }
+    }
+    return index;
 }
   render() {
-  	const {isLink} = this.props;
-    
+    const {  id, title, sessions } = this.props.lecture;
+    const courseId = this.props.course.id;
+
+
     return (
-      <li className="lecture-card col-xs-12 col-sm-6 col-md-3">
-		{
-			isLink?this.renderLink():this.renderApply()
-		}	    
-      </li>
+      <div className={classNames({
+	     "lecture-card":true,
+	     "placeholder":this.state.drag 
+      })}  ref="card" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable="true" data-position={this.props.position}>
+	       <div className="lecture-card-content" ref="content">
+
+	        	<Link to={"/view/" + courseId}><h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2></Link>
+	       		
+	        	<ul className="lecture-card-sessions">
+	        		{sessions.map(session => (<li key={session.id}><Link to={"/session/" + session.id}>{session.title}</Link></li>))}
+	        	</ul>
+	        	
+        	</div>
+      </div>
     )
   }
 }
-
-const mapStateToProps = state => {
-	return {state: state.MyLectures}
-}
-
-const mapDispatchToProps = dispatch => {
-  return{  actions: bindActionCreators(NEXTActions, dispatch), dispatch}
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LectureCard)
+)

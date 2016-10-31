@@ -1,18 +1,44 @@
-{"course":{
-		"title":"실습1-1",
-		"lectureId": 0,
-		"id": 0,
-		"issues": [
+{
+	"id": 1,
+  "name": "강의 이름",
+  "instructors": [
+    {
+      "id": 1,
+      "name": "교수 이름",
+      "avatar_url": "https://..."
+    },
+     {
+      "id": 1,
+      "name": "교수 이름2",
+      "avatar_url": "https://..."
+    }
+  ],
+
+		    "lectures":
+		    
+		    
+		    [
+		  {
+		    "title": "실프1-1",
+		    "id": 0,
+		    "course": 0,
+		    "sessions":[
 		{"id": 0, "title" : "goal1"},
 		{"id": 1, "title" : "goal2"},
 		{"id": 2, "title" : "goal3"}
-],
-	
-		"attachments": [
-		{"id": 0, "name" : "att1"},
-		{"id": 1, "name" : "att2"},
-		{"id": 2, "name" : "att3"}
-		]
-		
-	}
+]
+		  },
+		  
+		  
+		  {
+		    "title": "실프1-2",
+		    "id": 1,
+		    "course":0,
+		    "sessions":[
+		{"id": 0, "title" : "goal1"},
+		{"id": 1, "title" : "goal2"},
+		{"id": 2, "title" : "goal3"}
+]
+		  }
+		] 	
 }

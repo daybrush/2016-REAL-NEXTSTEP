@@ -1,37 +1,53 @@
-{"lecture":{
-		    "name": "실전프로젝트",
-		    "id": 0,
-		    "status" : 0,
-		    "courses":
-		    
-		    
-		    [
-		  {
-		    "title": "실프1-1",
-		    "id": 0,
-		    "lecture": 0,
-		    "issues":[
-		{"id": 0, "title" : "goal1"},
-		{"id": 1, "title" : "goal2"},
-		{"id": 2, "title" : "goal3"}
+[
+	{
+ "id":1,
+ "name": "교수 이름",
+ "courses": [
+      {
+
+        "id": 1,
+        "name": "HCI",
+        "status": "UPCOMMING"
+       } ,
+      {
+
+        "id": 2,
+        "name": "HCI",
+        "status": "UPCOMMING"
+       } ,
+      {
+
+        "id": 3,
+        "name": "HCI",
+        "status": "UPCOMMING"
+       } 
+   ]
+ },
+ 
+ {
+ "id":2,
+ "name": "교수 이름2",
+ "courses": [
+      {
+
+        "id": 1,
+        "name": "3HCI",
+        "status": "UPCOMMING"
+       } 
+   ]
+ },
+ 
+ {
+ "id":3,
+ "name": "교수 이름3",
+ "courses": [
+      {
+
+        "id": 1,
+        "name": "HC2I",
+        "status": "UPCOMMING"
+       } 
+   ]
+ }
+	
 ]
-		  },
-		  
-		  
-		  {
-		    "title": "실프1-2",
-		    "id": 1,
-		    "lecture":0
-		    "issues":[
-		{"id": 0, "title" : "goal1"},
-		{"id": 1, "title" : "goal2"},
-		{"id": 2, "title" : "goal3"}
-]
-		  }
-		],
-	    "professor":{
-		    "name": "박재성",
-		    "id": 0
-		  }
-		 }
-}

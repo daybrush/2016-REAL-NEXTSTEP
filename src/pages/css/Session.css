@@ -41,7 +41,7 @@ body.pdf-open {
 	width: 300px;
 	height: 100%;
 }
-.comments-wrapper {
+.discussions-wrapper {
 
 	padding-top: 50px;
 	height: 100%;
@@ -49,7 +49,7 @@ body.pdf-open {
 	border-left: 1px solid #2f2f2f;
 
 }
-.comments-tab {
+.discussions-tab {
     overflow: auto;
     height: 100%;
     width: 100%;
@@ -58,7 +58,7 @@ body.pdf-open {
     padding: 50px 10px 240px;
     position: absolute;
 }
-.comments {
+.discussions {
 	position: absolute;
 	width: 100%;
 	left: 0;
@@ -68,29 +68,29 @@ body.pdf-open {
 	padding-top: 50px;
 	padding-bottom: 220px;
 }
-.comment {
+.discussion {
 	margin: 5px;
 	padding: 5px;
 	background: #333;
 	min-height: 50px;
 }
-.comment {
+.discussion {
 		color: white;
 }
-.comment-form {
+.discussion-form {
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	width: 100%;
 	box-sizing: border-box;
 	background: inherit;
-	padding: 0px 10px 10px;
+	padding: 10px;
 }
-.comment-input {
+.discussion-input {
 /* 	margin-bottom: 10px; */
 }
 
-.comment-submit {
+.discussion-submit {
 	margin-top: 10px;
 }
 .btn-wrapper {
@@ -104,25 +104,25 @@ body.pdf-open {
 	line-height: 50px;
 	padding: 0px;
 }
-.comments-wrapper .editor-toolbar {
+.discussions-wrapper .editor-toolbar {
 /* 	opacity: 1; */
 	background: #fff;
 	
 }
-.comments-wrapper .editor-toolbar a {
+.discussions-wrapper .editor-toolbar a {
 	width: 20px;
 	height: 20px;
 	margin-right: 5px;
 }
-.comments-wrapper .editor-toolbar a:before {
+.discussions-wrapper .editor-toolbar a:before {
 	line-height: 20px;
 }
-.comments-wrapper .CodeMirror{
+.discussions-wrapper .CodeMirror{
     height: 100px;
     min-height: 100px;
     padding: 5px;
 }
-.comments-wrapper .CodeMirror-scroll {
+.discussions-wrapper .CodeMirror-scroll {
 	min-height: 100px;
 }
 
@@ -167,6 +167,9 @@ body.pdf-open {
 .html-page {
 	color: white;
 	margin: 30px auto;
+	width: 400px;
+}
+.html-page-inner {
 	width: 400px;
 }
 .session-video {

@@ -31,16 +31,16 @@ a , a:focus, a:hover {
 	box-sizing: border-box;
 }
 
-.lecture-list {
+.course-list {
 	overflow: hidden;
 
 }
-li.lecture-card {
+li.course-card {
 	padding: 0;
 	margin-bottom: 10px;
 	padding-right: 10px;
 }
-.lecture-list {
+.course-list {
 	list-style: none;
 	padding: 0;
 	margin: 0;

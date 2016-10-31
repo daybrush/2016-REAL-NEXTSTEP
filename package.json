@@ -17,7 +17,9 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "redux": "^3.5.2",
+    "redux-async": "^2.0.1",
     "redux-logger": "^2.7.0",
+    "redux-promises": "^1.0.0",
     "redux-thunk": "^2.1.0",
     "simplemde": "^1.11.2",
     "todomvc-app-css": "^2.0.6"

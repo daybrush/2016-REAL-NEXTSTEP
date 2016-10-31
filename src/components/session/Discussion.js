@@ -9,17 +9,17 @@ import marked from '../../js/custommarked';
 import hljs from 'highlight.js'
 
 export default class component extends Component {
-	comment = "";
+	discussion = "";
 	componentWillMount() {
-		this.comment = this.props.comment.content;
-		this.comment =  this.comment.replace(/\n/g, "<br/>");
+		this.discussion = this.props.discussion.content;
+		this.discussion =  this.discussion.replace(/\n/g, "<br/>");
 	}
 	componentDidMount() {
-		hljs.highlightBlock(this.refs.comment);
+		hljs.highlightBlock(this.refs.discussion);
 	}
 	render() {
 		return (
-			<li className="comment" dangerouslySetInnerHTML={{__html:marked(this.comment)}} ref="comment">
+			<li className="discussion" dangerouslySetInnerHTML={{__html:marked(this.discussion)}} ref="discussion">
 
 	    	</li>
 	    )
