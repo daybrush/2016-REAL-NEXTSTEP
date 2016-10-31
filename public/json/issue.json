@@ -11,7 +11,7 @@
       "attachmentUrl": "https://..."
     },
     {
-      "content": "This is a second comment.",
+      "content": "This is a second comment. is ```json    {'hi':'hi'} ```",
       "attachmentUrl": "https://..."
     }
   ],

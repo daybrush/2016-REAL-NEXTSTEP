@@ -4,7 +4,9 @@ import * as NEXTActions from '../../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import marked from 'marked';
+import marked from '../../js/custommarked';
+
+import hljs from 'highlight.js'
 
 export default class component extends Component {
 	comment = "";
@@ -12,9 +14,12 @@ export default class component extends Component {
 		this.comment = this.props.comment.content;
 		this.comment =  this.comment.replace(/\n/g, "<br/>");
 	}
+	componentDidMount() {
+		hljs.highlightBlock(this.refs.comment);
+	}
 	render() {
 		return (
-			<li className="comment" dangerouslySetInnerHTML={{__html:marked(this.comment)}}>
+			<li className="comment" dangerouslySetInnerHTML={{__html:marked(this.comment)}} ref="comment">
 
 	    	</li>
 	    )

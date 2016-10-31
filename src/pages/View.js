@@ -15,7 +15,7 @@ import Comments from "../components/issue/Comments"
 
 import marked from 'marked';
 import "./css/View.css"
-
+import "highlight.js/styles/default.css"
 class Viewer extends Component {
 	contentArray = [];
 	content = ""
