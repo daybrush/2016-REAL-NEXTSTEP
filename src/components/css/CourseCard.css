@@ -24,3 +24,14 @@
 	font-size: 13px;
 	color: #ddd;
 }
+
+.course-card.course-card-more a{
+	background: #eee;
+	color: #333;
+	font-weight: bold;
+	text-align: center;
+	line-height: 60px;
+}
+.course-card.course-card-more a:hover{
+	background: #ddd;
+}

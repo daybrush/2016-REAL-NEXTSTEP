@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import LectureCard from '../components/LectureCard'
 import AddLectureCard from '../components/LectureCard.add'
-import Viewer from '../components/Viewer'
-import Participants from '../components/Participants'
-import './css/LectureListPage.css'
+import LecturePage from './LecturePage'
+import Participants from '../components/CoursePage/Participants'
+import './css/CoursePage.css'
 import { Link } from 'react-router'
 
 
-class LectureListPage extends Component {
+class component extends Component {
 	
 	componentWillMount() {
 		document.body.className = "view-course";
@@ -19,12 +19,8 @@ class LectureListPage extends Component {
 		const {id} = params;
 	
 		//by Course Id
-		NEXTActions.fetchAbout(actions, {
-			is_load: true,
-			type: "get",
-			target: "course",
-			id: id
-		})
+		if(typeof id !== "undefined")
+			actions.fetchGetCourse(id);
 	}
 	renderHeader() {
 		const {name, instructors, status} = this.props.state.course;
@@ -67,20 +63,27 @@ class LectureListPage extends Component {
 			return;
 			
 		return (
-			<Viewer id={lectureId}/>
+			<LecturePage id={lectureId}/>
 		)
+	}
+	renderParticipants() {
+		const course = this.props.state.course;
+		if(course.id > 0)
+			return (<Participants course={course}/>)
+			
+		return ""
 	}
 	render() {
 		if(!("course" in this.props.state))
 			return "";
+			
 		const course = this.props.state.course;
-		console.log(course);
   		const {lectures} = course;
   		
   		return (
   		<div className="lecture-list-wrapper">
   		{this.renderViewer()}
-  		<Participants id={course.id}/>
+  		{this.renderParticipants()}
 		{this.renderHeader()}
 		<div className="lecture-list">
 			{lectures.map((lecture,i) =>
@@ -96,9 +99,7 @@ class LectureListPage extends Component {
 }
 
 
-const mapStateToProps = state => {
-	return {state: state.LectureListPage}
-}
+const mapStateToProps = state => ({state: state.CoursePage})
 
 const mapDispatchToProps = dispatch => {
   return{  actions: bindActionCreators(NEXTActions, dispatch)}
@@ -107,4 +108,6 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LectureListPage)
+)(component)
+
+

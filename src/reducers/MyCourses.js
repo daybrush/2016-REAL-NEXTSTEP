@@ -9,8 +9,8 @@ export default function reducer(state = initialState, action) {
 		case "GET_MY_COURSES":
 			state.courses = action.my_courses;
 			return Object.assign({}, state);
-		case "ADD_MY_COURSES":
-			state.courses.push(action.my_courses);
+		case "ADD_MY_COURSE":
+			state.courses.push(action.my_course);
 			return Object.assign({}, state);		
 	}
 	return state;

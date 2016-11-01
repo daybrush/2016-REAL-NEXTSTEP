@@ -5,7 +5,7 @@ import * as NEXTActions from '../actions'
 
 
 
-export default class AddGoal extends Component {
+export default class Addsession extends Component {
 state = {
 	edit : false
 }
@@ -17,13 +17,13 @@ editMode = () => {
 addCourse = () => {
 	console.log(this);
 	const title = this.refs.title.value;
-	//NEXTActions.fetchAddGoal(this.props.actions, title, this.props.course.id);
+	//NEXTActions.fetchAddsession(this.props.actions, title, this.props.course.id);
 	this.setState({edit:false});
 	//NEXTActions
 }
 renderEdit() {
 	return (
-		<div className="goal-add-controls" style={{display:(this.state.edit?"block":"none")}}>
+		<div className="session-add-controls" style={{display:(this.state.edit?"block":"none")}}>
 		<input type="text" className="form-control" ref="title" placeholder="Add a list..."/>
 		 <button type="button" className="btn btn-primary" onClick={this.addCourse}>Add</button>
 		</div>
@@ -34,7 +34,7 @@ renderEdit() {
 
 
     return (
-      <div className="add-goal">
+      <div className="add-session">
       	<div className={classNames({"add-course-card-content" : true,"mod-edit": this.state.edit})}>
       		<span className="add-placeholder" onClick={this.editMode}  style={{display:(this.state.edit?"none":"block")}}>Add a list...</span>
         	{this.renderEdit()}

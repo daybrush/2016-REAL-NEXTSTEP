@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //import { Link } from 'react-router'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -18,12 +18,16 @@ hide = () => {
 	
 }
 componentWillMount() {
+	const {actions, course} = this.props;
+	if(course.id > 0)
+		actions.fetchGetParticipants(course.id);
 }
   render() {
-
+  	const participants = this.props.state.course.participants || []
+  	
     
     return (
-      <div className="lecture-participants">
+      <div className="course-participants">
       	<ul>
       		<li></li>
       	</ul>
@@ -36,7 +40,7 @@ componentWillMount() {
 
 
 const mapStateToProps = state => {
-	return {state: state.CourseListPage}
+	return {state: state.CoursePage}
 }
 
 const mapDispatchToProps = dispatch => {

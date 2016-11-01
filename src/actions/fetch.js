@@ -1,10 +1,12 @@
 const links = {
 	"GET":{
 		"http://domain.com/courses" : "/json/courses.json",	
+		"http://domain.com/courses/search?instructor=[\\d]&state=closed" :"/json/courses.more.json",
 		"http://domain.com/courses/[\\d]" : "/json/course.json",
 		"http://domain.com/courses/[\\d]/participants" : "/json/participants.json",
 		"http://domain.com/courses/[\\d]/lectures" : "/json/lectures.json",
-		
+		"http://domain.com/lectures/[\\d]" : "/json/lecture.json",
+		"http://domain.com/lectures/[\\d]/participants" : "/json/participants.json",
 		"http://domain.com/sessions/[\\d]" : "/json/session.json",
 		"http://domain.com/sessions/[\\d]/attachments/[\\d]" : "/json/session.json",
 		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussions.json",
@@ -17,6 +19,7 @@ const links = {
 	"POST" : {
 		"http://domain.com/courses/[\\d]" : "/json/lecture.add.json",
 		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussion.add.json",
+		"http://domain.com/me/courses/participate" : "/json/mycourse.add.json",
 	}
 }
 

@@ -80,7 +80,7 @@ getNodeIndex = (node) => {
       })}  ref="card" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable="true" data-position={this.props.position}>
 	       <div className="lecture-card-content" ref="content">
 
-	        	<Link to={"/view/" + courseId}><h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2></Link>
+	        	<Link to={"/lecture/" + courseId}><h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2></Link>
 	       		
 	        	<ul className="lecture-card-sessions">
 	        		{sessions.map(session => (<li key={session.id}><Link to={"/session/" + session.id}>{session.title}</Link></li>))}

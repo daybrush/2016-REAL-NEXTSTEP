@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ProfessorList from '../components/ProfessorList'
@@ -12,11 +12,7 @@ class mainPage extends Component {
 
 		document.body.className = "";
 		
-		NEXTActions.fetchAbout(actions, {
-			is_load: true,
-			type: "get",
-			target: "my_courses",
-		});
+		actions.fetchGetMyCourses()
 		
 	}
 
@@ -28,7 +24,7 @@ class mainPage extends Component {
     		<ul className="course-list">
     		{state.courses.map((course, i) => (
     			
-    			<CourseCard isLink="true" course={course} key={i} />
+    			<CourseCard isLink="true" course={course} key={course.id} />
     		))}
     		</ul>
     		

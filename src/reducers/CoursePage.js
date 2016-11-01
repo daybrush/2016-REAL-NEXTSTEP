@@ -6,8 +6,9 @@ const initiallState = {
 		lectures:[],
 		instructors:[],
 		status: -1,
+		id : -1,
 		participants : []
-	},
+	}
 }
 
 export default function CourseListPage(state = initiallState, action) {
@@ -15,6 +16,7 @@ export default function CourseListPage(state = initiallState, action) {
 		case "GET_COURSE":
 			state.course = action.course;
 			return Object.assign({}, state);
+			
 		case "ADD_LECTURE":
 			state.course.lectures.push(action.lecture);
 			return Object.assign({}, state);
@@ -27,8 +29,8 @@ export default function CourseListPage(state = initiallState, action) {
 			lectures.splice(action.targetPosition,0, b);
 			
 			return Object.assign({}, state);
-		case Actions.GET_PARTICIPATNS:
-			state.course.participants = state.participants;
+		case "GET_PARTICIPANTS":
+			state.course.participants = action.participants;
 			return Object.assign({}, state);			
 	}
 	return state;

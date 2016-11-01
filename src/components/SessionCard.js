@@ -42,17 +42,17 @@ dragend = (e) => {
 
 
 
-	const issues = this.props.state.course.issues;	
+	const sessions = this.props.state.course.sessions;	
 	const myPosition = this.props.position, targetPosition = this.getNodeIndex(card);
 	if(myPosition === targetPosition)
 		return;
 		
-	const myissue = issues[myPosition], targetissue = issues[targetPosition];
-	const myId = myissue.id, targetId = targetissue.id;
+	const mysession = sessions[myPosition], targetsession = sessions[targetPosition];
+	const myId = mysession.id, targetId = targetsession.id;
 	
 	
-	this.props.actions.swap("issue", myPosition, targetPosition);
-	NEXTActions.fetchSwap(this.props.actions, "issue", myId, targetId);
+	this.props.actions.swap("session", myPosition, targetPosition);
+	NEXTActions.fetchSwap(this.props.actions, "session", myId, targetId);
 	
 }
 getNodeIndex = (node) => {
@@ -67,17 +67,17 @@ getNodeIndex = (node) => {
 
 
   render() {
-  	const {issue} = this.props;
+  	const {session} = this.props;
     
     return (
     	<div className={classNames({
-	     "issue-card":true,
+	     "session-card":true,
 	     "placeholder":this.state.drag })} ref="card" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable="true" data-position={this.props.position}>
-      <div role="alert" className="alert alert-info lecture-issue" ref="content">
+      <div role="alert" className="alert alert-info lecture-session" ref="content">
     		<div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style={{width:"45%"}}>
     			<span>45%</span> 
 			</div>
-    		<strong>{issue.title}</strong>
+    		<strong>{session.title}</strong>
     	</div>
     	</div>
        )
@@ -85,7 +85,7 @@ getNodeIndex = (node) => {
 }
 
 const mapStateToProps = state => {
-	return {state: state.Viewer}
+	return {state: state.LecturePage}
 }
 
 const mapDispatchToProps = dispatch => {

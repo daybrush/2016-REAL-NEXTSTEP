@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ProfessorList from '../components/ProfessorList'
@@ -9,11 +9,7 @@ class Apply extends Component {
 		const {actions} = this.props;
 
 
-		NEXTActions.fetchAbout(actions, {
-			is_load: true,
-			type: "get",
-			target: "courses",
-		});
+		actions.fetchGetCourses();
 	}
 
   render() {

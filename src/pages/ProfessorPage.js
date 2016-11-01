@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import LectureCard from '../components/LectureCard'
 import LectureCardAdd from '../components/LectureCard.add'
-import Viewer from '../components/Viewer'
 import './css/ProfessorPage.css'
 
 

@@ -1,25 +1,28 @@
 import React, { Component } from 'react'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 
 import { Link } from 'react-router'
-import IssueCard from './IssueCard'
-import AddIssue from './Viewer.add.issue'
+import SessionCard from '../components/SessionCard'
+import AddSession from '../components/SessionCard.add'
 
-//import Go from "../class/Go"
-import './css/Viewer.css'
-
+import './css/LecturePage.css'
 
 
 
 
-class Viewer extends Component {
+
+class component extends Component {
 	componentWillMount() {
 		const {actions, id} = this.props;
 		
-		NEXTActions.fetchAbout(actions, {type:"get", target:"course", body:"id=" + id});
+		actions.fetchGetLecture(id).then(result => {
+			const courseId = result.lecture.course.id
+			actions.fetchGetCourse(courseId)
+		})
+
 		document.body.classList.add("modal-open");
 		
 		
@@ -37,23 +40,24 @@ class Viewer extends Component {
 		
 	}
   render() {
-  	const course = this.props.state.course;
-	 const {title, issues, lectureId} = course;
+  	const lecture = this.props.state.lecture;
+	 const {title, sessions, course} = lecture;
+	 
     return (
 <div className="modal fade in" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" style={{display:"block", background:"rgba(0,0,0,0.3)"}} onClick={this.handleOutsideClose} ref="modal">
   <div className="modal-dialog" role="document">
     <div className="modal-content">
       <div className="modal-header">
-        <Link to={"/lecture/" + lectureId} onClick={this.handleClose} ref="close"><button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></Link>
+        <Link to={"/course/" + course.id} onClick={this.handleClose} ref="close"><button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></Link>
         <h3 className="modal-title" id="myModalLabel">{title}</h3>
       </div>
       <div className="modal-body">
-      	<h4 className="lecture-issues-title"><span className="glyphicon glyphicon-education"></span>issues</h4>
-        <div className="lecture-issues">
-        	{issues.map((issue,i) => (
-	        	<IssueCard issue={issue} key={i}  position={i}/>
+      	<h4 className="lecture-sessions-title"><span className="glyphicon glyphicon-education"></span>sessions</h4>
+        <div className="lecture-sessions">
+        	{sessions.map((session,i) => (
+	        	<SessionCard session={session} key={i}  position={i}/>
         	))}
-        	<AddIssue course={course}/>
+        	<AddSession lecture={lecture}/>
         </div>
       </div>
       <div className="modal-footer">
@@ -70,7 +74,7 @@ class Viewer extends Component {
 
 
 const mapStateToProps = state => {
-	return {state: state.Viewer}
+	return {state: state.LecturePage}
 }
 
 const mapDispatchToProps = dispatch => {
@@ -80,4 +84,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Viewer)
+)(component)

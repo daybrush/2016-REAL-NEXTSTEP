@@ -1,22 +1,22 @@
-.lecture-issues-title {
+.lecture-sessions-title {
 	margin-bottom: 10px;
 }
-.lecture-issues-title span {
+.lecture-sessions-title span {
 	width: 20px;
 	display: inline-block;
 }
-.lecture-issues {
+.lecture-sessions {
 	margin-left: 20px;
 }
-.issue-card {
+.session-card {
 	position: relative;
 	overflow: hidden;
 	margin-bottom: 20px;
 }
-.issue-card .alert {
+.session-card .alert {
 	margin: 0;
 }
-.issue-card .progress-bar {
+.session-card .progress-bar {
 	position: absolute;
 	left: 0;
 	top:0;
@@ -24,24 +24,24 @@
 	line-height: 40px;
 	text-align: right;
 }
-.issue-card .progress-bar span {
+.session-card .progress-bar span {
 	color: rgba(0, 0, 0, 0.8);
 	margin-right: 10px;
 }
 
-.issue-card.dragmove {
+.session-card.dragmove {
 	overflow: visible;
 }
-.issue-card.dragmove .lecture-issue{
+.session-card.dragmove .lecture-session{
 	transform: rotate(5deg);
 }
-.issue-card.placeholder {
+.session-card.placeholder {
     background-color: rgba(0,0,0,.2);
     border-color: transparent;
     box-shadow: none;
     border-radius: 3px;
 }
-.issue-card.placeholder .lecture-issue {
+.session-card.placeholder .lecture-session {
 	position: fixed;
 	visibility: hidden;
 }

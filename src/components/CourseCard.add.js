@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import * as NEXTActions from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import './css/LectureCard.css'
+import './css/CourseCard.css'
 
 
 class component extends Component {
@@ -16,15 +16,15 @@ editMode = () => {
 	this.setState({edit:true});
 }
 add = (e) => {
-	const {actions, lecture, professor} = this.props;
+	const {actions, course, professor} = this.props;
 	const name = this.refs.name;
 	
-	NEXTActions.fetch(actions, {type:"add", target:"lecture", by:"professor", value : {
+	NEXTActions.fetch(actions, {type:"add", target:"course", by:"professor", value : {
 		name : name.value,
 		professor : professor.id
 	},
 	}).then(function(value) {
-		actions.load({type:"add", target:"lecture", value:{name:value.name, id:3}});
+		actions.load({type:"add", target:"course", value:{name:value.name, id:3}});
 	});
 	
 	name.value = "";
@@ -41,15 +41,15 @@ close = (e) => {
   	const is_edit = this.state.edit;
     
     return (
-      <li className="lecture-card lecture-card-add col-xs-12 col-sm-6 col-md-3">
-			<a onClick={this.editMode}>Create New Lecture...    </a>
+      <li className="course-card course-card-add col-xs-12 col-sm-6 col-md-3">
+			<a onClick={this.editMode}>Create New Course...    </a>
 			
 
-  <div className="lecture-card-add-dialog modal-dialog modal-sm" role="document" style={{display:(is_edit?"block":"none")}}>
+  <div className="course-card-add-dialog modal-dialog modal-sm" role="document" style={{display:(is_edit?"block":"none")}}>
     <div className="modal-content">
       <div className="modal-header">
         <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.close}><span aria-hidden="true">&times;</span></button>
-        <h4 className="modal-title" id="exampleModalLabel">Create Lecture</h4>
+        <h4 className="modal-title" id="exampleModalLabel">Create Course</h4>
       </div>
       <div className="modal-body">
           <div className="form-group">
@@ -69,7 +69,7 @@ close = (e) => {
 }
 
 const mapStateToProps = state => {
-	return {state: state.MyLectures}
+	return {state: state.MyCourses}
 }
 
 const mapDispatchToProps = dispatch => {
