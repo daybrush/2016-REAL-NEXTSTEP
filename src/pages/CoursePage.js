@@ -22,9 +22,11 @@ class component extends Component {
 		if(typeof id !== "undefined")
 			actions.fetchGetCourse(id);
 	}
+	showMenu = () => {
+		this.refs.participants.getWrappedInstance().show();
+	}
 	renderHeader() {
 		const {name, instructors, status} = this.props.state.course;
-
 			
 		let statusName;
 		
@@ -52,6 +54,11 @@ class component extends Component {
 					"label-warning": status === 0,
 					
 				})}>{statusName}</span>
+				
+				<a className="course-header-btn-show-menu" href="#" onClick={this.showMenu}>
+					<span className="glyphicon glyphicon-option-horizontal"></span>
+					<span className="course-header-btn-text">Show Menu</span>
+				</a>
 			</div>
 			
 		)
@@ -69,7 +76,7 @@ class component extends Component {
 	renderParticipants() {
 		const course = this.props.state.course;
 		if(course.id > 0)
-			return (<Participants course={course}/>)
+			return (<Participants course={course} ref="participants"/>)
 			
 		return ""
 	}
@@ -81,11 +88,11 @@ class component extends Component {
   		const {lectures} = course;
   		
   		return (
-  		<div className="lecture-list-wrapper">
+  		<div className="course-lectrues-wrapper">
   		{this.renderViewer()}
   		{this.renderParticipants()}
 		{this.renderHeader()}
-		<div className="lecture-list">
+		<div className="course-lectrues">
 			{lectures.map((lecture,i) =>
 				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course}/>)
 			)}

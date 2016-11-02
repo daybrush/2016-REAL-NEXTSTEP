@@ -11,13 +11,14 @@ import { browserHistory, Router, Route, IndexRoute } from 'react-router'
 import CoursePage from './pages/CoursePage'
 import mainPage from './pages/mainPage'
 import ProfessorPage from './pages/ProfessorPage'
-import Session from './pages/Session'
+import SessionPage from './pages/SessionPage'
 
 
 
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import './reset.css';
  
 import configureStore from './store/configureStore'
  
@@ -34,7 +35,7 @@ render(
       <Route path="/course/:id" component={CoursePage} />
       <Route path="/lecture/:lectureId" component={CoursePage} />      
       <Route path="/professor/:professorId" component={ProfessorPage} />            
-      <Route path="/session/:id" component={Session} />            
+      <Route path="/session/:id" component={SessionPage} />            
       
     </Route>
   </Router>

@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import ProfessorList from '../components/ProfessorList'
+//import ProfessorList from '../components/ProfessorList'
 import Apply from './Apply'
 import CourseCard from '../components/CourseCard'
 
 class mainPage extends Component {
 	componentWillMount() {
-		const {_actions, actions} = this.props;
+		const {actions} = this.props;
 
 		document.body.className = "";
 		
@@ -17,7 +17,7 @@ class mainPage extends Component {
 	}
 
   render() {
-	const {state, actions} = this.props
+	const {state} = this.props
     return (
     	<section className="content">
     		<div className="page-header"><h3>신청한 강의 목록</h3></div>

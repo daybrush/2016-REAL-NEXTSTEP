@@ -226,3 +226,14 @@ body.pdf-open {
 	color:#42a538;
 	font-weight: bold;
 }
+
+/*DISCUSSION-REPLY*/
+.discussion-reply-tab {
+	border-left: 1px solid #333;
+	width: 50%;
+}
+.discussion-reply-tab-close a{
+	font-size: 100px;
+	color: #333;
+	opacity: 0.3;	
+}

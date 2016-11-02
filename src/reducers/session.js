@@ -1,4 +1,4 @@
-import * as Actions from '../constants/ActionTypes'
+//import * as Actions from '../constants/ActionTypes'
 
 const initialState = {
 	"session" :{
@@ -29,6 +29,8 @@ export default function reducer(state = initialState, action) {
 		case "GET_SESSION":
 			state.session = action.session;
 			return Object.assign({}, state);
+		default:
+			return state;
 	}
-	return state;
+	//return state;
 }

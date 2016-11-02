@@ -4,20 +4,21 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 
-import { Link } from 'react-router'
+//import { Link } from 'react-router'
 
 
 import PDFLoader from '../class/PDFLoader.js'
-import PDFPages from '../components/session/PDFPages'
-import Video from '../components/session/Video'
-import Html from '../components/session/Html'
+import PDFPages from '../components/SessionPage/PDFPages'
+import Video from '../components/SessionPage/Video'
+import Html from '../components/SessionPage/Html'
 
-import Discussions from "../components/session/Discussions"
+import Discussions from "../components/SessionPage/Discussions"
 
 
 import marked from '../js/custommarked';
-import "./css/Session.css"
+import "./css/SessionPage.css"
 import "highlight.js/styles/default.css"
+
 class Viewer extends Component {
 	contentArray = [];
 	content = ""
@@ -76,6 +77,8 @@ class Viewer extends Component {
 					this.refreshView();
 				})
 				break;
+			default:
+				break;
 			}
 		});
 		
@@ -130,7 +133,7 @@ class Viewer extends Component {
 			
 	
 			rect = pageElem.getBoundingClientRect();
-			if(rect.top  <=  windowHeight && rect.bottom > 0 || rect.bottom  <  windowHeight && rect.bottom > 0 ) {
+			if((rect.top  <=  windowHeight && rect.bottom > 0) || (rect.bottom  <  windowHeight && rect.bottom > 0 )) {
 				page.show();
 				if(now && now.page === 0) {
 					now.page = i;
@@ -225,6 +228,8 @@ class Viewer extends Component {
 			} else if(content.type === "video") {
 				return (<Video state={content} key={i}/>);
 			}
+			
+			return ""
 		});
 	}
 	renderPages(state, key) {
@@ -248,7 +253,9 @@ class Viewer extends Component {
 	    			<li></li>
 	    			<li></li>    			
 	    		</ul>
-		    	<Discussions sessionId={this.props.params.id}/>
+	    		<div className="tab-contents">
+			    	<Discussions sessionId={this.props.params.id}/>
+		    	</div>
 	    	</div>
 	    </div>
 	     

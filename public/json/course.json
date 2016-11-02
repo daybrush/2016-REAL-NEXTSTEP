@@ -1,6 +1,7 @@
 {
 	"id": 1,
   "name": "강의 이름",
+  "status" : 0,
   "instructors": [
     {
       "id": 1,

@@ -11,12 +11,15 @@ import 'simplemde/dist/simplemde.min.css';
 
 
 import Discussion from './Discussion'
+import DiscussionReply from './DiscussionReply'
 
 class component extends Component {
 
 state = {
 	show: true,
-	load_mark : false
+	showReply: false,
+	load_mark : false,
+	nowDiscussion : -1
 }
 mde = "";
 textarea  = (<textarea className="form-control discussion-input" ref="name"></textarea>)
@@ -44,6 +47,14 @@ submitDiscussion = (e) => {
 	
 	this.mde.value("");
 }
+closeReplyTab = (e) => {
+	e.preventDefault();	
+	this.setState({showReply:false})
+}
+showReplyTab = (dicussion_id) => {
+	this.setState({showReply:true, nowDiscussion:discussion_id})	
+}
+
 renderDiscussions() {
 	const {discussions} = this.props.state.session;
 	if(!this.state.load_mark)
@@ -57,6 +68,9 @@ renderDiscussions() {
     		</ul>
     	</div>)
 }
+renderReply() {
+	
+}
 render() {
 
 
@@ -65,12 +79,23 @@ render() {
     		"discussions-wrapper":true,
     		"show":this.state.show,
     	})}>
-    		
-	    	{this.renderDiscussions()}
-	    	<div className="discussion-form form-group">
-	            	{this.textarea}
-                   <button type="button" className="btn btn-info discussion-submit" onClick={this.submitDiscussion}> POST </button>
-          </div>
+    		<div className={classNames({
+	    			"discussion-tab": true,
+	    			"discussion-reply-tab-open" : this.state.showReply
+	    		})}>
+		    	{this.renderDiscussions()}
+		    	<div className="discussion-form form-group">
+		            	{this.textarea}
+	                   <button type="button" className="btn btn-info discussion-submit" onClick={this.submitDiscussion}> POST </button>
+	          </div>
+	        </div>
+	        <div className="discussion-reply-tab">
+	        	<div className="discussion-reply-tab-close">
+	        		<a className="glyphicon glyphicon-menu-right" href="#" onClick={this.closeReplyTab}></a>
+	        	</div>
+		    	{this.renderReply()}	        	
+	        </div>
+	        
       </div>
     )
     
