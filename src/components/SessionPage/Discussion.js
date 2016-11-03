@@ -15,14 +15,41 @@ export default class component extends Component {
 		this.discussion =  this.discussion.replace(/\n/g, "<br/>");
 	}
 	componentDidMount() {
-		hljs.highlightBlock(this.refs.content);
+		const codes = this.refs.content.querySelectorAll("pre code")
+		for(let i =0; codes[i]; ++i) {
+			hljs.highlightBlock(codes[i]);
+		}
+	}
+	trace = (id, position) => {
+		this.props.contents.forEach(content => {
+			if(content.id !== id)
+				return;
+			
+			content.component.trace && content.component.trace(position);
+			
+			document.body.scrollTop += content.element.getBoundingClientRect().top
+			
+		})
+	}
+	onClick = (e) => {
+		const target = e.target;
+		if(e.target.className === "mark-goto") {
+			this.trace(target.getAttribute("filename"), target.getAttribute("position"))
+			
+			return;
+		}
+		this.props.onClick(this.props.discussion)
 	}
 	render() {
 		const {discussion} = this.props
 		const {creator, title, id, created} = discussion
 		//					{title}
+		const nowDiscussionId = this.props.nowDiscussion
 		return (
-			<li className="discussion">
+			<li className={classNames({
+					"discussion": true,
+					"discussion-selected" : id === nowDiscussionId
+				})} onClick={this.onClick}>
 				<div className="dicussion-header">
 					<img src={creator.avatar_url} alt="profile" className="discussion-author-thumb"/>
 					<div className="dicussion-text">

@@ -49,10 +49,19 @@ submitDiscussion = (e) => {
 }
 closeReplyTab = (e) => {
 	e.preventDefault();	
-	this.setState({showReply:false})
+	this.setState({showReply:false, nowDiscussion :-1})
+	
+	this.props.resizeView(this.props.option.tab_width / 2);
+	
 }
-showReplyTab = (dicussion_id) => {
-	this.setState({showReply:true, nowDiscussion:discussion_id})	
+showReplyTab = (discussion) => {
+	if(this.props.option.tab_width < 600)
+		this.props.resizeView(600);
+	
+		
+	this.setState({showReply:true, nowDiscussion:discussion})
+	this.props.actions.fetchGetDiscusssion(discussion.id);
+
 }
 
 renderDiscussions() {
@@ -62,13 +71,23 @@ renderDiscussions() {
 	return(<div className="discussions">
     		<ul>
     			{ discussions.map((discussion,i) => (
-	    			<Discussion discussion={discussion} key={i} />
+	    			<Discussion discussion={discussion} nowDiscussion={this.state.nowDiscussion.id} key={i} onClick={this.showReplyTab} contents={this.props.contents} />
     			))}
     			
     		</ul>
     	</div>)
 }
 renderReply() {
+	if(!this.state.showReply || this.state.nowDiscussion === -1)
+		return ""
+	
+	const replies = this.state.nowDiscussion && this.state.nowDiscussion.replies || []
+	
+	return (<ul>
+		{replies.map((reply,i) => (
+			<DiscussionReply reply={reply} key={i}/>
+		))}
+	</ul>)
 	
 }
 render() {
@@ -76,12 +95,12 @@ render() {
 
     return (
     	<div className={classNames({
-    		"discussions-wrapper":true,
+    		"discussions-tab":true,
     		"show":this.state.show,
+	    	"discussion-reply-tab-open" : this.state.showReply
     	})}>
     		<div className={classNames({
-	    			"discussion-tab": true,
-	    			"discussion-reply-tab-open" : this.state.showReply
+	    			"discussions-wrapper": true
 	    		})}>
 		    	{this.renderDiscussions()}
 		    	<div className="discussion-form form-group">

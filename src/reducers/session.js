@@ -25,10 +25,18 @@ export default function reducer(state = initialState, action) {
 		case "GET_DISCUSSIONS":
 			state.session.discussions = action.discussions
 			return Object.assign({}, state);
-						
+		case "GET_DISCUSSION" :
+			const _discussion = action.discussion
+			state.session.discussions.filter(discussion => {
+				return discussion.id === _discussion.id
+			}).map(discussion => {
+				discussion.replies = _discussion.replies
+			})
+			return Object.assign({}, state);								
 		case "GET_SESSION":
 			state.session = action.session;
 			return Object.assign({}, state);
+
 		default:
 			return state;
 	}

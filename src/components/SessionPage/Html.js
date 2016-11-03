@@ -12,20 +12,21 @@ export default class component extends Component {
 		initScale : 1,
 	}
 	componentWillMount() {
-		const state = this.props.state, url = state.value;
-		this.state.initScale = this.props.scale;
+		const content = this.props.content, url = content.value;
+		this.content.initScale = this.props.scale;
 		
-		state.is_load = true;
+		content.is_load = true;
 	}
 	componentWillMount() {
 	}
 	componentDidMount() {
 		this.refresh();
+		this.props.content.component = this
+		this.props.content.element = this.refs.html
 	}
 	componentDidUpdate() {
 		this.refresh();		
 	}
-	
 	refresh = () => {
 		const innerElement = this.refs.inner, htmlElement = this.refs.html;
 		const rect = innerElement.getBoundingClientRect();	
@@ -33,7 +34,7 @@ export default class component extends Component {
 		htmlElement.style.height = rect.height +"px";	
 	}
 	render() {
-		const content = this.props.state.value, scale = this.props.scale;
+		const content = this.props.content.value, scale = this.props.scale;
 		return (
 			<div className="html-page" ref="html">
 				<div className="html-page-inner"  style={{transform:"scale("+scale+")"}} dangerouslySetInnerHTML={{__html:content}} ref="inner">

@@ -86,10 +86,10 @@ class component extends Component {
 			
 		const course = this.props.state.course;
   		const {lectures} = course;
-  		
+//  		{this.renderViewer()}  		
   		return (
   		<div className="course-lectrues-wrapper">
-  		{this.renderViewer()}
+
   		{this.renderParticipants()}
 		{this.renderHeader()}
 		<div className="course-lectrues">

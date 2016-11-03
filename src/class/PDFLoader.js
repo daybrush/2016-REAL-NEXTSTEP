@@ -13,22 +13,18 @@ loadPageCount = 0;
 constructor(fileName) {
 	this.fileName = fileName;
 }
-addZoom = async function() {
-	await this.zoom(this.scale + 0.2);
-}
-minusZoom = async function() {
-	await this.zoom(this.scale - 0.2);
-}
-zoom = async function(scale) {
+
+zoom = async function(nowPage, scale, pageElem) {
 	this.scale = scale;
-	for(let pageNumber in this.pages) {
-		await this.pages[pageNumber].zoom(scale);
+	for(let num in this.pages) {
+		this.pages[num].scale = scale
 	}
+	await this.pages[nowPage].zoom(scale, pageElem);
 }
 
 _loadPage = async function(pageNumber, pageElem) {
-	const page = this.pages[pageNumber];
-	await page.render();
+	const page = this.pages[pageNumber]
+	await page.render(pageElem)
 }
 loadPage = async function(pageNumber, pageElem) {
 	if(this.pages[pageNumber]) {
@@ -36,10 +32,9 @@ loadPage = async function(pageNumber, pageElem) {
 		return;
 	}
 	const page = await this.pdfFile.getPage(pageNumber);
-	this.pages[pageNumber] = new PDFPage(pageNumber, pageElem, page);
+	this.pages[pageNumber] = new PDFPage(pageNumber, page);
 	await this._loadPage(pageNumber, pageElem);
 	
-	this.loadPageCount++;
 }
 
 isFinishLoad = function() {
@@ -67,38 +62,17 @@ class PDFPage {
 	textContentsText;
 	pageNumber = 1;
 	page = "";
-	pageElem = "";
 	width = 0;
 	height = 0;
 	is_show = false;
-	constructor(pageNumber, pageElem, page) {
+	constructor(pageNumber, page) {
 		this.pageNumber = pageNumber;
 		this.page = page;
-		this.pageElem = pageElem;
 	}
-	zoom = async function(scale = this.scale) {
+	zoom = async function(scale = this.scale, pageElem) {
 		this.scale = scale;
 	
-		await this.render();
-	}
-	
-	show = () => {
-		if(this.is_show)
-			return;
-			
-		this.is_show = true;
-		this.render();
-		
-		this.pageElem.classList.remove("hide-page");
-	}
-	
-	hide = () => {
-		if(!this.is_show)
-			return;
-			
-		this.is_show = false;
-		
-		this.pageElem.classList.add("hide-page");
+		await this.render(pageElem);
 	}
 	_renderTextLayer = (textLayerElem) => {
 		//pageElem.appe
@@ -126,11 +100,10 @@ class PDFPage {
 
 
       }
-	render = async function(scale = this.scale) {
+	render = async function(pageElem) {
 		const self = this;
 		const page = this.page;
-		const pageElem = this.pageElem;
-		
+		const scale = this.scale;
 		
 		const viewport = page.getViewport(scale);
 		
@@ -145,8 +118,6 @@ class PDFPage {
 		pageElem.style.width = width +"px";
 		pageElem.style.height = height +"px";
 		
-		if(!this.is_show)
-			return;
 
 
 		const canvas = pageElem.querySelector('.canvas-layer');

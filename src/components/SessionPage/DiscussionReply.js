@@ -11,7 +11,7 @@ import hljs from 'highlight.js'
 export default class component extends Component {
 	reply = "";
 	componentWillMount() {
-		this.reply = this.props.reply.content;
+		this.reply = this.props.reply.comment;
 		this.reply =  this.reply.replace(/\n/g, "<br/>");
 	}
 	componentDidMount() {
@@ -19,10 +19,10 @@ export default class component extends Component {
 	}
 	render() {
 		const {reply} = this.props
-		const {creator, title, id, created} = reply
+		const {creator, id, created} = reply
 		//					{title}
 		return (
-			<li className="discussion-reply">
+			<li className="discussion discussion-reply">
 				<div className="dicussion-header">
 					<img src={creator.avatar_url} alt="profile" className="discussion-author-thumb"/>
 					<div className="dicussion-text">

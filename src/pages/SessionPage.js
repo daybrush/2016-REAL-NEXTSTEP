@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import * as NEXTActions from '../actions/Session'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import classNames from 'classnames'
 
 //import { Link } from 'react-router'
 
 
 import PDFLoader from '../class/PDFLoader.js'
-import PDFPages from '../components/SessionPage/PDFPages'
+import Slide from '../components/SessionPage/Slide'
 import Video from '../components/SessionPage/Video'
 import Html from '../components/SessionPage/Html'
 
@@ -18,6 +18,8 @@ import Discussions from "../components/SessionPage/Discussions"
 import marked from '../js/custommarked';
 import "./css/SessionPage.css"
 import "highlight.js/styles/default.css"
+import hljs from 'highlight.js'
+
 
 class Viewer extends Component {
 	contentArray = [];
@@ -27,7 +29,9 @@ class Viewer extends Component {
 	
 	state = {
 		embed_load : false,
-		scale : 1
+		scale : 1,
+		tab : 1
+		
 	}
 	option = {
 		tab_width : 300,
@@ -52,8 +56,6 @@ class Viewer extends Component {
 		window.onresize = "";
 	}
 	componentDidMount() {
-
-
 	}
 	
 	addZoom = () => {
@@ -73,9 +75,7 @@ class Viewer extends Component {
 		this.contentArray.forEach((content,i) => {
 			switch(content.type) {
 			case "pdf":
-				content.value.zoom(scale).then(() => {
-					this.refreshView();
-				})
+				content.zoom && content.zoom(scale)
 				break;
 			default:
 				break;
@@ -86,6 +86,7 @@ class Viewer extends Component {
 	}
 	
 	dragstart = e => {
+		
 		this.option.drag_start_x = e.clientX;
 	}
 	
@@ -103,60 +104,57 @@ class Viewer extends Component {
 	dragend = e => {
 		const option = this.option;
 		option.tab_width = option.now_width;
-		
-		
-		this.refs.wrapper.style.marginRight = this.option.tab_width +"px";
+		if(option.tab_width  < 0)
+			this.resizeView(0)
+		else
+			this.refs.wrapper.style.marginRight = (this.option.tab_width + 50) +"px";
 	}
 	
 	resizeView = (width) => {
+		this.option.tab_width = width;
 		this.refs.tabwrapper.style.width = width + "px";
-		this.refs.wrapper.style.marginRight = this.option.tab_width +"px";		
+		this.refs.wrapper.style.marginRight =( width+ 50) +"px";		
 	}
  	
-	addFinishLoadCount = (pdfjs) => {
-		if(pdfjs.isFinishLoad()) {
-			this.refreshView()
-		}
-	}
 	
 	
 
-	_refreshView = (pdfjs, now) => {
-		if(!pdfjs.isFinishLoad())
+	_refreshView = (content, now) => {
+		if(now && now.name)
+			return;
+
+
+			
+		let element, rect, page;
+		element = content.element
+		
+		if(!element)
 			return;
 			
-		let pageElem, rect, page;
+			
 		const windowHeight = window.innerHeight;
-		for(let i = 1; i <= pdfjs.numPages; ++i) {
-			page = pdfjs.getPage(i);
-			pageElem = page.pageElem
 			
 	
-			rect = pageElem.getBoundingClientRect();
-			if((rect.top  <=  windowHeight && rect.bottom > 0) || (rect.bottom  <  windowHeight && rect.bottom > 0 )) {
-				page.show();
-				if(now && now.page === 0) {
-					now.page = i;
-					now.value = pdfjs.fileName +" - " + i + " / " + pdfjs.numPages;
-				}
-			} else {
-				page.hide();
-			}
-
+		rect = element.getBoundingClientRect();
+		if((rect.top  <=  windowHeight && rect.bottom > 0) || (rect.bottom  <  windowHeight && rect.bottom > 0 )) {
+			content.component.refreshView && content.component.refreshView(now)
+			
 		}
 	}
 	refreshView = (e) => {
 		let now = {
-			page : 0,
-			value : ""
+			value : "",
+			name : ""
 		}
+		
 		this.contentArray.forEach(content => {
-			if(content.type === "pdf") {
-				this._refreshView(content.value, now);
-			}
+			if(!content)
+				return;
+				
+			this._refreshView(content, now);
 		});
 		
-		console.log("NOW - " + now.value);
+		console.log("NOW - " + now.name + "-" + now.value);
 	}
 
 	componentWillUpdate(nextProps, nextState) {
@@ -176,15 +174,16 @@ class Viewer extends Component {
 	
 			if(_contentArray.length === 5) {
 				const type = _contentArray[1];
-				let value = _contentArray[2];
+				let id = _contentArray[2];
 				const position = _contentArray[3];
-
+				let value = id;
 				if(type === "pdf")
-					value = new PDFLoader(value);
+					value = new PDFLoader(id);
 				
 				
 
 				const state = {
+					id : id,
 					type : type,
 					value : value,
 					position: position,
@@ -198,12 +197,29 @@ class Viewer extends Component {
 				
 				
 			return {
+				id : "html",
 				type : "html",
 				value : marked(_content)
 			}		
 		});
 	}
+	componentDidUpdate(nextProps, nextState) {
+		let content = nextProps.state.session.content;
+		
 	
+		if(this.content === content)
+			return;
+			
+			
+		const codes = document.querySelectorAll(".page-wrapper pre code")
+		console.log(codes)
+		for(let i =0; codes[i]; ++i) {
+			hljs.highlightBlock(codes[i]);
+		}
+	}
+	showTab = (tab) => {
+		this.setState({tab:tab})
+	}
 	renderButtons() {
 		return (
 			<div className="btn-wrapper">
@@ -222,22 +238,53 @@ class Viewer extends Component {
 				
 				
 			if(content.type === "html") {
-				return (<Html state={content} key={i} scale={this.state.scale}/>)
+				return (<Html content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>)
 			}else if(content.type === "pdf") {					
-				return this.renderPages(content, i) 
+				return (<Slide content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>);
 			} else if(content.type === "video") {
-				return (<Video state={content} key={i}/>);
+				return (<Video content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>);
 			}
 			
 			return ""
 		});
 	}
-	renderPages(state, key) {
-		return (<PDFPages state={state} addFunc={this.addFinishLoadCount} key={key}/>);
+	renderTab() {
+		switch(this.state.tab) {
+		case 2:
+			return this.renderLinkTab()
+		default:
+			return this.renderDiscussionTab()
+		}
 	}
-	renderVideo(state, key) {
-		
-	}	
+	renderLinkTab() {
+		const codes = [].slice.call(document.querySelectorAll(".page-wrapper .hljs"));
+		return (
+			<div className="link-tab">
+				<div className="links-wrapper">
+					<ul>
+						{this.contentArray.map((content,i) => {
+							if(!content.id || content.id === "html")
+								return "";
+							return (<li key={content.id}>{content.id}</li>)
+						
+						})}
+						{codes.map((pre,i) => {
+							return (<li key={i} dangerouslySetInnerHTML={{__html:pre.outerHTML}} ></li>)
+						})
+						
+							
+						}
+					</ul>
+				</div>
+			</div>
+		)
+	}
+	renderDiscussionTab() {
+		if(this.props.state.session.id < 0)
+			return ""
+			
+		return (<Discussions sessionId={this.props.params.id} resizeView={this.resizeView} contents={this.contentArray} option={this.option}/>)
+	}
 	render() {
 	    const html = (<div onDragOver={this.dragover}  >
 	    {this.renderButtons()}
@@ -247,14 +294,14 @@ class Viewer extends Component {
 		    	</div>
 		    </div>
 	    	<div className="tab-wrapper" ref="tabwrapper">
-	    		<div className="tab-mover" draggable="true" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend} ></div>
-	    		<ul className="tabs">
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>    			
+	    		<ul className="tabs" ref="tab-mover" draggable="true" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend} >
+	    			{[1,2].map((tab, i) => (
+			    		<li onClick={()=>{this.showTab(tab)}} key={i} className={classNames({"selected":this.state.tab === tab})}></li>	
+	    			))}
+	    			
 	    		</ul>
 	    		<div className="tab-contents">
-			    	<Discussions sessionId={this.props.params.id}/>
+			    	{this.renderTab()}
 		    	</div>
 	    	</div>
 	    </div>

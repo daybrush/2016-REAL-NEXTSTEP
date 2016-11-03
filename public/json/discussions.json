@@ -2,7 +2,7 @@
     {
       "id": 1,
       "title": "Discussion 1",
-      "content": "This is a second comment. This is a second comment.  ```javascript var a={'hi':'hi'} ```",
+      "content": "This is a second comment. [goto:/lec02a.pdf:10] This is a second comment.  ```javascript var a={'hi':'hi'} ```",
       "creator": {
         "id": 1,
         "name": "NAME1",

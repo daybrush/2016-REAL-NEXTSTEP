@@ -20,6 +20,8 @@ links["GET_LECTURE"] = "/lectures/$id";
 
 links["GET_SESSION"] = "/sessions/$id"
 links["GET_DISCUSSIONS"] = "/sessions/$id/discussions"
+links["GET_DISCUSSION"] = "/discusssions/$id"
+
 links["ADD_DISCUSSION"] = "/sessions/$id/discussions"
 links["GET_DISCUSSION"] = "/discussions/$id"
 links["GET_PARTICIPANTS"] = "/lectures/$id/participants"

@@ -11,7 +11,7 @@ const links = {
 		"http://domain.com/sessions/[\\d]/attachments/[\\d]" : "/json/session.json",
 		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussions.json",
 		
-		"http://domain.com/discussions/[\\d]" : "/json/discussions.json",
+		"http://domain.com/discussions/[\\d]" : "/json/discussion.json",
 
 
 		"http://domain.com/me/courses/participate" : "/json/mycourses.json"

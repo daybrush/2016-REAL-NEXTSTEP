@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import DragDrop from "../class/dragdrop"
 
 export default connect(
-	state => ({state: state.LectureListPage}),
+	state => ({state: state.CoursePage}),
 	dispatch => ({ actions: bindActionCreators(NEXTActions, dispatch), dispatch})
 )
 (class LectureCard extends Component {
@@ -85,7 +85,9 @@ getNodeIndex = (node) => {
 	        	<ul className="lecture-card-sessions">
 	        		{sessions.map(session => (<li key={session.id}><Link to={"/session/" + session.id}>{session.title}</Link></li>))}
 	        	</ul>
-	        	
+	        	<div className="lecture-card-add-session">
+	        		Add a Session...
+	        	</div>
         	</div>
       </div>
     )
