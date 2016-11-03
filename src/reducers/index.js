@@ -11,5 +11,5 @@ export default  combineReducers({
   LecturePage,
   MyCourses,
   ProfessorPage,
-  session
+  Session
 })
