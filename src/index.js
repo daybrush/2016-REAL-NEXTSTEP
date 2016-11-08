@@ -10,7 +10,7 @@ import { browserHistory, Router, Route, IndexRoute } from 'react-router'
 
 import CoursePage from './pages/CoursePage'
 import mainPage from './pages/mainPage'
-import ProfessorPage from './pages/ProfessorPage'
+//import ProfessorPage from './pages/ProfessorPage'
 import SessionPage from './pages/SessionPage'
 
 
@@ -33,8 +33,7 @@ render(
     <Route path="/" component={App} store={store}>
     	<IndexRoute component={mainPage} />
       <Route path="/course/:id" component={CoursePage} />
-      <Route path="/lecture/:lectureId" component={CoursePage} />      
-      <Route path="/professor/:professorId" component={ProfessorPage} />            
+      <Route path="/lecture/:lectureId" component={CoursePage} />
       <Route path="/session/:id" component={SessionPage} />            
       
     </Route>

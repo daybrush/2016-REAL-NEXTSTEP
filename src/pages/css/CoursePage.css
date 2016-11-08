@@ -1,5 +1,5 @@
 .view-course {
-	background: #0079BF;	
+	background: #f1f1f1;	
 }
 .course-list-wrapper {
 /* 	margin-top: 50px; */
@@ -13,16 +13,40 @@
 	vertical-align: middle;
 	margin-right: 10px;
 	margin-left: 5px;
-	color: white;
+	color: #333;
 }
 .course-header-name {
-	color:white;
-	font-weight: bold;
+	color:#333;
+	font-weight: 900;
 	font-size: 18px;
 	vertical-align: middle;
 }
 .course-header-professor {
 	font-size: 14px;
+}
+.course-header-info {
+	display: inline-block;
+	text-align: center;
+	color: #333;
+	width: 24px;
+	height: 24px;
+	line-height: 20px;
+	font-weight: bold;
+	border-radius: 50%;
+	border: 2px solid #333;	
+}
+.course-header .label {
+	font-size: 13px;
+	margin: 0px 10px;
+}
+.course-header-apply {
+	display: inline-block;
+	background: #F77600;
+	color: #333;
+}
+.course-header-apply:hover,.course-header-apply:focus {
+	color: #333;
+	background: #E34300;
 }
 .course-header .course-header-status {
 	
@@ -81,20 +105,22 @@
 	visibility: hidden;
 }
 .lecture-card .lecture-card-content {
-
 	padding: 10px;
-	background: #E2E4E6;
+	background: #fff;
 	border-radius: 3px;
 	width: 300px;
+	border:1px solid #E8E8E8;
 }
 .lecture-card .add-lecture-card-content {
 	padding: 10px;
-	background: #0068AD;
 	border-radius: 3px;
 	width: 300px;	
 }
 .lecture-card .add-lecture-card-content:hover {
-	background: #00538A;
+	background: #ddd;
+}
+.lecture-card .add-lecture-card-content.mod-edit:hover {
+	background: #fff;
 }
 .lecture-card h2 {
 	margin:0;
@@ -107,7 +133,7 @@
 }
 
 .lecture-card-sessions li {
-	background: #fff;
+	background: #F7F7F7;
 	border-radius: 3px;
 	padding: 5px 10px;
 	margin-bottom:  5px;
@@ -121,20 +147,49 @@
 	margin-bottom: 10px;
 }
 
-.lecture-add-controls .btn-success {
-	margin-right: 10px;
-}
+
+/*SESSION  _ ADD*/
 .lecture-card-add-session {
-	color: #777;
+	color: #333;
 	margin: 1px 0px 0px;
-	padding: 3px 5px;
-	border-radius: 2px;
+	padding: 5px 10px;
+	border-radius: 3px;
 }
-.lecture-card-add-session:hover {
-	background: rgba(0, 0, 0, 0.1);
+.lecture-card-add-session:hover ,  .lecture-card-add-session-show{
+	background: #F7F7F7;
 	color: #333;
 }
 
+
+.session-add-controls {
+	display: none;
+}
+.lecture-card-add-session-show .add-session-placeholder {
+	display: none;
+}
+.lecture-card-add-session-show .session-add-controls {
+	display: block;
+}
+.session-add-controls .btn {
+	margin:10px 5px 0px 0px;
+}
+.session-add-controls.session-add-controls-show {
+	display: block;
+}
+.session-add-controls .btn-close {
+	background: transparent;
+	border: none;
+	box-shadow: none;	
+	font-weight: bold;
+	color:#777;
+}
+.session-add-controls .btn-close:hover {
+	color: #333;
+	background: transparent;
+}
+.lecture-add-controls .btn-success {
+	margin-right: 10px;
+}
 
 
 .course-participants {
@@ -142,7 +197,7 @@
 	top: 50px;
 	right: 0;
 	bottom:0;
-	background-color: #EDEFF0;
+	background-color: #fff;ㄴ
     -webkit-transition-property: -webkit-transform,width;
     transition-property: transform,width;
     -webkit-transition-duration: .1s;
@@ -163,7 +218,7 @@
 }
 .course-participants h3 {
 	position: relative;
-	text-align: center;
+	text-align: left;
 	border-bottom: 1px solid #ccc;
 	margin: 0;
 	padding-bottom: 10px;
@@ -176,7 +231,8 @@
 	font-weight: 600;
 	font-size: 18px;
 	right: 0;
-	top: 0px;
+	top: 10px;
+	right: 10px;
 }
 .course-participants-close, .course-participants-close:active, .course-participants-close:focus {
 	color: #aaa;
@@ -190,12 +246,14 @@
 	margin: 10px 0px;
 }
 .course-participant-thumb {
-	width: 30px;
-	border-radius: 3px;
+	width: 40px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 3px solid #333;
 }
 .course-participant-thumb, .course-participant-name,.course-participant-message {
-	height: 30px;
-	line-height: 30px;
+	height: 40px;
+	line-height: 40px;
 	vertical-align: middle;
 	display: inline-block;
 }

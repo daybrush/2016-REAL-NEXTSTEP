@@ -2,14 +2,17 @@
 	position: absolute;
 	right: 10px;
 	top:0px;
-	color: black;
+	color: #333;
 }
 .header-btn {
 	margin: 0;
 	background: rgba(0, 0, 0, 0.1);
 	border-radius: 3px;
 	padding: 5px 8px;
-
+	color: #fff;
+}
+.header-btn.btn:hover {
+	color: #fff;	
 }
 .header-btn img {
 	border-radius: 3px;

@@ -8,7 +8,7 @@ import classNames from 'classnames'
 class component extends Component {
 
 state = {
-	show : true
+	show : false
 }
 
 show = () => {
@@ -39,9 +39,9 @@ render() {
     
     return (
       <div className={classNames({"course-participants":true, "show-menu":this.state.show})}>
+      	<a className="course-participants-close" onClick={this.hide} href="#">x</a>
       	<h3>
-      	Menu
-      		<a className="course-participants-close" onClick={this.hide} href="#">x</a>
+      	Members
       	</h3>
       	<ul>
       		{participants.map((participant,i) =>(

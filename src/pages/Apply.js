@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import ProfessorList from '../components/ProfessorList'
+import CourseCard from '../components/CourseCard'
 
 class Apply extends Component {
 	componentWillMount() {
@@ -13,9 +13,13 @@ class Apply extends Component {
 	}
 
   render() {
-	const {state} = this.props
+	const {state, actions} = this.props
     return (
-        <ProfessorList instructors={state.instructors}/>
+    	<ul className="course-list">
+          {state.courses.map(course =>
+            <CourseCard course={course} key={course.id} actions={actions} />
+          )}
+      </ul>
     )
   }
 }

@@ -27,3 +27,7 @@ export const fetchGetParticipants = (id) => (dispatch, getState) => {
 export const fetchGetLecture = (id) => (dispatch, getState) => {
 	return fetchData({type:"get", target:"lecture", id}).then(result =>  dispatch(result))
 }
+
+export const fetchAddSession = (id) => (dispatch, getState) => {
+	return fetchData({type:"add", target:"session", id}).then(result =>  dispatch(result))
+}

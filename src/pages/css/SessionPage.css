@@ -3,6 +3,9 @@ body.pdf-open {
 	 background: #444;
 }
 
+body.pdf-open #header {
+	background: #313639;
+}
 .session-wrapper {
 	margin-right: 300px;
 }

@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux';
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
-import DragDrop from "../class/dragdrop"
+import DragDrop from "../../class/dragdrop"
+import SessionCard from "./SessionCard"
 
 export default connect(
 	state => ({state: state.CoursePage}),
@@ -12,10 +13,11 @@ export default connect(
 )
 (class LectureCard extends Component {
 
-  state = {
-	  drag : false
-  }
-  dragndrop = new DragDrop();
+	state = {
+		drag : false,
+		edit : false
+	}
+	dragndrop = new DragDrop();
   
 dragover = (e) => {
 	const {card, content} = this.refs;
@@ -54,8 +56,8 @@ dragend = (e) => {
 	const myId = myCourse.id, targetId = targetCourse.id;
 	
 	
-	this.props.actions.swap("lecture", myPosition, targetPosition);
-	NEXTActions.fetchSwap("", "lecture", myId, targetId);
+	//this.props.actions.swap("lecture", myPosition, targetPosition);
+	//NEXTActions.fetchSwap("", "lecture", myId, targetId);
 	
 }
 
@@ -67,6 +69,34 @@ getNodeIndex = (node) => {
         }
     }
     return index;
+}
+
+
+editMode = () => {
+	this.setState({edit:true});	
+}
+closeEdit = () => {
+	this.setState({edit:false});	
+}
+
+
+
+addSession = () => {
+	console.log(this);
+	const title = this.refs.title.value;
+		this.props.actions.fetchAddSession(this.props.course.id)
+	this.setState({edit:false});
+	//NEXTActions
+}
+renderEdit() {
+	return (
+		<div className="session-add-controls">
+		<input type="text" ref="title" className="form-control" placeholder="Add a Session..."/>
+		<button onClick={this.addSession} className="btn btn-success">Add</button>
+		<button onClick={this.closeEdit} className="btn btn-default btn-close">X</button>		
+		</div>
+	
+	)
 }
   render() {
     const {  id, title, sessions } = this.props.lecture;
@@ -83,10 +113,11 @@ getNodeIndex = (node) => {
 	        	<Link to={"/lecture/" + courseId}><h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2></Link>
 	       		
 	        	<ul className="lecture-card-sessions">
-	        		{sessions.map(session => (<li key={session.id}><Link to={"/session/" + session.id}>{session.title}</Link></li>))}
+	        		{sessions.map(session => (<SessionCard key={session.id} session={session} lecture={this.props.lecture} course={this.props.course}/>))}
 	        	</ul>
-	        	<div className="lecture-card-add-session">
-	        		Add a Session...
+	        	<div className={classNames({"lecture-card-add-session":true,"lecture-card-add-session-show":this.state.edit})}>
+					<span className="add-session-placeholder" onClick={this.editMode}>Add a Session...</span>
+	        		{this.renderEdit()}
 	        	</div>
         	</div>
       </div>

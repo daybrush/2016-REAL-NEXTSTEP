@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../../actions'
 
 
 
@@ -39,7 +39,7 @@ renderEdit() {
 
     return (
       <div className="lecture-card">
-      	<div className={classNames({"add-lecture-card-content" : true,"mod-edit": this.state.edit})}>
+      	<div className={classNames({"lecture-card-content add-lecture-card-content" : true,"mod-edit": this.state.edit})}>
       		<span className="add-placeholder" onClick={this.editMode}  style={{display:(this.state.edit?"none":"block")}}>Add a list...</span>
         	{this.renderEdit()}
         </div>

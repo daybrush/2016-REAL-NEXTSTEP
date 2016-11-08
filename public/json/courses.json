@@ -1,53 +1,48 @@
 [
-	{
- "id":1,
- "name": "교수 이름",
- "courses": [
-      {
-
-        "id": 1,
-        "name": "HCI",
-        "status": "UPCOMMING"
-       } ,
-      {
-
-        "id": 2,
-        "name": "HCI",
-        "status": "UPCOMMING"
-       } ,
-      {
-
-        "id": 3,
-        "name": "HCI",
-        "status": "UPCOMMING"
-       } 
-   ]
- },
- 
- {
- "id":2,
- "name": "교수 이름2",
- "courses": [
-      {
-
-        "id": 1,
-        "name": "3HCI",
-        "status": "UPCOMMING"
-       } 
-   ]
- },
- 
- {
- "id":3,
- "name": "교수 이름3",
- "courses": [
-      {
-
-        "id": 1,
-        "name": "HC2I",
-        "status": "UPCOMMING"
-       } 
-   ]
- }
-	
+{"id": 1,
+  "name": "강의 이름1",
+  "status" : 0,
+  "image": "http://mooc.phinf.nhnnext.org/20160905_104/1473049200503ef0Bj_PNG/python_.png?type=ffn300_166",
+  "instructors": [
+    {
+      "id": 1,
+      "name": "교수 이름",
+      "avatar_url": "https://..."
+    },
+     {
+      "id": 1,
+      "name": "교수 이름2",
+      "avatar_url": "https://..."
+    }
+  ]
+},
+{"id": 2,
+  "name": "강의 이름2",
+  "status" : 0,
+  "image": "http://mooc.phinf.nhnnext.org/20160725_15/14694383379350ir1Y_JPEG/_6.jpg?type=ffn300_166",
+  "instructors": [
+    {
+      "id": 1,
+      "name": "교수 이름",
+      "avatar_url": "https://..."
+    }
+  ]
+},
+{"id": 3,
+  "name": "강의 이름1",
+  "status" : 0,
+  "image": "http://mooc.phinf.nhnnext.org/20160905_104/1473049200503ef0Bj_PNG/python_.png?type=ffn300_166",
+  "instructors": [
+    {
+      "id": 1,
+      "name": "교수 이름",
+      "avatar_url": "https://..."
+    },
+     {
+      "id": 1,
+      "name": "교수 이름2",
+      "avatar_url": "https://..."
+    }
+  ]
+}	
 ]

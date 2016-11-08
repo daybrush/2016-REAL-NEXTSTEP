@@ -31,26 +31,38 @@ renderApply() {
         )
 }
 renderLink() {
-    const {  name, id , professor} = this.props.course;
+	const course = this.props.course
+    const {  name, id , instructors} = course
 	return (
-   <Link to={"/course/"+ id} className="course-title">
-    	<p className="course-title-name">{name}</p>
-    	{(professor)?(
-	<p className="course-professor-name">{professor.name}</p>
-	) : ""}
-    	<span className="course-card-options">
-    		<i className="fa fa-star-o"></i>
-    	</span>
-	</Link>
+
+        <Link to={"/course/"+ id} className="course-title">
+            <div className="course-image img_wrap">
+                <img src={course.image} width="300" height="166" alt={name}/>
+            </div>
+
+            <div className="info">
+                <h4 className="course-card-title">{name}</h4>
+                <div className="course-card-status">
+                    예정 / 진행중 / 종료
+                </div>
+                
+				<div className="course-instructor-profile">
+                    <span className="course-profile-image img_wrap">
+                    	<img src="http://mooc.phinf.nhnnext.org/20160902_72/1472806345106zml83_JPEG/JiSeonLee.jpg?type=ff35_35_r" width="35" height="35" alt="XXXX님"/>
+                    </span>                                                    
+                    <span className="course-instructor-name">{instructors[0].name}</span>
+				</div>
+			</div>
+		</Link>
         )
 }
   render() {
   	const {isLink} = this.props;
     
     return (
-      <li className="course-card col-xs-12 col-sm-6 col-md-3">
+      <li className="course-card col-xxs-12 col-xs-6 col-sm-4 col-md-3">
 		{
-			isLink?this.renderLink():this.renderApply()
+			this.renderLink()
 		}	    
       </li>
     )

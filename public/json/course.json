@@ -23,6 +23,7 @@
 		    "title": "실프1-1",
 		    "id": 0,
 		    "course": 0,
+		    "state": "private",
 		    "sessions":[
 		{"id": 0, "title" : "goal1"},
 		{"id": 1, "title" : "goal2"},
@@ -35,6 +36,7 @@
 		    "title": "실프1-2",
 		    "id": 1,
 		    "course":0,
+		    "state": "private",
 		    "sessions":[
 		{"id": 0, "title" : "goal1"},
 		{"id": 1, "title" : "goal2"},

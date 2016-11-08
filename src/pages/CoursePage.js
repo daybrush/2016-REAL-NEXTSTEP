@@ -3,9 +3,9 @@ import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import LectureCard from '../components/LectureCard'
-import AddLectureCard from '../components/LectureCard.add'
-import LecturePage from './LecturePage'
+import LectureCard from '../components/CoursePage/LectureCard'
+import AddLectureCard from '../components/CoursePage/LectureCard.add'
+//import LecturePage from './LecturePage'
 import Participants from '../components/CoursePage/Participants'
 import './css/CoursePage.css'
 import { Link } from 'react-router'
@@ -25,6 +25,19 @@ class component extends Component {
 	showMenu = () => {
 		this.refs.participants.getWrappedInstance().show();
 	}
+	applyCourse = (e) => {
+		if(!confirm("강의를 신청하시겠습니까?"))
+			return;
+			
+			
+		const {actions, state} = this.props;
+		actions.fetchAddMyCourse(state.course.id).then(result=> {
+			alert("신청되었습니다.")
+		}).reject(result=> {
+			alert("신청하지 못했습니다.")
+		})
+	}
+
 	renderHeader() {
 		const {name, instructors, status} = this.props.state.course;
 			
@@ -59,6 +72,10 @@ class component extends Component {
 					<span className="glyphicon glyphicon-option-horizontal"></span>
 					<span className="course-header-btn-text">Show Menu</span>
 				</a>
+				
+				<a className="course-header-info ">i</a>
+				
+				<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>
 			</div>
 			
 		)
