@@ -148,7 +148,27 @@
 }
 
 
+
+
+
 /*SESSION  _ ADD*/
+.session-card-badge {
+	margin: 6px 3px;
+	font-size: 13px;
+	color: #777;
+}
+.session-card-badge * {
+	vertical-align: middle;
+}
+.session-card-badge i {
+	margin-right: 6px;
+}
+.session-card-lock {
+	display: none;
+}
+.session-card-disabled {
+	display: block;
+}
 .lecture-card-add-session {
 	color: #333;
 	margin: 1px 0px 0px;

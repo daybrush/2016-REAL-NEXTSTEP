@@ -19,8 +19,6 @@ hide = () => {
 }
 componentWillMount(status) {
 	const {actions, course} = this.props;
-	if(course.id > 0)
-		actions.fetchGetParticipants(course.id);
 }
 
 renderStatus(status) {
@@ -34,7 +32,7 @@ renderStatus(status) {
 	return (<div className="course-participant-message">{buttons}</div>)
 }
 render() {
-	const participants = this.props.state.course.participants || []
+	const participants = this.props.course.participants || []
   	
     
     return (

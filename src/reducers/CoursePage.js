@@ -32,6 +32,13 @@ export default function CourseListPage(state = initiallState, action) {
 		case "GET_PARTICIPANTS":
 			state.course.participants = action.participants;
 			return Object.assign({}, state);			
+		case "ADD_SESSION":
+			let lectures2 = state.course.lectures.filter(lecture=>(action.session.lecture.id === lecture.id))
+			console.log(lectures2)
+			lectures2.forEach(lecture => {
+				lecture.sessions.push(action.session)
+			})
+			return Object.assign({}, state);
 	}
 	return state;
 }

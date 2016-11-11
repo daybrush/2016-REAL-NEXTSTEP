@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import DragDrop from "../../class/dragdrop"
-
+import LoginSession from "../../class/LoginSession"
 export default connect(
 	state => ({state: state.CoursePage}),
 	dispatch => ({ actions: bindActionCreators(NEXTActions, dispatch), dispatch})
@@ -68,20 +68,37 @@ export default connect(
 	    }
 	    return index;
 	}
+	componentWillMount() {
+		//console.log(LoginSession.info)
+	}
+	renderBadges(badges) {
+		const _badges = []
+		if("discussions" in badges)
+			_badges.push((<div key="discussions" className="session-card-badge badge-discussions"><i className="glyphicon glyphicon-comment"></i><span>{badges.discussions}</span></div>))
+
+		
+		
+		return _badges;
+	}
+	render() {
+	    const {  lecture, session, course, status} = this.props;
+	    
+	    const sessionStatus = session.status || "private"
+	    const userStatus = course.userStatus || ""
+	    const badges = session.badges || {}
+	    
 	
-  render() {
-    const {  lecture, session, course } = this.props;
-    
-    const status = session.status || "private"
-    const userStatus = course.userStatus || ""
-
-
-    return (
-	    <li onClick={this.go}>
-	    	<div className="session-card-title">{session.title}</div>
-	    	<div className="badges"></div>
-	    </li>
-	)
-  }
+		const enabled = sessionStatus === "public" || sessionStatus === "private" && status === "APPROVED"
+		
+	    return (
+		    <li onClick={this.go}>
+		    	<div className="session-card-title"><a href={"/session/"+session.id}>{session.title}</a></div>
+		    	<div className="session-card-badges">
+		    		{this.renderBadges(badges)}
+		    	</div>
+		    	<div className={classNames({"session-card-lock":true, "session-card-disabled":!enabled})}>잠금</div>
+		    </li>
+		)
+	}
 }
 )

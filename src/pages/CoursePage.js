@@ -9,7 +9,7 @@ import AddLectureCard from '../components/CoursePage/LectureCard.add'
 import Participants from '../components/CoursePage/Participants'
 import './css/CoursePage.css'
 import { Link } from 'react-router'
-
+import LoginSession from "../class/LoginSession"
 
 class component extends Component {
 	
@@ -39,7 +39,8 @@ class component extends Component {
 	}
 
 	renderHeader() {
-		const {name, instructors, status} = this.props.state.course;
+		const course = this.props.state.course
+		const {name, instructors, status} = course;
 			
 		let statusName;
 		
@@ -54,6 +55,16 @@ class component extends Component {
 				statusName = "강의 예정";
 				break;
 		}
+		
+		const participant = course.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
+		let applyLabel = ""
+		if(participant.length === 0)
+			applyLabel = (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)
+		else if(participant[0].status === "request")
+			applyLabel = (<a className="course-header-apply label" href="#">신청중</a>)
+		else 
+			applyLabel = ""
+
 		return (
 			<div className="course-header">
 				<span className="course-header-name">{name}</span>
@@ -74,8 +85,7 @@ class component extends Component {
 				</a>
 				
 				<a className="course-header-info ">i</a>
-				
-				<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>
+				{applyLabel}
 			</div>
 			
 		)
@@ -103,15 +113,28 @@ class component extends Component {
 			
 		const course = this.props.state.course;
   		const {lectures} = course;
-//  		{this.renderViewer()}  		
+  		
+  		let participantStatus;
+  		if(!LoginSession.isLogin()) {
+	  		participantStatus = "NOT_LOGIN"
+  		} else {
+	  		const participant = course.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
+	  		if(participant.length === 0)
+	  			participantStatus = "REQUIRE_APPLY"
+	  		else if(participant[0].status === "request")
+	  			participantStatus = "REQUEST_APPLY"
+	  		else
+	  			participantStatus = "APPROVED"
+	  	}
+  			
   		return (
   		<div className="course-lectrues-wrapper">
 
   		{this.renderParticipants()}
-		{this.renderHeader()}
+		{this.renderHeader(participantStatus)}
 		<div className="course-lectrues">
 			{lectures.map((lecture,i) =>
-				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course}/>)
+				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={participantStatus}/>)
 			)}
 			<AddLectureCard actions={this.props.actions} course={course}/>
 		</div>

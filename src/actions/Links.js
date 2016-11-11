@@ -23,6 +23,8 @@ links["GET_DISCUSSION"] = "/discusssions/$id"
 links["GET_DISCUSSION"] = "/discussions/$id"
 links["GET_PARTICIPANTS"] = "/lectures/$id/participants"
 
+
+
 links["GET_MY_COURSES"] = "/me/courses/participate"
 
 
@@ -34,4 +36,8 @@ links["ADD_MY_COURSE"] = "/me/courses/participate";
 links["ADD_DISCUSSION"] = "/sessions/$id/discussions"
 links["ADD_DISCUSSION_REPLY"] = "/discussions/$id/reply"
 
+
+links["GET_LOGIN_INFO"] = "/me"
+links["REQUEST_LOGIN"] = "/me/login"
+links["REQUEST_LOGOUT"] = "/me/logout"
 export {links};

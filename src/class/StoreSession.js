@@ -1,0 +1,7 @@
+let store = {
+	
+}
+
+class StoreSession {
+	
+}

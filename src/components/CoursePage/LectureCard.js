@@ -99,8 +99,9 @@ renderEdit() {
 	)
 }
   render() {
-    const {  id, title, sessions } = this.props.lecture;
-    const courseId = this.props.course.id;
+	 const {status, lecture, course} = this.props;
+    const {  id, title, sessions } = lecture;
+    const courseId = course.id;
 
 
     return (
@@ -108,12 +109,13 @@ renderEdit() {
 	     "lecture-card":true,
 	     "placeholder":this.state.drag 
       })}  ref="card" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable="true" data-position={this.props.position}>
+      
 	       <div className="lecture-card-content" ref="content">
 
-	        	<Link to={"/lecture/" + courseId}><h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2></Link>
+	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2>
 	       		
 	        	<ul className="lecture-card-sessions">
-	        		{sessions.map(session => (<SessionCard key={session.id} session={session} lecture={this.props.lecture} course={this.props.course}/>))}
+	        		{sessions.map(session => (<SessionCard key={session.id} session={session} lecture={this.props.lecture} course={this.props.course} status={status}/>))}
 	        	</ul>
 	        	<div className={classNames({"lecture-card-add-session":true,"lecture-card-add-session-show":this.state.edit})}>
 					<span className="add-session-placeholder" onClick={this.editMode}>Add a Session...</span>

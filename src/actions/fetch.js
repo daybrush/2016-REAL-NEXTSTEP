@@ -13,12 +13,12 @@ const links = {
 		
 		"http://domain.com/discussions/[\\d]" : "/json/discussion.json",
 
-
+		"http://domain.com/me" : "/json/login.json",
 		"http://domain.com/me/courses/participate" : "/json/mycourses.json"
 	},
 	"POST" : {
 		"http://domain.com/courses/[\\d]" : "/json/lecture.add.json",
-		"http://domain.com/lectures/[\\d]/seesions" : "/json/session.add.json",
+		"http://domain.com/lectures/[\\d]/sessions" : "/json/session.add.json",
 		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussion.add.json",
 		"http://domain.com/me/courses/participate" : "/json/mycourse.add.json",
 	}

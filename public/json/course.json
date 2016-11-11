@@ -25,9 +25,9 @@
 		    "course": 0,
 		    "state": "private",
 		    "sessions":[
-		{"id": 0, "title" : "goal1"},
-		{"id": 1, "title" : "goal2"},
-		{"id": 2, "title" : "goal3"}
+		{"id": 0, "title" : "goal1", "status":"public", "badges":{"discussions":3, "completed":10}},
+		{"id": 1, "title" : "goal2", "status":"public", "badges":{"discussions":2, "completed":10}},
+		{"id": 2, "title" : "goal3", "status":"private", "badges":{"discussions":8, "completed":10}}
 ]
 		  },
 		  
@@ -43,5 +43,33 @@
 		{"id": 2, "title" : "goal3"}
 ]
 		  }
-		] 	
+		],
+		
+		"participants" : [
+	{
+    "id": 1,
+    "name": "이름",
+    "avatar_url": "https://...",
+    "status" : "approve"
+  },
+  {
+    "id": 2,
+    "name": "이름2",
+    "avatar_url": "https://...",
+    "status" : "request"
+  },
+  {
+    "id": 3,
+    "name": "이름3",
+    "avatar_url": "https://...",
+    "status" : "decline"
+  },
+  {
+    "id": 4,
+    "name": "이름4",
+    "avatar_url": "https://...",
+    "status" : "revoke"
+  }
+]
+
 }
