@@ -1,11 +1,12 @@
+import StoreSession from "./StoreSession"
+
 let loginAction = {state:"", actions:""};
 
 export default class LoginSession {
 	static isLogin() {
 		return (LoginSession.loginInfo.login_status === "LOGIN")
 	}
-	static bindAction(state, actions) {
-		loginAction.state = state
+	static bindAction(actions) {
 		loginAction.actions = actions
 	}
 	static fetchGetLoginInfo() {
@@ -18,6 +19,6 @@ export default class LoginSession {
 		
 	}
 	static get loginInfo() {
-		return loginAction.state.Login.login
+		return StoreSession.getStore("store").Login.login
 	}
 }

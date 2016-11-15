@@ -21,6 +21,8 @@ import "highlight.js/styles/default.css"
 import hljs from 'highlight.js'
 
 
+
+import StoreSession from "../class/StoreSession"
 class Viewer extends Component {
 	contentArray = [];
 	content = ""
@@ -49,13 +51,16 @@ class Viewer extends Component {
 		document.body.className="pdf-open";
 		
 		actions.fetchGetSession(id);
+		console.log(StoreSession.getStore("header"))
+		StoreSession.getStore("header").state.btns.leftSide = (<div className="aside-left">&lt;</div>)
+		StoreSession.getStore("header").setState({update:true})
 	}
 	componentWillUnmount() {
-		document.body.className="";
+		document.body.className = "";
 		document.body.onscroll = "";
+		delete StoreSession.getStore("header").state.btns.leftSide
+		StoreSession.getStore("header").setState({update:true})
 		window.onresize = "";
-	}
-	componentDidMount() {
 	}
 	
 	addZoom = () => {
@@ -159,13 +164,12 @@ class Viewer extends Component {
 
 	componentWillUpdate(nextProps, nextState) {
 		let content = nextProps.state.session.content;
-		
 	
 		if(this.content === content)
 			return;
 		
 	
-		this.content = content;
+
 		let contentArray = content.split(/(\[embeded[pdf|video]+:[^\]]+\])/g);
 		
 		this.contentArray = contentArray.map((_content) => {
@@ -206,18 +210,24 @@ class Viewer extends Component {
 	componentDidUpdate(nextProps, nextState) {
 		let content = nextProps.state.session.content;
 		
-	
 		if(this.content === content)
 			return;
-			
-			
+		
+	
+		this.content = content;
+		
+		
+		
 		const codes = document.querySelectorAll(".page-wrapper pre code")
-		console.log(codes)
+		console.log("codes", codes)
 		for(let i =0; codes[i]; ++i) {
 			hljs.highlightBlock(codes[i]);
 		}
 	}
 	showTab = (tab) => {
+		if(this.option.tab_width < 300)
+			this.resizeView(300)
+			
 		this.setState({tab:tab})
 	}
 	renderButtons() {

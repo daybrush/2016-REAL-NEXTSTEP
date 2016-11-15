@@ -27,9 +27,11 @@ addCourse = () => {
 renderEdit() {
 	return (
 		<div className="lecture-add-controls"  style={{display:(this.state.edit?"block":"none")}}>
-		<div><input type="text" ref="title" className="form-control" placeholder="Add a list..."/></div>
-		<button onClick={this.addCourse} className="btn btn-success">Save</button>
-		<button onClick={this.closeEdit} className="btn btn-default">Cancel</button>		
+			<div className="form-controls">
+				<input type="text" ref="title" className="form-control" placeholder="Add a list..."/>
+				<button onClick={this.addCourse} className="btn btn-success">Add</button>
+				<button onClick={this.closeEdit} className="btn btn-default btn-close">X</button>
+			</div>
 		</div>
 	
 	)

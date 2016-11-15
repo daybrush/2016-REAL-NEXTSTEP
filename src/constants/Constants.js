@@ -1,0 +1,1 @@
+export const TAB_MIN_WIDTH = 300

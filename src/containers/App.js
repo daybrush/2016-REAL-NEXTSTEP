@@ -8,11 +8,10 @@ import LoginSession from "../class/LoginSession"
 class App extends Component {
 componentWillMount() {
 	const {_state, actions} = this.props;
-	LoginSession.bindAction(_state, actions)
+	LoginSession.bindAction(actions)
 	LoginSession.fetchGetLoginInfo()
 }
 render(){
-	console.log("APP PAGE");
 	const { children} = this.props
 	
 

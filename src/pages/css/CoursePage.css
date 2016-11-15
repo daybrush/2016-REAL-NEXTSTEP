@@ -80,7 +80,7 @@
 	right: 0;
     bottom:0;
 }
-
+/*LECTURE CARD*/
 .lecture-card {
 	position: relative;
 	display: inline-block;
@@ -89,8 +89,9 @@
 	margin-left: 10px;
 	margin-right: 5px;
 	vertical-align: top;
+	width: 320px;
 }
-
+/*DRAG*/
 .lecture-card.dragmove .lecture-card-content {
 	transform: rotate(10deg);
 }
@@ -104,12 +105,64 @@
 	position: fixed;
 	visibility: hidden;
 }
+.lecture-card.lecture-card-disabled .lecture-card-content {
+	border: none;
+}
+.lecture-card .lecture-card-lock, .lecture-card-sessions .session-card-lock {
+	display: none; 
+}
+.lecture-card.lecture-card-disabled .lecture-card-lock {
+	display: block;
+}
+.session-card-disabled .session-card-lock {
+	display: block;
+}
+.lecture-card.lecture-card-disabled .session-card-disabled .session-card-lock {
+	display: none;
+}
+div.lecture-card-lock, div.session-card-lock {
+	position: absolute;	
+	background: rgba(0, 0, 0, 0.3);
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+div.lecture-card-lock:before, div.session-card-lock:before {
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 15px;
+	width: 15px;
+	font-size: 15px;
+	position: absolute;
+	margin: auto;
+	color: #777;
+}
+
+.lecture-card .lecture-card-menu-btn {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	color: #777;
+	text-align: center;
+	border-radius: 2px;
+	font-size: 10px;
+}
+.lecture-card .lecture-card-menu-btn:hover {
+	background: rgba(0, 0, 0, 0.1);
+}
 .lecture-card .lecture-card-content {
+	position: relative;
 	padding: 10px;
 	background: #fff;
 	border-radius: 3px;
-	width: 300px;
 	border:1px solid #E8E8E8;
+	width: inherit;
 }
 .lecture-card .add-lecture-card-content {
 	padding: 10px;
@@ -131,12 +184,16 @@
 .lecture-card .lecture-card-content a {
 	color: black;
 }
-
+/*SESSION*/
 .lecture-card-sessions li {
+	position: relative;
 	background: #F7F7F7;
 	border-radius: 3px;
 	padding: 5px 10px;
 	margin-bottom:  5px;
+}
+.lecture-card-sessions li:hover {
+	background: #e5e5e5;	
 }
 .lecture-card-sessions li a {
 	display: block;
@@ -163,12 +220,6 @@
 .session-card-badge i {
 	margin-right: 6px;
 }
-.session-card-lock {
-	display: none;
-}
-.session-card-disabled {
-	display: block;
-}
 .lecture-card-add-session {
 	color: #333;
 	margin: 1px 0px 0px;
@@ -190,24 +241,33 @@
 .lecture-card-add-session-show .session-add-controls {
 	display: block;
 }
-.session-add-controls .btn {
-	margin:10px 5px 0px 0px;
+.form-controls .btn {
+	margin:5px 5px 0px 0px;
 }
-.session-add-controls.session-add-controls-show {
+.form-controls.session-add-controls-show {
 	display: block;
 }
-.session-add-controls .btn-close {
+.form-controls .form-control {
+	margin-bottom: 5px;
+}
+.form-controls .btn-success {
+	background-image: none;
+	border: none;	
+	text-shadow: none;
+	font-weight: bold;
+}
+.form-controls .btn-close {
 	background: transparent;
 	border: none;
 	box-shadow: none;	
 	font-weight: bold;
 	color:#777;
 }
-.session-add-controls .btn-close:hover {
+.form-controls .btn-close:hover {
 	color: #333;
 	background: transparent;
 }
-.lecture-add-controls .btn-success {
+.form-controls .btn-success {
 	margin-right: 10px;
 }
 
@@ -284,4 +344,56 @@
 .course-participant-message .btn {
 	margin: 0px 5px;
 	padding: 3px 10px;
+}
+
+.lecture-card-menu {
+	display: none;	
+}
+.lecture-card-menu.lecture-card-menu-show {
+	display: block;
+	position: fixed;
+	z-index: 5;
+}
+.lecture-card-menu {
+	margin-left: -5px;
+	margin-top: -5px;
+	width: 310px;
+}
+.lecture-card-menu .options{
+	position: absolute;
+	left: 100%;
+}
+.lecture-card-menu .options li {
+	background: rgba(0, 0, 0, 0.8);
+	color: #eee;
+	padding: 5px 10px;
+	margin: 0px 10px 5px;
+	border-radius: 3px;
+	font-size: 13px;
+	font-weight: bold;
+}
+.lecture-card-menu .options li:hover {
+	color: #fff;
+	background: rgba(0, 0, 0, 1);
+	transform: translate(5px)
+}
+.lecture-card-menu .form-controls input.form-control {
+	padding: 3px 5px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 305px;
+    height: auto;
+    border: none;
+    border-radius: 3px;
+    box-shadow: none;
+}
+.lecture-overlay {
+	position: fixed;
+	top:0;
+	right:0;
+	left: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.1);
+	display: none;
+	z-index: 2;
 }

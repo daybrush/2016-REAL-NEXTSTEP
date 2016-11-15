@@ -267,7 +267,7 @@ body.pdf-open #header {
 }
 
 /*DISCUSSION-REPLY*/
-.discussion-reply-tab-open .discussions-tab {
+.discussion-reply-tab-open .discussions-wrapper {
 	width: 50%;
 }
 .discussion-reply-tab-open .discussion-reply-tab {

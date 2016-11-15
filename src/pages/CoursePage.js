@@ -10,6 +10,7 @@ import Participants from '../components/CoursePage/Participants'
 import './css/CoursePage.css'
 import { Link } from 'react-router'
 import LoginSession from "../class/LoginSession"
+import StoreSession from "../class/StoreSession"
 
 class component extends Component {
 	
@@ -21,6 +22,12 @@ class component extends Component {
 		//by Course Id
 		if(typeof id !== "undefined")
 			actions.fetchGetCourse(id);
+			
+			
+		StoreSession.setStore("coursepage", this)
+	}
+	componentWillUnmount() {
+		StoreSession.unsetStore("coursepage")
 	}
 	showMenu = () => {
 		this.refs.participants.getWrappedInstance().show();
@@ -38,7 +45,7 @@ class component extends Component {
 		})
 	}
 
-	renderHeader() {
+	renderHeader(memberStatus) {
 		const course = this.props.state.course
 		const {name, instructors, status} = course;
 			
@@ -56,14 +63,38 @@ class component extends Component {
 				break;
 		}
 		
-		const participant = course.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
+		
+		memberStatus = "NOT_LOGIN";
+  		if(LoginSession.isLogin()) {
+	  		const instructor = course.instructors.filter(instructor => (LoginSession.loginInfo.id === instructor.id))
+	  		const participant = course.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
+	  		if(instructor.length !== 0) 
+	  			memberStatus = "INSTRUCTOR"
+	  		else if(participant.length === 0)
+	  			memberStatus = "REQUIRE_APPLY"
+	  		else if(participant[0].status === "request")
+	  			memberStatus = "REQUEST_APPLY"
+	  		else
+	  			memberStatus = "APPROVED"
+	  	}
+	  	
+	  	
 		let applyLabel = ""
-		if(participant.length === 0)
-			applyLabel = (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)
-		else if(participant[0].status === "request")
-			applyLabel = (<a className="course-header-apply label" href="#">신청중</a>)
-		else 
-			applyLabel = ""
+		switch(memberStatus) {
+			case "INSTRUCTOR":
+				applyLabel = (<a className="course-header-apply label" href="#">관리자</a>)	
+				break;			
+			case "APPROVED":
+				applyLabel = (<a className="course-header-apply label" href="#">승인 ㅇㅇ</a>)	
+				break;
+			case "REQUEST_APPLY":
+				applyLabel = (<a className="course-header-apply label" href="#">신청중</a>)	
+			case "NOT_LOGIN":
+			case "REQUIRE_APPLY":
+			default:
+				applyLabel = (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
+		}
+	
 
 		return (
 			<div className="course-header">
@@ -114,32 +145,36 @@ class component extends Component {
 		const course = this.props.state.course;
   		const {lectures} = course;
   		
-  		let participantStatus;
-  		if(!LoginSession.isLogin()) {
-	  		participantStatus = "NOT_LOGIN"
-  		} else {
+  		let memberStatus = "NOT_LOGIN";
+  		if(LoginSession.isLogin()) {
+	  		const instructor = course.instructors.filter(instructor => (LoginSession.loginInfo.id === instructor.id))
 	  		const participant = course.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
-	  		if(participant.length === 0)
-	  			participantStatus = "REQUIRE_APPLY"
+	  		if(instructor.length !== 0) 
+	  			memberStatus = "INSTRUCTOR"
+	  		else if(participant.length === 0)
+	  			memberStatus = "REQUIRE_APPLY"
 	  		else if(participant[0].status === "request")
-	  			participantStatus = "REQUEST_APPLY"
+	  			memberStatus = "REQUEST_APPLY"
 	  		else
-	  			participantStatus = "APPROVED"
+	  			memberStatus = "APPROVED"
 	  	}
-  			
+  		
+  		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course}/>) : ""
   		return (
   		<div className="course-lectrues-wrapper">
 
   		{this.renderParticipants()}
-		{this.renderHeader(participantStatus)}
+		{this.renderHeader(memberStatus)}
+		
 		<div className="course-lectrues">
 			{lectures.map((lecture,i) =>
-				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={participantStatus}/>)
+				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={memberStatus}/>)
 			)}
-			<AddLectureCard actions={this.props.actions} course={course}/>
+			{addLectureCard}			
 		</div>
 
   		<div className="lecture-participant-list"></div>
+  		<div className="lecture-overlay"></div>
   		</div>
   		)
   	}

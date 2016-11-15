@@ -16,7 +16,12 @@ a , a:focus, a:hover {
 #header a {
 	color: white;
 }
-
+#header .aside-left {
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    color: #fff;
+}
 .alert.goal-card {
 	padding: 10px;
     margin-bottom: 10px;

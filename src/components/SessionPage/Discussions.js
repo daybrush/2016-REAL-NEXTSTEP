@@ -82,7 +82,8 @@ renderReply() {
 		return ""
 	
 	const replies = this.state.nowDiscussion && this.state.nowDiscussion.replies || []
-	
+	if(replies.length === 0)
+		return (<div>No Replies</div>)
 	return (<ul>
 		{replies.map((reply,i) => (
 			<DiscussionReply reply={reply} key={i}/>

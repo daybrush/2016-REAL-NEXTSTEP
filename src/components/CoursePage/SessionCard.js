@@ -45,14 +45,10 @@ export default connect(
 	
 	
 	
-		const lectures = this.props.state.course.lectures;	
+
 		const myPosition = this.props.position, targetPosition = this.getNodeIndex(card);
 		if(myPosition === targetPosition)
 			return;
-			
-		const myCourse = lectures[myPosition], targetCourse = lectures[targetPosition];
-		const myId = myCourse.id, targetId = targetCourse.id;
-		
 		
 		//this.props.actions.swap("lecture", myPosition, targetPosition);
 		//NEXTActions.fetchSwap("", "lecture", myId, targetId);
@@ -84,19 +80,22 @@ export default connect(
 	    const {  lecture, session, course, status} = this.props;
 	    
 	    const sessionStatus = session.status || "private"
-	    const userStatus = course.userStatus || ""
 	    const badges = session.badges || {}
 	    
 	
-		const enabled = sessionStatus === "public" || sessionStatus === "private" && status === "APPROVED"
+		const enabled = sessionStatus === "public" || sessionStatus === "private" && (status === "APPROVED" || status === "INSTRUCTOR")
+		
+		const draggable = 	(status === "INSTRUCTOR") ? "true" : "false"
 		
 	    return (
-		    <li onClick={this.go}>
-		    	<div className="session-card-title"><a href={"/session/"+session.id}>{session.title}</a></div>
-		    	<div className="session-card-badges">
-		    		{this.renderBadges(badges)}
+		    <li onClick={this.go} className={classNames({"session-card":true, "session-card-disabled":!enabled, "placeholder":this.state.drag})} onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable={draggable} ref="card">
+		    	<div className="session-card-content" ref="content">
+			    	<div className="session-card-title"><Link to={"/session/"+session.id}>{session.title}</Link></div>
+			    	<div className="session-card-badges">
+			    		{this.renderBadges(badges)}
+			    	</div>
 		    	</div>
-		    	<div className={classNames({"session-card-lock":true, "session-card-disabled":!enabled})}>잠금</div>
+        	<div className="session-card-lock glyphicon glyphicon-lock"></div>
 		    </li>
 		)
 	}

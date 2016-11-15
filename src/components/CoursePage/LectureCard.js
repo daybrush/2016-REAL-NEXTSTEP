@@ -6,6 +6,7 @@ import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import DragDrop from "../../class/dragdrop"
 import SessionCard from "./SessionCard"
+import StoreSession from "../../class/StoreSession"
 
 export default connect(
 	state => ({state: state.CoursePage}),
@@ -15,11 +16,15 @@ export default connect(
 
 	state = {
 		drag : false,
-		edit : false
+		edit : false,
+		menu : false,
 	}
 	dragndrop = new DragDrop();
   
 dragover = (e) => {
+	if(this.props.status !== "INSTRUCTOR")
+		return;
+		
 	const {card, content} = this.refs;
 	
 	this.dragndrop.dragover(e, card, content);
@@ -29,6 +34,9 @@ dragover = (e) => {
 
 }
 dragstart= (e) => {
+	if(this.props.status !== "INSTRUCTOR")
+		return;
+		
 	console.log("dragstart");
 	this.setState({drag:true});
 	
@@ -71,11 +79,22 @@ getNodeIndex = (node) => {
     return index;
 }
 
-
-editMode = () => {
+showMenu = () => {
+	this.setState({menu:true, edit: false});
+	document.querySelector(".lecture-overlay").style.display = "block";
+	this.refs.menu_title.value = this.props.lecture.title
+}
+hideMenu = () => {
+	this.setState({menu:false});
+	document.querySelector(".lecture-overlay").style.display = "none";
+}
+saveMenu = () => {
+	this.hideMenu()
+}
+showEdit = () => {
 	this.setState({edit:true});	
 }
-closeEdit = () => {
+hideEdit = () => {
 	this.setState({edit:false});	
 }
 
@@ -89,39 +108,66 @@ addSession = () => {
 	//NEXTActions
 }
 renderEdit() {
+	if(this.props.status !== "INSTRUCTOR")
+		return;
+		
 	return (
-		<div className="session-add-controls">
-		<input type="text" ref="title" className="form-control" placeholder="Add a Session..."/>
-		<button onClick={this.addSession} className="btn btn-success">Add</button>
-		<button onClick={this.closeEdit} className="btn btn-default btn-close">X</button>		
-		</div>
-	
+	    <div className={classNames({"lecture-card-add-session":true,"lecture-card-add-session-show":this.state.edit})}>
+			<span className="add-session-placeholder" onClick={this.showEdit}>Add a Session...</span>
+			<div className="session-add-controls form-controls">
+				<input type="text" ref="title" className="form-control" placeholder="Add a Session..."/>
+				<button onClick={this.addSession} className="btn btn-success">Add</button>
+				<button onClick={this.hideEdit} className="btn btn-default btn-close">X</button>		
+			</div>
+	    </div>	
 	)
 }
-  render() {
-	 const {status, lecture, course} = this.props;
+renderMenu() {
+	if(this.props.status !== "INSTRUCTOR")
+		return;
+		
+		
+	return (
+		<div>
+			<a className="lecture-card-menu-btn glyphicon glyphicon-option-horizontal" href="#" onClick={this.showMenu}></a>
+		    <div className={classNames({"lecture-card-menu":true,"lecture-card-menu-show":this.state.menu})}>
+		    	<ul className="options">
+		    		<li>All Public</li>
+		    		<li>All Private</li>
+		    		<li>Delete</li>	    		
+		    	</ul>
+				<div className="lecture-card-menu-controls form-controls">
+					<input className="form-control" ref="menu_title"/>
+					<button onClick={this.saveMenu} className="btn btn-success">Save</button>
+				</div>
+			</div>
+		</div>
+	)	
+}
+render() {
+	const {status, lecture, course} = this.props;
     const {  id, title, sessions } = lecture;
     const courseId = course.id;
 
-
+	const enabled = (status === "APPROVED" || status === "INSTRUCTOR") || sessions.filter(session=>(session.status === "public")).length !== 0
+	
+	const draggable = 	(this.props.status === "INSTRUCTOR") ? "true" : "false"
     return (
       <div className={classNames({
 	     "lecture-card":true,
-	     "placeholder":this.state.drag 
-      })}  ref="card" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable="true" data-position={this.props.position}>
+	     "placeholder":this.state.drag,
+	     "lecture-card-disabled": !enabled
+      })}  ref="card" onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable={draggable} data-position={this.props.position}>
       
 	       <div className="lecture-card-content" ref="content">
-
+		   		{this.renderMenu()}
 	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2>
-	       		
 	        	<ul className="lecture-card-sessions">
 	        		{sessions.map(session => (<SessionCard key={session.id} session={session} lecture={this.props.lecture} course={this.props.course} status={status}/>))}
 	        	</ul>
-	        	<div className={classNames({"lecture-card-add-session":true,"lecture-card-add-session-show":this.state.edit})}>
-					<span className="add-session-placeholder" onClick={this.editMode}>Add a Session...</span>
-	        		{this.renderEdit()}
-	        	</div>
+	        	{this.renderEdit()}
         	</div>
+        	<div className="lecture-card-lock glyphicon glyphicon-lock"></div>
       </div>
     )
   }
