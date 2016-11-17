@@ -1,8 +1,9 @@
 {
   "id": 1,
+  "title" : "세션 제목",
   "course": {
     "id": 1,
-    "title": "수업 제목"
+    "name": "수업 제목"
   },
   
   "comments": [

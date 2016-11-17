@@ -105,6 +105,9 @@
 	position: fixed;
 	visibility: hidden;
 }
+
+
+
 .lecture-card.lecture-card-disabled .lecture-card-content {
 	border: none;
 }
@@ -204,6 +207,22 @@ div.lecture-card-lock:before, div.session-card-lock:before {
 	margin-bottom: 10px;
 }
 
+/*DRAG*/
+.session-card.dragmove .session-card-content {
+	transform: rotate(10deg);
+}
+.session-card.placeholder {
+    background-color: rgba(0,0,0,.2);
+    border-color: transparent;
+    box-shadow: none;
+    border-radius: 3px;
+}
+.session-card.placeholder .session-card-content {
+	position: fixed;
+	visibility: hidden;
+}
+
+
 
 
 
@@ -219,6 +238,27 @@ div.lecture-card-lock:before, div.session-card-lock:before {
 }
 .session-card-badge i {
 	margin-right: 6px;
+}
+
+
+.session-card-progress {
+	position: relative;
+	height: 1px;
+	background-image: linear-gradient(to right, #00B3E2 33%, rgba(255,255,255,0) 0%);
+	background-position: bottom;
+	background-size: 4px 3px;
+	background-repeat: repeat-x;
+	margin-top: 10px;
+	margin-bottom: 13px;
+}
+.session-card-progress-ball {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	margin-left: -5px;
+	margin-top: -5px;
+	background: #00B3E2;	
+	border-radius: 50%;	
 }
 .lecture-card-add-session {
 	color: #333;

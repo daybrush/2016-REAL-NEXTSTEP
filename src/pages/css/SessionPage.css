@@ -321,11 +321,29 @@ body.pdf-open #header {
 .link-tab {
 	padding: 5px;
 }
-.links-wrapper {
+.link-wrapper {
 	
 }
-.links-wrapper li {
+.link-wrapper li {
 	margin:5px 0px;
 	background: #fff;
 	padding: 5px;
+}
+
+
+.upload-wrapper {
+	text-align: center;
+	color: #ddd;
+	padding: 20px;
+	font-weight: bold;
+	border: 2px dashed #ddd;
+}
+.upload-wrapper .glyphicon{
+	margin-bottom: 10px;
+	font-size: 30px;
+}
+
+.upload-wrapper:hover {
+	border-color: #fff;
+	color: #fff;
 }

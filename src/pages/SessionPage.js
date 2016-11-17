@@ -4,8 +4,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-//import { Link } from 'react-router'
-
 
 import PDFLoader from '../class/PDFLoader.js'
 import Slide from '../components/SessionPage/Slide'
@@ -20,6 +18,8 @@ import "./css/SessionPage.css"
 import "highlight.js/styles/default.css"
 import hljs from 'highlight.js'
 
+
+import { Link } from 'react-router'
 
 
 import StoreSession from "../class/StoreSession"
@@ -50,10 +50,13 @@ class Viewer extends Component {
 		
 		document.body.className="pdf-open";
 		
-		actions.fetchGetSession(id);
-		console.log(StoreSession.getStore("header"))
-		StoreSession.getStore("header").state.btns.leftSide = (<div className="aside-left">&lt;</div>)
-		StoreSession.getStore("header").setState({update:true})
+		actions.fetchGetSession(id).then(result => {
+			const {id, name} = result.session.course
+			StoreSession.getStore("header").state.btns.leftSide = (<div className="aside-left"><Link to={"/course/" + id }>{name}</Link></div>)
+			StoreSession.getStore("header").setState({update:true})
+			
+		})
+
 	}
 	componentWillUnmount() {
 		document.body.className = "";
@@ -270,7 +273,7 @@ class Viewer extends Component {
 		const codes = [].slice.call(document.querySelectorAll(".page-wrapper .hljs"));
 		return (
 			<div className="link-tab">
-				<div className="links-wrapper">
+				<div className="link-wrapper">
 					<ul>
 						{this.contentArray.map((content,i) => {
 							if(!content.id || content.id === "html")
@@ -281,10 +284,12 @@ class Viewer extends Component {
 						{codes.map((pre,i) => {
 							return (<li key={i} dangerouslySetInnerHTML={{__html:pre.outerHTML}} ></li>)
 						})
-						
-							
 						}
 					</ul>
+					<div className="upload-wrapper">
+						<p className="glyphicon glyphicon-plus"></p>
+						<p>업로드할 파일을 선택해주세요.</p>
+					</div>
 				</div>
 			</div>
 		)

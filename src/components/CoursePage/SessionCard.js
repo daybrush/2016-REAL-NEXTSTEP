@@ -81,7 +81,7 @@ export default connect(
 	    
 	    const sessionStatus = session.status || "private"
 	    const badges = session.badges || {}
-	    
+	    const progress = badges.completed || "0";
 	
 		const enabled = sessionStatus === "public" || sessionStatus === "private" && (status === "APPROVED" || status === "INSTRUCTOR")
 		
@@ -93,6 +93,9 @@ export default connect(
 			    	<div className="session-card-title"><Link to={"/session/"+session.id}>{session.title}</Link></div>
 			    	<div className="session-card-badges">
 			    		{this.renderBadges(badges)}
+			    	</div>
+			    	<div className="session-card-progress">
+			    		<div className="session-card-progress-ball" style={{left:progress+"%"}}></div>
 			    	</div>
 		    	</div>
         	<div className="session-card-lock glyphicon glyphicon-lock"></div>
