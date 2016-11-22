@@ -1,0 +1,129 @@
+
+/*lesson*/
+.lesson-card {
+	position: relative;
+	margin-bottom:  5px;
+}
+.lesson-card-content {
+	background: #F7F7F7;
+	border-radius: 3px;
+	padding: 5px 10px;
+}
+.lesson-card:hover .lesson-card-content {
+	background: #e5e5e5;	
+}
+.lesson-card a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.lecture-add-controls input {
+	margin-bottom: 10px;
+}
+
+/*DRAG*/
+.lesson-card.dragmove .lesson-card-lock {
+	display: none;
+}
+.lesson-card.dragmove .lesson-card-content {
+	transform: rotate(10deg);
+}
+.lesson-card.placeholder {
+    background-color: rgba(0,0,0,.2);
+    border-color: transparent;
+    box-shadow: none;
+    border-radius: 3px;
+}
+.lesson-card.placeholder .lesson-card-content {
+	position: fixed;
+	visibility: hidden;
+}
+
+
+
+
+
+
+/*lesson  _ ADD*/
+.lesson-card-badge {
+	margin: 6px 3px;
+	font-size: 13px;
+	color: #777;
+}
+.lesson-card-badge * {
+	vertical-align: middle;
+}
+.lesson-card-badge i {
+	margin-right: 6px;
+}
+
+
+.lesson-card-progress {
+	position: relative;
+	height: 1px;
+	background-image: linear-gradient(to right, #00B3E2 33%, rgba(255,255,255,0) 0%);
+	background-position: bottom;
+	background-size: 4px 3px;
+	background-repeat: repeat-x;
+	margin-top: 10px;
+	margin-bottom: 13px;
+}
+.lesson-card-progress-ball {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	margin-left: -5px;
+	margin-top: -5px;
+	background: #00B3E2;	
+	border-radius: 50%;	
+}
+.lesson-card-add {
+	color: #333;
+	margin: 1px 0px 0px;
+	padding: 5px;
+	border-radius: 3px;
+}
+.lesson-card-add:hover ,  .lesson-card-add-show{
+	background: #F7F7F7;
+	color: #333;
+}
+
+
+.lesson-card-add-show .lesson-card-add-placeholder {
+	display: none;
+}
+.lesson-card-add-controls {
+	display: none;
+}
+.lesson-card-add-show .lesson-card-add-controls {
+	display: block;
+}
+.form-controls .btn {
+	margin:5px 5px 0px 0px;
+}
+.form-controls.session-add-controls-show {
+	display: block;
+}
+.form-controls .form-control {
+	margin-bottom: 5px;
+}
+.form-controls .btn-success {
+	background-image: none;
+	border: none;	
+	text-shadow: none;
+	font-weight: bold;
+}
+.form-controls .btn-close {
+	background: transparent;
+	border: none;
+	box-shadow: none;	
+	font-weight: bold;
+	color:#777;
+}
+.form-controls .btn-close:hover {
+	color: #333;
+	background: transparent;
+}
+.form-controls .btn-success {
+	margin-right: 10px;
+}

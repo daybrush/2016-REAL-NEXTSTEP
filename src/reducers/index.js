@@ -4,7 +4,7 @@ import Apply from './Apply'
 import LecturePage from './LecturePage'
 import MyCourses from './MyCourses'
 import ProfessorPage from './ProfessorPage'
-import Session from './Session'
+import Lesson from './Lesson'
 import Login from './Login'
 export default  combineReducers({
   Apply,
@@ -12,6 +12,6 @@ export default  combineReducers({
   LecturePage,
   MyCourses,
   ProfessorPage,
-  Session,
+  Lesson,
   Login
 })

@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
-import * as NEXTActions from '../actions/Session'
+import * as NEXTActions from '../actions/Lesson'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 
 import PDFLoader from '../class/PDFLoader.js'
-import Slide from '../components/SessionPage/Slide'
-import Video from '../components/SessionPage/Video'
-import Html from '../components/SessionPage/Html'
+import Slide from '../components/LessonPage/Slide'
+import Video from '../components/LessonPage/Video'
+import Html from '../components/LessonPage/Html'
 
-import Discussions from "../components/SessionPage/Discussions"
+import Discussions from "../components/LessonPage/Discussions"
 
 
 import marked from '../js/custommarked';
-import "./css/SessionPage.css"
+import "./css/LessonPage.css"
 import "highlight.js/styles/default.css"
 import hljs from 'highlight.js'
 
@@ -23,7 +23,9 @@ import { Link } from 'react-router'
 
 
 import StoreSession from "../class/StoreSession"
-class Viewer extends Component {
+
+
+class component extends Component {
 	contentArray = [];
 	content = ""
 	
@@ -50,8 +52,8 @@ class Viewer extends Component {
 		
 		document.body.className="pdf-open";
 		
-		actions.fetchGetSession(id).then(result => {
-			const {id, name} = result.session.course
+		actions.fetchGetLesson(id).then(result => {
+			const {id, name} = result.lesson.course
 			StoreSession.getStore("header").state.btns.leftSide = (<div className="aside-left"><Link to={"/course/" + id }>{name}</Link></div>)
 			StoreSession.getStore("header").setState({update:true})
 			
@@ -166,7 +168,7 @@ class Viewer extends Component {
 	}
 
 	componentWillUpdate(nextProps, nextState) {
-		let content = nextProps.state.session.content;
+		let content = nextProps.state.lesson.content;
 	
 		if(this.content === content)
 			return;
@@ -211,7 +213,7 @@ class Viewer extends Component {
 		});
 	}
 	componentDidUpdate(nextProps, nextState) {
-		let content = nextProps.state.session.content;
+		let content = nextProps.state.lesson.content;
 		
 		if(this.content === content)
 			return;
@@ -295,15 +297,15 @@ class Viewer extends Component {
 		)
 	}
 	renderDiscussionTab() {
-		if(this.props.state.session.id < 0)
+		if(this.props.state.lesson.id < 0)
 			return ""
 			
-		return (<Discussions sessionId={this.props.params.id} resizeView={this.resizeView} contents={this.contentArray} option={this.option}/>)
+		return (<Discussions lessonId={this.props.params.id} resizeView={this.resizeView} contents={this.contentArray} option={this.option}/>)
 	}
 	render() {
 	    const html = (<div onDragOver={this.dragover}  >
 	    {this.renderButtons()}
-	    	<div className="session-wrapper"  ref="wrapper">
+	    	<div className="lesson-wrapper"  ref="wrapper">
 		    	<div className="page-wrapper">
 		    		{this.renderContents()}
 		    	</div>
@@ -333,7 +335,7 @@ class Viewer extends Component {
 
 
 const mapStateToProps = state => {
-	return {state: state.Session}
+	return {state: state.Lesson}
 }
 
 const mapDispatchToProps = dispatch => {
@@ -343,4 +345,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Viewer)
+)(component)

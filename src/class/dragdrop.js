@@ -1,11 +1,11 @@
 
 export default class DragDrop {
 	
-	constructor() {
-		
+	constructor(selector) {
+		this.selector = selector;
 	}
 	clonNode = ""
-	
+	selector = ""
 	
 	dragstart = (e, parent, content, ) => {
 		console.log(parent, content);
@@ -21,16 +21,15 @@ export default class DragDrop {
 		e.dataTransfer.setDragImage(this.cloneNode, e.clientX - left, e.clientY - top + 40);
 	
 		this.cloneNode.classList.add("dragmove");
-		parent.setAttribute("isDrag", 1);
+		parent.setAttribute("isdrag", 1);
 	
 	}
 	dragover = (e, parent, content) => {
 		e.preventDefault();
 	
-		const target = document.querySelector("[isDrag='1']")
-		
-	
+		const target = document.querySelector(this.selector + "[isdrag='1']")
 		if(target && parent != target) {
+
 			console.log("SWAP");
 			let elem = target;
 			 do {
@@ -46,6 +45,6 @@ export default class DragDrop {
 	dragend = (e, parent, content) => {
 		this.cloneNode.remove();
 		this.cloneNode = "";
-		parent.removeAttribute("isDrag");
+		parent.removeAttribute("isdrag");
 	}
 }

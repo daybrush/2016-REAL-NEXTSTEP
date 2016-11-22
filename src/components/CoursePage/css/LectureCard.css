@@ -1,0 +1,107 @@
+/*LECTURE CARD*/
+.lecture-card {
+	position: relative;
+	display: inline-block;
+	padding: 0px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	margin-right: 5px;
+	vertical-align: top;
+	width: 320px;
+}
+/*DRAG*/
+.lecture-card.dragmove .lecture-card-content {
+	transform: rotate(10deg);
+}
+.lecture-card.placeholder {
+    background-color: rgba(0,0,0,.2);
+    border-color: transparent;
+    box-shadow: none;
+    border-radius: 3px;
+}
+.lecture-card.placeholder .lecture-card-content {
+	position: fixed;
+	visibility: hidden;
+}
+
+
+
+.lecture-card.lecture-card-disabled .lecture-card-content {
+	border: none;
+}
+.lecture-card .lecture-card-lock, .lesson-cards .lesson-card-lock {
+	display: none; 
+}
+.lecture-card.lecture-card-disabled .lecture-card-lock {
+	display: block;
+}
+.lesson-card-disabled .lesson-card-lock {
+	display: block;
+}
+.lecture-card.lecture-card-disabled .lesson-card-disabled .lesson-card-lock {
+	display: none;
+}
+div.lecture-card-lock, div.lesson-card-lock {
+	position: absolute;	
+	background: rgba(0, 0, 0, 0.3);
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+div.lecture-card-lock:before, div.lesson-card-lock:before {
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 15px;
+	width: 15px;
+	font-size: 15px;
+	position: absolute;
+	margin: auto;
+	color: #777;
+}
+
+.lecture-card .lecture-card-menu-btn {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	color: #777;
+	text-align: center;
+	border-radius: 2px;
+	font-size: 10px;
+}
+.lecture-card .lecture-card-menu-btn:hover {
+	background: rgba(0, 0, 0, 0.1);
+}
+.lecture-card .lecture-card-content {
+	position: relative;
+	padding: 10px;
+	background: #fff;
+	border-radius: 3px;
+	border:1px solid #E8E8E8;
+	width: inherit;
+}
+.lecture-card .add-lecture-card-content {
+	padding: 10px;
+	border-radius: 3px;
+	width: 300px;	
+}
+.lecture-card .add-lecture-card-content:hover {
+	background: #ddd;
+}
+.lecture-card .add-lecture-card-content.mod-edit:hover {
+	background: #fff;
+}
+.lecture-card h2 {
+	margin:0;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.lecture-card .lecture-card-content a {
+	color: black;
+}

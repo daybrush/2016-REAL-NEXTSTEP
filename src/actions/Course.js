@@ -4,7 +4,7 @@ export const fetchAddMyCourse = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"my_course", id}).then(result =>  dispatch(result))
 }
 export const fetchGetCourses = () => (dispatch, getState) => {
-	return fetchData({type:"get", target:"courses"}).then(result =>  dispatch(result))
+	return fetchData({type:"get", target:"courses"}).then(result => { result.courses = result.courses._embedded.courses;return dispatch(result)})
 }
 export const fetchGetMyCourses = () => (dispatch, getState) => {
 	return fetchData({type:"get", target:"my_courses"}).then(result =>  dispatch(result))
@@ -28,6 +28,6 @@ export const fetchGetLecture = (id) => (dispatch, getState) => {
 	return fetchData({type:"get", target:"lecture", id}).then(result =>  dispatch(result))
 }
 
-export const fetchAddSession = (id) => (dispatch, getState) => {
-	return fetchData({type:"add", target:"session", id}).then(result =>  dispatch(result))
+export const fetchAddLesson = (id) => (dispatch, getState) => {
+	return fetchData({type:"add", target:"lesson", id}).then(result =>  dispatch(result))
 }

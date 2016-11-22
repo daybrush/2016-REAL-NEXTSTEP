@@ -15,11 +15,14 @@ class Apply extends Component {
   render() {
 	const {state, actions} = this.props
     return (
-    	<ul className="course-list">
-          {state.courses.map(course =>
-            <CourseCard course={course} key={course.id} actions={actions} />
-          )}
-      </ul>
+	    <section>
+	        <div className="page-header"><h3>강의 신청하기</h3></div>
+	    	<ul className="course-cards">
+	          {state.courses.map(course =>
+	            <CourseCard course={course} key={course.id} actions={actions} />
+	          )}
+	      </ul>
+      </section>
     )
   }
 }

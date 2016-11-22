@@ -1,7 +1,7 @@
 import {fetchData} from "./index.js"
 
-export const fetchGetSession = (id) => (dispatch, getState) => {
-	return fetchData({type:"get", target:"session", id:id}).then(result =>  dispatch(result))
+export const fetchGetLesson = (id) => (dispatch, getState) => {
+	return fetchData({type:"get", target:"lesson", id:id}).then(result =>  dispatch(result))
 }
 export const fetchGetDiscusssions = (id) => (dispatch, getState) => {
 	return fetchData({type:"get", target:"discussions", id:id}).then(result =>  dispatch(result))

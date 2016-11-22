@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
-import * as NEXTActions from '../../actions/Session'
+import * as NEXTActions from '../../actions/Lesson'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -24,7 +24,7 @@ state = {
 mde = "";
 textarea  = (<textarea className="form-control discussion-input" ref="name"></textarea>)
 componentWillMount() {
-	this.props.actions.fetchGetDiscusssions(this.props.sessionId);
+	this.props.actions.fetchGetDiscusssions(this.props.lessonId);
 
 }
 componentDidMount() {
@@ -42,7 +42,7 @@ componentDidMount() {
 submitDiscussion = (e) => {
 	const value = this.mde.value();
 
-	this.props.actions.fetchAddDiscusssion(this.props.sessionId, value);
+	this.props.actions.fetchAddDiscusssion(this.props.lessonId, value);
 	
 	
 	this.mde.value("");
@@ -65,7 +65,7 @@ showReplyTab = (discussion) => {
 }
 
 renderDiscussions() {
-	const {discussions} = this.props.state.session;
+	const {discussions} = this.props.state.lesson;
 	if(!this.state.load_mark)
 		return(<div className="discussions"></div>)
 	return(<div className="discussions">
@@ -127,7 +127,7 @@ componentDidUpdate() {
 }
 
 const mapStateToProps = state => {
-	return {state: state.Session}
+	return {state: state.Lesson}
 }
 
 const mapDispatchToProps = dispatch => {

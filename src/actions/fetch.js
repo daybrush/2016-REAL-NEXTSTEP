@@ -1,26 +1,27 @@
 const links = {
+	"DOMAIN" : "http://srello.xyz/api",
 	"GET":{
-		"http://domain.com/courses" : "/json/courses.json",	
-		"http://domain.com/courses/search?instructor=[\\d]&state=closed" :"/json/courses.more.json",
-		"http://domain.com/courses/[\\d]" : "/json/course.json",
-		"http://domain.com/courses/[\\d]/participants" : "/json/participants.json",
-		"http://domain.com/courses/[\\d]/lectures" : "/json/lectures.json",
-		"http://domain.com/lectures/[\\d]" : "/json/lecture.json",
-		"http://domain.com/lectures/[\\d]/participants" : "/json/participants.json",
-		"http://domain.com/sessions/[\\d]" : "/json/session.json",
-		"http://domain.com/sessions/[\\d]/attachments/[\\d]" : "/json/session.json",
-		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussions.json",
+//		"/courses" : "/json/courses.json",	
+		"/courses/search?instructor=[\\d]&state=closed" :"/json/courses.more.json",
+		"/courses/[\\d]" : "/json/course.json",
+		"/courses/[\\d]/participants" : "/json/participants.json",
+		"/courses/[\\d]/lectures" : "/json/lectures.json",
+		"/lectures/[\\d]" : "/json/lecture.json",
+		"/lectures/[\\d]/participants" : "/json/participants.json",
+		"/lessons/[\\d]" : "/json/lesson.json",
+		"/lessons/[\\d]/attachments/[\\d]" : "/json/lesson.json",
+		"/lessons/[\\d]/discussions" : "/json/discussions.json",
 		
-		"http://domain.com/discussions/[\\d]" : "/json/discussion.json",
+		"/discussions/[\\d]" : "/json/discussion.json",
 
-		"http://domain.com/me" : "/json/login.json",
-		"http://domain.com/me/courses/participate" : "/json/mycourses.json"
+		"/me" : "/json/login.json",
+		"/me/courses/participate" : "/json/mycourses.json"
 	},
 	"POST" : {
-		"http://domain.com/courses/[\\d]" : "/json/lecture.add.json",
-		"http://domain.com/lectures/[\\d]/sessions" : "/json/session.add.json",
-		"http://domain.com/sessions/[\\d]/discussions" : "/json/discussion.add.json",
-		"http://domain.com/me/courses/participate" : "/json/mycourse.add.json",
+		"/courses/[\\d]" : "/json/lecture.add.json",
+		"/lectures/[\\d]/lessons" : "/json/lesson.add.json",
+		"/lessons/[\\d]/discussions" : "/json/discussion.add.json",
+		"/me/courses/participate" : "/json/mycourse.add.json",
 	}
 }
 
@@ -28,7 +29,7 @@ export default function fetch(url, info) {
 	const _links = links[info.method];
 	let _url = url;
 	for(let reg in _links) {
-		let exec = new RegExp(reg).exec(url);
+		let exec = new RegExp(links.DOMAIN + reg).exec(url);
 		if(!exec)
 			continue;
 			

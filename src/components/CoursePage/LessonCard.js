@@ -6,20 +6,29 @@ import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import DragDrop from "../../class/dragdrop"
 import LoginSession from "../../class/LoginSession"
+
+
+import "./css/LessonCard.css"
+
 export default connect(
 	state => ({state: state.CoursePage}),
 	dispatch => ({ actions: bindActionCreators(NEXTActions, dispatch), dispatch})
 )
-(class LectureCard extends Component {
+(class component extends Component {
 
 	state = {
 		drag : false
 	}
-	dragndrop = new DragDrop();
+	dragndrop = new DragDrop(".lesson-card");
   
 	dragover = (e) => {
+		if(this.props.status !== "INSTRUCTOR")
+			return;
+			
+			
+		e.stopPropagation();
 		const {card, content} = this.refs;
-		
+		console.log("DRAGOVER");
 		this.dragndrop.dragover(e, card, content);
 	
 		if(!this.state.drag)
@@ -27,11 +36,15 @@ export default connect(
 	
 	}
 	dragstart= (e) => {
-		console.log("dragstart");
+		if(this.props.status !== "INSTRUCTOR")
+			return;
+			
 		this.setState({drag:true});
 		
 		const {card, content} = this.refs;
 		this.dragndrop.dragstart(e,card,content);
+		
+		e.stopPropagation();
 	
 	}
 	dragend = (e) => {
@@ -65,40 +78,43 @@ export default connect(
 	    return index;
 	}
 	componentWillMount() {
-		//console.log(LoginSession.info)
+		//console.log(Loginlesson.info)
 	}
 	renderBadges(badges) {
 		const _badges = []
 		if("discussions" in badges)
-			_badges.push((<div key="discussions" className="session-card-badge badge-discussions"><i className="glyphicon glyphicon-comment"></i><span>{badges.discussions}</span></div>))
+			_badges.push((<div key="discussions" className="lesson-card-badge badge-discussions"><i className="glyphicon glyphicon-comment"></i><span>{badges.discussions}</span></div>))
 
 		
 		
 		return _badges;
 	}
 	render() {
-	    const {  lecture, session, course, status} = this.props;
+	    const {  lecture, lesson, course, status} = this.props;
 	    
-	    const sessionStatus = session.status || "private"
-	    const badges = session.badges || {}
-	    const progress = badges.completed || "0";
-	
-		const enabled = sessionStatus === "public" || sessionStatus === "private" && (status === "APPROVED" || status === "INSTRUCTOR")
+	    const lessonStatus = lesson.status || "private"
+	    const badges = lesson.badges || {}
+
+		const participants = course.participants, participantsLength = participants.length;
+	    let progress = participantsLength === 0 ? 0 : (badges.completed || 0) / participantsLength * 100;
+	    if(progress >= 100)
+	    	progress = 100;
+		const enabled = lessonStatus === "public" || lessonStatus === "private" && (status === "APPROVED" || status === "INSTRUCTOR")
 		
 		const draggable = 	(status === "INSTRUCTOR") ? "true" : "false"
 		
 	    return (
-		    <li onClick={this.go} className={classNames({"session-card":true, "session-card-disabled":!enabled, "placeholder":this.state.drag})} onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable={draggable} ref="card">
-		    	<div className="session-card-content" ref="content">
-			    	<div className="session-card-title"><Link to={"/session/"+session.id}>{session.title}</Link></div>
-			    	<div className="session-card-badges">
+		    <li onClick={this.go} className={classNames({"lesson-card":true, "lesson-card-disabled":!enabled, "placeholder":this.state.drag})} onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable={draggable} ref="card">
+		    	<div className="lesson-card-content" ref="content">
+			    	<div className="lesson-card-title"><Link to={"/lesson/"+lesson.id}>{lesson.title}</Link></div>
+			    	<div className="lesson-card-badges">
 			    		{this.renderBadges(badges)}
 			    	</div>
-			    	<div className="session-card-progress">
-			    		<div className="session-card-progress-ball" style={{left:progress+"%"}}></div>
+			    	<div className="lesson-card-progress">
+			    		<div className="lesson-card-progress-ball" style={{left:progress +"%"}}></div>
 			    	</div>
 		    	</div>
-        	<div className="session-card-lock glyphicon glyphicon-lock"></div>
+        	<div className="lesson-card-lock glyphicon glyphicon-lock"></div>
 		    </li>
 		)
 	}

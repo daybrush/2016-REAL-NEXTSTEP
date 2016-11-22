@@ -17,11 +17,11 @@ class component extends Component {
 	componentWillMount() {
 		document.body.className = "view-course";
 		const {actions, params} = this.props;
-		const {id} = params;
+		const {course, session} = params;
 	
 		//by Course Id
-		if(typeof id !== "undefined")
-			actions.fetchGetCourse(id);
+		if(typeof course !== "undefined")
+			actions.fetchGetCourse(course);
 			
 			
 		StoreSession.setStore("coursepage", this)
@@ -166,7 +166,7 @@ class component extends Component {
   		{this.renderParticipants()}
 		{this.renderHeader(memberStatus)}
 		
-		<div className="course-lectrues">
+		<div className="lecture-cards">
 			{lectures.map((lecture,i) =>
 				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={memberStatus}/>)
 			)}

@@ -21,15 +21,12 @@ class mainPage extends Component {
     return (
     	<section className="content">
     		<div className="page-header"><h3>신청한 강의 목록</h3></div>
-    		<ul className="course-list">
+    		<ul className="course-cards">
     		{state.courses.map((course, i) => (
     			
     			<CourseCard isLink="true" course={course} key={course.id} />
     		))}
     		</ul>
-    		
-    		<div className="page-header"><h3>강의 신청하기</h3></div>
-        <Apply/>
         </section>
     )
   }

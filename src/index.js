@@ -11,7 +11,8 @@ import { browserHistory, Router, Route, IndexRoute } from 'react-router'
 import CoursePage from './pages/CoursePage'
 import mainPage from './pages/mainPage'
 //import ProfessorPage from './pages/ProfessorPage'
-import SessionPage from './pages/SessionPage'
+import LessonPage from './pages/LessonPage'
+import Apply from './pages/Apply'
 
 
 
@@ -35,11 +36,11 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
     <Route path="/" component={App} store={store}>
-    	<IndexRoute component={mainPage} />
-      <Route path="/course/:id" component={CoursePage} />
-      <Route path="/lecture/:lectureId" component={CoursePage} />
-      <Route path="/session/:id" component={SessionPage} />            
-      
+		<IndexRoute component={mainPage} />
+		<Route path="/apply" component={Apply} />
+		<Route path="/lesson/:id" component={LessonPage} />
+		<Route path="/:course" component={CoursePage} />
+		<Route path="/:course/:session" component={CoursePage} />
     </Route>
   </Router>
   </Provider>,

@@ -9,7 +9,7 @@ const initialViewerState = {
 			name : "",
 			instructor : [],
 		},
-		sessions : []
+		lessons : []
 	}
 }
 
@@ -18,9 +18,9 @@ export default function ViewerPage(state = initialViewerState, action) {
 		case "GET_LECTURE":
 			state.lecture = action.lecture;
 			return Object.assign({}, state);
-		case "ADD_SESSION":
-			if(state.lecture.sessions)
-				state.lecture.sessions.push(action.session);
+		case "ADD_LESSON":
+			if(state.lecture.lessons)
+				state.lecture.lessons.push(action.lesson);
 			return Object.assign({}, state);
 	}
 	return state;

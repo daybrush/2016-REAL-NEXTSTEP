@@ -14,8 +14,10 @@
       "avatar_url": "https://..."
     }
   ],
-
-		    "lectures":
+  "master" : {
+	  "id": 1,
+	  "name": "강의 이름",
+	   "lectures":
 		    
 		    
 		    [
@@ -24,10 +26,10 @@
 		    "id": 0,
 		    "course": 0,
 		    "state": "private",
-		    "sessions":[
+		    "lessons":[
 		{"id": 0, "title" : "goal1", "status":"public", "badges":{"discussions":3, "completed":10}},
-		{"id": 1, "title" : "goal2", "status":"public", "badges":{"discussions":2, "completed":10}},
-		{"id": 2, "title" : "goal3", "status":"private", "badges":{"discussions":8, "completed":10}}
+		{"id": 1, "title" : "goal2", "status":"public", "badges":{"discussions":2, "completed":2}},
+		{"id": 2, "title" : "goal3", "status":"private", "badges":{"discussions":8, "completed":1}}
 ]
 		  },
 		  
@@ -37,7 +39,38 @@
 		    "id": 1,
 		    "course":0,
 		    "state": "private",
-		    "sessions":[
+		    "lessons":[
+		{"id": 0, "title" : "goal1"},
+		{"id": 1, "title" : "goal2"},
+		{"id": 2, "title" : "goal3"}
+]
+		  }
+		  ]
+  },
+
+		    "lectures":
+		    
+		    
+		    [
+		  {
+		    "title": "실프1-1",
+		    "id": 3,
+		    "course": 0,
+		    "state": "private",
+		    "lessons":[
+		{"id": 0, "title" : "goal1", "status":"public", "badges":{"discussions":3, "completed":10}},
+		{"id": 1, "title" : "goal2", "status":"public", "badges":{"discussions":2, "completed":2}},
+		{"id": 2, "title" : "goal3", "status":"private", "badges":{"discussions":8, "completed":1}}
+]
+		  },
+		  
+		  
+		  {
+		    "title": "실프1-2",
+		    "id": 4,
+		    "course":0,
+		    "state": "private",
+		    "lessons":[
 		{"id": 0, "title" : "goal1"},
 		{"id": 1, "title" : "goal2"},
 		{"id": 2, "title" : "goal3"}
