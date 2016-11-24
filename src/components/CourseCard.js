@@ -35,7 +35,7 @@ renderLink() {
     const {  name, id , instructors} = course
 	return (
 
-        <Link to={"/course/"+ id} className="course-title">
+        <Link to={"/"+ id} className="course-title">
             <div className="course-image img_wrap">
                 <img src={course.image} width="300" height="166" alt={name}/>
             </div>

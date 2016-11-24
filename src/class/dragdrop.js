@@ -34,10 +34,12 @@ export default class DragDrop {
 			let elem = target;
 			 do {
 	            elem = elem.nextSibling;
+	            console.log(elem);
 	        } while (elem && elem !== parent);
 	        
 	        const position = elem == parent ? "afterend" : "beforebegin";
 	        parent.insertAdjacentElement(position, target);
+	        console.log(parent);
 	        
 		}
 

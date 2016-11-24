@@ -13,12 +13,14 @@ import LoginSession from "../class/LoginSession"
 import StoreSession from "../class/StoreSession"
 
 class component extends Component {
-	
+	courseId = "";
+	sessionId = "";
 	componentWillMount() {
 		document.body.className = "view-course";
 		const {actions, params} = this.props;
 		const {course, session} = params;
-	
+		this.courseId = course;
+		this.sessionId = session;
 		//by Course Id
 		if(typeof course !== "undefined")
 			actions.fetchGetCourse(course);
@@ -138,6 +140,36 @@ class component extends Component {
 			
 		return ""
 	}
+	
+	renderLectures(lectures, memberStatus, draggable=true) {
+		const course = this.props.state.course;
+  		
+  		
+  		
+		return (<div className="lecture-cards">
+			{lectures.map((lecture,i) =>
+				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={memberStatus} draggable={draggable}/>)
+			)}		
+		</div>)
+	}
+	renderMaster(memberStatus) {
+
+		if(this.sessionId === "master")
+			return;
+
+		const master = this.props.state.course.master;
+
+		
+		if(!master)			
+			return;
+		console.log("master", this.props.state.course);			
+			
+		return (
+			<div className="course-master-lectures">
+			{this.renderLectures(master.lectures, memberStatus, false)}
+			</div>
+		)
+	}
 	render() {
 		if(!("course" in this.props.state))
 			return "";
@@ -160,19 +192,19 @@ class component extends Component {
 	  	}
   		
   		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course}/>) : ""
+  		
   		return (
   		<div className="course-lectrues-wrapper">
 
   		{this.renderParticipants()}
 		{this.renderHeader(memberStatus)}
-		
-		<div className="lecture-cards">
-			{lectures.map((lecture,i) =>
-				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={memberStatus}/>)
-			)}
-			{addLectureCard}			
+		<div className="course-lectures">
+			{this.renderMaster(memberStatus)}
+			<div className="course-session-lectures">
+				{this.renderLectures(lectures, memberStatus)}
+			</div>
+			{addLectureCard}	
 		</div>
-
   		<div className="lecture-participant-list"></div>
   		<div className="lecture-overlay"></div>
   		</div>

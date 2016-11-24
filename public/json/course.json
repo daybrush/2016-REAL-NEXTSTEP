@@ -15,6 +15,7 @@
     }
   ],
   "master" : {
+  	"position": [0,1],
 	  "id": 1,
 	  "name": "강의 이름",
 	   "lectures":
@@ -47,7 +48,7 @@
 		  }
 		  ]
   },
-
+  	"position": [4,3],
 		    "lectures":
 		    
 		    

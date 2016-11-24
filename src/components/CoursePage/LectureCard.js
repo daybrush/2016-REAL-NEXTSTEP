@@ -23,10 +23,10 @@ export default connect(
 		edit : false,
 		menu : false,
 	}
-	dragndrop = new DragDrop(".lecture-card");
+	dragndrop = new DragDrop(".course-session-lectures .lecture-card");
   
 dragover = (e) => {
-	if(this.props.status !== "INSTRUCTOR")
+	if(!this.props.draggable || (this.props.status !== "INSTRUCTOR"))
 		return;
 		
 	const {card, content} = this.refs;
@@ -38,7 +38,7 @@ dragover = (e) => {
 
 }
 dragstart= (e) => {
-	if(this.props.status !== "INSTRUCTOR")
+	if(!this.props.draggable || (this.props.status !== "INSTRUCTOR"))
 		return;
 		
 	console.log("dragstart");
@@ -67,6 +67,8 @@ dragend = (e) => {
 		
 	const myCourse = lectures[myPosition], targetCourse = lectures[targetPosition];
 	const myId = myCourse.id, targetId = targetCourse.id;
+	
+	
 	
 	
 	//this.props.actions.swap("lecture", myPosition, targetPosition);
@@ -156,7 +158,7 @@ render() {
 
 	const enabled = (status === "APPROVED" || status === "INSTRUCTOR") || lessons.filter(lesson=>(lesson.status === "public")).length !== 0
 	
-	const draggable = 	(this.props.status === "INSTRUCTOR") ? "true" : "false"
+	const draggable = 	this.props.draggable && (this.props.status === "INSTRUCTOR") ? "true" : "false"
     return (
       <div className={classNames({
 	     "lecture-card":true,

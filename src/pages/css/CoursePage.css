@@ -69,18 +69,27 @@
 	font-weight: 600;
 	text-decoration: underline;
 }
-.lecture-cards {
-    white-space: nowrap;
+.course-lectures {
+	position: fixed;
+	white-space: nowrap;
     margin-bottom: 10px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    position: absolute;	
 	top: 100px;
 	left:0;
 	right: 0;
     bottom:0;
+    overflow-x: auto;
 }
+.lecture-cards {
 
+}
+.course-master-lectures {
+	background: #f55;
+}
+.course-master-lectures, .course-session-lectures {
+	position: relative;
+	display: inline-block;
+	padding: 5px;
+}
 
 .course-participants {
 	position: fixed;
