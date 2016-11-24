@@ -25,8 +25,8 @@ const links = {
 	}
 }
 
-export default function fetch(url, info) {
-	const _links = links[info.method];
+export default function fetch(url, info= {}) {
+	const _links = links[info.method || "GET"];
 	let _url = url;
 	for(let reg in _links) {
 		let exec = new RegExp(links.DOMAIN + reg).exec(url);

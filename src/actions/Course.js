@@ -1,5 +1,5 @@
 import {fetchData} from "./index.js"
-
+import {CALL_API} from "../middleware/api"
 export const fetchAddMyCourse = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"my_course", id}).then(result =>  dispatch(result))
 }
@@ -18,9 +18,14 @@ export const fetchGetCoursesMore = (instructor_id) => (dispatch, getState) => {
 	})
 }
 
-export const fetchGetCourse = (id) => (dispatch, getState) => {
-	return fetchData({type:"get", target:"course", id}).then(result =>  dispatch(result))
-}
+export const fetchGetCourse = (id) => ({
+  [CALL_API]: {
+    type: "get",
+    target: "course",
+    id
+  }
+});
+
 export const fetchGetParticipants = (id) => (dispatch, getState) => {
 	return fetchData({type:"get", target:"participants", id}).then(result =>  dispatch(result))
 }

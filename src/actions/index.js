@@ -64,6 +64,8 @@ export const fetchAbout = (actions, option) => {
 				info.body = option.body;
 			}
 		}
+		
+		
 		const matchArray = link.match(/\$([a-zA-Z]+)/g);
 		if(matchArray)
 			matchArray.forEach((param) => {

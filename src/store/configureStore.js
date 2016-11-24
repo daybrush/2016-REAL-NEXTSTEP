@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
-import asyncMiddleware from 'redux-async';
+import asyncMiddleware from '../middleware/api';
 const loggerMiddleware = createLogger()
 /*
 
@@ -25,7 +25,7 @@ export default function configureStore(preloadedState) {
     rootReducer,
     preloadedState,
     applyMiddleware(
-//       asyncMiddleware,
+       asyncMiddleware,
 thunkMiddleware,
       loggerMiddleware
     )
