@@ -83,7 +83,8 @@
 
 }
 .course-master-lectures {
-	background: #f55;
+/* 	background: #f55; */
+	border: 2px dashed #f55;
 }
 .course-master-lectures, .course-session-lectures {
 	position: relative;

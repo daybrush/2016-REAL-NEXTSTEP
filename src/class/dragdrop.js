@@ -28,7 +28,7 @@ export default class DragDrop {
 		e.preventDefault();
 	
 		const target = document.querySelector(this.selector + "[isdrag='1']")
-		if(target && parent != target) {
+		if(target && parent !== target) {
 
 			console.log("SWAP");
 			let elem = target;
@@ -37,9 +37,8 @@ export default class DragDrop {
 	            console.log(elem);
 	        } while (elem && elem !== parent);
 	        
-	        const position = elem == parent ? "afterend" : "beforebegin";
+	        const position = elem === parent ? "afterend" : "beforebegin";
 	        parent.insertAdjacentElement(position, target);
-	        console.log(parent);
 	        
 		}
 

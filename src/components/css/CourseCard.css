@@ -43,6 +43,10 @@
 .course-instructor-profile, .course-instructor-name {
 	vertical-align: middle;
 }
+.course-profile-image img{
+	overflow: hidden;
+	border-radius: 50%;
+}
 .course-instructor-name {
 	margin-left: 10px;
 	display: inline-block;

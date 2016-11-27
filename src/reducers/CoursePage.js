@@ -20,15 +20,12 @@ export default function CourseListPage(state = initiallState, action) {
 		case "ADD_LECTURE":
 			state.course.lectures.push(action.lecture);
 			return Object.assign({}, state);
+		case "SAVE_LECTURE_POSITION":
+			
+			state.course.pos = action.lecture_position;
+			return state;
 		case "SWAP_LECTURE":
-			
-			let lectures = state.course.lectures, b;
-			
-			b = lectures[action.myPosition];
-			lectures.splice(action.myPosition,1);
-			lectures.splice(action.targetPosition,0, b);
-			
-			return Object.assign({}, state);
+			return state;
 		case "GET_PARTICIPANTS":
 			state.course.participants = action.participants;
 			return Object.assign({}, state);			

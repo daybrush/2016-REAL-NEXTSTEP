@@ -3,7 +3,7 @@ import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 //import ProfessorList from '../components/ProfessorList'
-import Apply from './Apply'
+//import Apply from './Apply'
 import CourseCard from '../components/CourseCard'
 
 class mainPage extends Component {

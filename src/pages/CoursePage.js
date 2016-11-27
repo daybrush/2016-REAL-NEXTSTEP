@@ -15,6 +15,7 @@ import StoreSession from "../class/StoreSession"
 class component extends Component {
 	courseId = "";
 	sessionId = "";
+	position = [];
 	componentWillMount() {
 		document.body.className = "view-course";
 		const {actions, params} = this.props;
@@ -30,6 +31,11 @@ class component extends Component {
 	}
 	componentWillUnmount() {
 		StoreSession.unsetStore("coursepage")
+	}
+	componentWillUpdate() {
+		const course = this.props.state.course;
+		const {lectures, pos} = course;
+		this.orderLectures(lectures, pos);
 	}
 	showMenu = () => {
 		this.refs.participants.getWrappedInstance().show();
@@ -95,6 +101,7 @@ class component extends Component {
 			case "REQUIRE_APPLY":
 			default:
 				applyLabel = (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
+				break;
 		}
 	
 
@@ -123,16 +130,6 @@ class component extends Component {
 			
 		)
 	}
-	renderViewer() {
-		const lectureId = this.props.params.lectureId;
-		
-		if(typeof lectureId === "undefined")
-			return;
-			
-		return (
-			<LecturePage id={lectureId}/>
-		)
-	}
 	renderParticipants() {
 		const course = this.props.state.course;
 		if(course.id > 0)
@@ -140,17 +137,77 @@ class component extends Component {
 			
 		return ""
 	}
-	
-	renderLectures(lectures, memberStatus, draggable=true) {
+	orderLectures = (lectures, pos, is_master) => {
 		const course = this.props.state.course;
+  		const objLectures = {};
+  		
+  		let addPos = lectures.filter(lecture => {
+	  		objLectures[lecture.id] = lecture;
+	  		
+	  		return pos.every((id, index) => {
+		  		
+		  		//lecture가 pos Array에  하나라도 없을 때 true를 return한다.
+		  		
+				if(id instanceof Array)
+					return id.indexOf(lecture.id) === -1
+				
+				return id !== lecture.id
+	  		})
+  		}).map(lecture=>(lecture.id))
+
+
+
+  		let is_update = false;
+
+  		
+  		if(addPos.length > 0) {
+	  		console.log(addPos);
+	  		pos = pos.concat(addPos);
+	  		is_update = true;
+
+  		}
+  		
+  		addPos = pos;
+  		pos = pos.filter(id => (id in objLectures))
+
+  		if(pos.length != addPos.length) {
+	  		is_update = true;
+  		}
+  		
+  		if(!is_master && is_update) {
+	  		this.props.dispatch(
+		  		{
+			  		type:"SAVE_LECTURE_POSITION",
+			  		lecture_position : pos
+		  		}
+	  		)
+  		}
   		
   		
+  		if(!is_master) {
+	  		this.position = pos;
+  		} 
   		
-		return (<div className="lecture-cards">
-			{lectures.map((lecture,i) =>
-				(<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={memberStatus} draggable={draggable}/>)
-			)}		
-		</div>)
+  		return pos;
+	}
+	renderLectures(lectures, pos=[],  memberStatus, is_master ) {
+  		const course = this.props.state.course;
+		const objLectures = {};
+		const draggable = !is_master && memberStatus === "INSTRUCTOR"
+	  	lectures.filter(lecture => {
+	  		objLectures[lecture.id] = lecture;
+		});	
+		
+		if(is_master) {
+			pos = this.orderLectures(lectures, pos, is_master);
+		}
+  		return (<div className="lecture-cards">{pos.map((id,i) => {
+	  			const lecture = objLectures[id]
+	  			console.log(lecture, id);
+				return (<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={memberStatus} draggable={draggable}/>)
+			})}</div>)
+  		
+
 	}
 	renderMaster(memberStatus) {
 
@@ -162,11 +219,11 @@ class component extends Component {
 		
 		if(!master)			
 			return;
-		console.log("master", this.props.state.course);			
+
 			
 		return (
 			<div className="course-master-lectures">
-			{this.renderLectures(master.lectures, memberStatus, false)}
+				{this.renderLectures(master.lectures, master.pos, memberStatus, true)}
 			</div>
 		)
 	}
@@ -176,6 +233,7 @@ class component extends Component {
 			
 		const course = this.props.state.course;
   		const {lectures} = course;
+  		
   		
   		let memberStatus = "NOT_LOGIN";
   		if(LoginSession.isLogin()) {
@@ -199,10 +257,10 @@ class component extends Component {
   		{this.renderParticipants()}
 		{this.renderHeader(memberStatus)}
 		<div className="course-lectures">
-			{this.renderMaster(memberStatus)}
 			<div className="course-session-lectures">
-				{this.renderLectures(lectures, memberStatus)}
+				{this.renderLectures(lectures, course.pos, memberStatus)}
 			</div>
+			{this.renderMaster(memberStatus)}
 			{addLectureCard}	
 		</div>
   		<div className="lecture-participant-list"></div>
@@ -216,7 +274,7 @@ class component extends Component {
 const mapStateToProps = state => ({state: state.CoursePage})
 
 const mapDispatchToProps = dispatch => {
-  return{  actions: bindActionCreators(NEXTActions, dispatch)}
+  return{  actions: bindActionCreators(NEXTActions, dispatch), dispatch}
 }
 
 export default connect(
@@ -225,3 +283,4 @@ export default connect(
 )(component)
 
 
+ 

@@ -36,3 +36,8 @@ export const fetchGetLecture = (id) => (dispatch, getState) => {
 export const fetchAddLesson = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"lesson", id}).then(result =>  dispatch(result))
 }
+
+
+export const fetchAddLecture = (id) => (dispatch, getState) => {
+	return fetchData({type:"add", target:"lecture", id}).then(result =>  dispatch(result))
+}

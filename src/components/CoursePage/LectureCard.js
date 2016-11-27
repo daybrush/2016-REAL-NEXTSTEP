@@ -23,6 +23,7 @@ export default connect(
 		edit : false,
 		menu : false,
 	}
+	selector = ".course-session-lectures .lecture-card"
 	dragndrop = new DragDrop(".course-session-lectures .lecture-card");
   
 dragover = (e) => {
@@ -67,15 +68,25 @@ dragend = (e) => {
 		
 	const myCourse = lectures[myPosition], targetCourse = lectures[targetPosition];
 	const myId = myCourse.id, targetId = targetCourse.id;
-	
-	
-	
-	
-	//this.props.actions.swap("lecture", myPosition, targetPosition);
-	//NEXTActions.fetchSwap("", "lecture", myId, targetId);
-	
-}
 
+}
+dragsubover = (e) => {
+	e.stopPropagation();
+	if(!this.props.draggable || (this.props.status !== "INSTRUCTOR"))
+		return;
+		
+	const {card, content} = this.refs;
+	
+	const target = document.querySelector(this.selector + "[isdrag='1']")
+	console.log("SUB")
+	
+
+	console.log(target);
+	this.refs.sublecture.insertAdjacentElement("beforeend", target);
+
+	
+
+}
 getNodeIndex = (node) => {
     var index = 0;
     while ( (node = node.previousSibling) ) {
@@ -174,6 +185,7 @@ render() {
 	        	</ul>
 	        	{this.renderEdit()}
         	</div>
+        	<div className="lecture-card-sublecture" ref="sublecture" draggable="true" onDragOver={this.dragsubover}></div>
         	<div className="lecture-card-lock glyphicon glyphicon-lock"></div>
       </div>
     )

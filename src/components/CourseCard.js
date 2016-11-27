@@ -48,7 +48,7 @@ renderLink() {
                 
 				<div className="course-instructor-profile">
                     <span className="course-profile-image img_wrap">
-                    	<img src="http://mooc.phinf.nhnnext.org/20160902_72/1472806345106zml83_JPEG/JiSeonLee.jpg?type=ff35_35_r" width="35" height="35" alt="XXXX님"/>
+                    	<img src={instructors[0].avatarUrl} width="35" height="35" alt="XXXX님"/>
                     </span>                                                    
                     <span className="course-instructor-name">{instructors[0].name}</span>
 				</div>

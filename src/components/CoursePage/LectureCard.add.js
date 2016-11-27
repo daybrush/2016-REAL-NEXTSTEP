@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router'
-import * as NEXTActions from '../../actions'
+import * as NEXTActions from '../../actions/Course'
 
 
 
@@ -20,8 +20,7 @@ closeEdit = () => {
 addCourse = () => {
 	console.log(this);
 	const title = this.refs.title.value;
-	NEXTActions.fetchAbout(this.props.actions, {type:"add", target:"lecture", id:this.props.course.id});
-	this.setState({edit:false});
+	this.props.actions.fetchAddLecture(this.props.course.id);
 	//NEXTActions
 }
 renderEdit() {
