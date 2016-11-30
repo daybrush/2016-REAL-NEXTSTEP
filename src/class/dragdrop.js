@@ -8,7 +8,6 @@ export default class DragDrop {
 	selector = ""
 	
 	dragstart = (e, parent, content, ) => {
-		console.log(parent, content);
 		const {width, height, top, left} = content.getBoundingClientRect();	
 		parent.style.width = width  + "px";
 		parent.style.height = height  + "px";
@@ -22,11 +21,14 @@ export default class DragDrop {
 	
 		this.cloneNode.classList.add("dragmove");
 		parent.setAttribute("isdrag", 1);
+		
+		e.stopPropagation();
 	
 	}
 	dragover = (e, parent, content) => {
 		e.preventDefault();
-	
+		e.stopPropagation();
+		
 		const target = document.querySelector(this.selector + "[isdrag='1']")
 		if(target && parent !== target) {
 
@@ -34,7 +36,6 @@ export default class DragDrop {
 			let elem = target;
 			 do {
 	            elem = elem.nextSibling;
-	            console.log(elem);
 	        } while (elem && elem !== parent);
 	        
 	        const position = elem === parent ? "afterend" : "beforebegin";

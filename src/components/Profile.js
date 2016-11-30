@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import './css/Profile.css'
 import LoginSession from "../class/LoginSession"
+import OAuth from '../class/OAuth'
 
 class component extends Component {
 
@@ -22,8 +23,32 @@ hide = () => {
 	this.setState({show:false});	
 }
 
+componentWillMount() {
+
+
+
+
+}
+click = () => {
+	const dispatch = this.props.dispatch;
+	const oauth = new OAuth({
+		client_id:"74b090b94e7948c86957",
+		redirect_uri : "http://localhost:3003",
+		server : "http://srello.xyz:8080/login"
+	})
+	dispatch(oauth.login()).then((a) => {
+		return this.props.actions.fetchGetLoginInfo()
+	}).then(a => {
+		alert("SUCCESS")
+		console.log("SUCCESS", a)
+	}).catch(a => {
+		alert("FAIL")
+		console.log("FAILR", a)
+	})
+}
+
 renderLoginForm() {
-	return ""
+	return (<a onClick={this.click}>asdasdas</a>)
 }
 renderLoginStatus() {
 	let is_show = this.state.show;

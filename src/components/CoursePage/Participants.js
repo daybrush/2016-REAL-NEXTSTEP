@@ -18,13 +18,13 @@ hide = () => {
 	this.setState({show: false});	
 }
 componentWillMount(status) {
-	const {actions, course} = this.props;
+	const {actions, session} = this.props;
 }
 
 renderStatus(status) {
 	const success = (<button type="button" key={1} className="btn btn-sm btn-success">승인</button>)
 	const decline = (<button type="button" key={2} className="btn btn-sm btn-warning">거부</button>)
-	const revoke = (<button type="button" key={3	} className="btn btn-sm btn-danger">취소</button>)
+	const revoke = (<button type="button" key={3} className="btn btn-sm btn-danger">취소</button>)
 	let buttons;
 	if(status === "request")
 		buttons= [success, decline, revoke]
@@ -32,7 +32,7 @@ renderStatus(status) {
 	return (<div className="course-participant-message">{buttons}</div>)
 }
 render() {
-	const participants = this.props.course.participants || []
+	const participants = this.props.session.participants || []
   	
     
     return (

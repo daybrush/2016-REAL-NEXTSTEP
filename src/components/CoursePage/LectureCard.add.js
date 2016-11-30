@@ -41,7 +41,7 @@ renderEdit() {
     return (
       <div className="lecture-card">
       	<div className={classNames({"lecture-card-content add-lecture-card-content" : true,"mod-edit": this.state.edit})}>
-      		<span className="add-placeholder" onClick={this.editMode}  style={{display:(this.state.edit?"none":"block")}}>Add a list...</span>
+      		<span className="add-placeholder" onClick={this.editMode}  style={{display:(this.state.edit?"none":"block")}}>Add a Lecture...</span>
         	{this.renderEdit()}
         </div>
         	

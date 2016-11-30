@@ -1,0 +1,19 @@
+.course-cards {
+	overflow: hidden;
+}
+.content-btns {
+	text-align: center;
+	padding: 10px 0px;
+}
+.content-btns .btn-apply {
+	box-shadow: none;
+	background: RGBA(28, 193, 84, 1);
+	color: #fff;
+	text-shadow: none;
+	font-weight: bold;
+	border: none;
+}
+.content-btns .btn-apply:hover {
+	background: #419641;
+	color:#fff;
+}

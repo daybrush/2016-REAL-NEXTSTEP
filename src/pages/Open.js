@@ -3,6 +3,7 @@ import * as NEXTActions from '../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import CourseCard from '../components/MainPage/CourseCard'
+import CourseCardAdd from '../components/MainPage/CourseCard.add'
 
 class Apply extends Component {
 	componentWillMount() {
@@ -15,14 +16,15 @@ class Apply extends Component {
   render() {
 	const {state, actions} = this.props
     return (
-    	<section className="content">
-	        <div className="page-header"><h3>강좌 목록</h3></div>
+	    <div>
+	        <div className="page-header"><h3>개설한 강좌 목록</h3></div>
 	    	<ul className="course-cards">
 	          {state.courses.map(course =>
 	            <CourseCard course={course} key={course.id} actions={actions} />
 	          )}
+	          <CourseCardAdd/>
 	      </ul>
-      </section>
+      </div>
     )
   }
 }

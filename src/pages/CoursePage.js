@@ -8,7 +8,7 @@ import AddLectureCard from '../components/CoursePage/LectureCard.add'
 //import LecturePage from './LecturePage'
 import Participants from '../components/CoursePage/Participants'
 import './css/CoursePage.css'
-import { Link } from 'react-router'
+import { Link , goBack} from 'react-router'
 import LoginSession from "../class/LoginSession"
 import StoreSession from "../class/StoreSession"
 
@@ -22,19 +22,22 @@ class component extends Component {
 		const {course, session} = params;
 		this.courseId = course;
 		this.sessionId = session;
+		
+		console.log("course : " + course + "  session : " + session)
 		//by Course Id
 		if(typeof course !== "undefined")
 			actions.fetchGetCourse(course);
 			
 			
 		StoreSession.setStore("coursepage", this)
+		
 	}
 	componentWillUnmount() {
 		StoreSession.unsetStore("coursepage")
 	}
 	componentWillUpdate() {
 		const course = this.props.state.course;
-		const {lectures, pos} = course;
+		const {lectures, pos} = course.session;
 		this.orderLectures(lectures, pos);
 	}
 	showMenu = () => {
@@ -75,7 +78,7 @@ class component extends Component {
 		memberStatus = "NOT_LOGIN";
   		if(LoginSession.isLogin()) {
 	  		const instructor = course.instructors.filter(instructor => (LoginSession.loginInfo.id === instructor.id))
-	  		const participant = course.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
+	  		const participant = course.session.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
 	  		if(instructor.length !== 0) 
 	  			memberStatus = "INSTRUCTOR"
 	  		else if(participant.length === 0)
@@ -131,9 +134,9 @@ class component extends Component {
 		)
 	}
 	renderParticipants() {
-		const course = this.props.state.course;
-		if(course.id > 0)
-			return (<Participants course={course} ref="participants"/>)
+		const session = this.props.state.course.session;
+		if(session.id > 0)
+			return (<Participants session={session} ref="participants"/>)
 			
 		return ""
 	}
@@ -161,14 +164,22 @@ class component extends Component {
 
   		
   		if(addPos.length > 0) {
-	  		console.log(addPos);
 	  		pos = pos.concat(addPos);
 	  		is_update = true;
 
   		}
   		
   		addPos = pos;
-  		pos = pos.filter(id => (id in objLectures))
+  		pos = pos.filter((id, i) => {
+	  		if(id instanceof Array) {
+		  		id = pos[i] = id.filter(id => (id in objLectures))
+				return id.length !== 0 && id.every(id => (id in objLectures))
+			}
+				
+			return id in objLectures
+	  		
+	  		
+	  	})
 
   		if(pos.length != addPos.length) {
 	  		is_update = true;
@@ -186,11 +197,12 @@ class component extends Component {
   		
   		if(!is_master) {
 	  		this.position = pos;
+	  		console.log("SAVE", pos)
   		} 
   		
   		return pos;
 	}
-	renderLectures(lectures, pos=[],  memberStatus, is_master ) {
+	renderLectures(lectures, pos=[],  memberStatus, is_master = false ) {
   		const course = this.props.state.course;
 		const objLectures = {};
 		const draggable = !is_master && memberStatus === "INSTRUCTOR"
@@ -201,44 +213,76 @@ class component extends Component {
 		if(is_master) {
 			pos = this.orderLectures(lectures, pos, is_master);
 		}
-  		return (<div className="lecture-cards">{pos.map((id,i) => {
-	  			const lecture = objLectures[id]
-	  			console.log(lecture, id);
-				return (<LectureCard key={lecture.id} position={i} lecture={lecture} course={course} status={memberStatus} draggable={draggable}/>)
+		
+		const _pos = pos.map((id, i)=> {
+			if(typeof id === "object")
+				return id.map(id => {
+					return objLectures[id]
+				})
+			
+			
+			return objLectures[id]
+		})
+
+  		return (<div className="lecture-cards">{_pos.map((_lecture,i) => {
+	  			let sublecture = [];
+	  			let lecture = _lecture
+	  			if(typeof _lecture === "undefined") {
+	  				return;
+	  			} else if(_lecture instanceof Array) {
+		  			if(!_lecture.length)
+		  				return;
+		  				
+		  			lecture = _lecture[0];
+		  			sublecture = _lecture.slice(1, _lecture.length);
+		  			
+	  			}
+				return (<LectureCard key={lecture.id} position={i} lecture={lecture} sublecture={sublecture} course={course} status={memberStatus} is_master={is_master}/>)
 			})}</div>)
   		
 
 	}
 	renderMaster(memberStatus) {
 
-		if(this.sessionId === "master")
+		if(this.sessionId === "master" )
 			return;
 
+		const course =this.props.state.course;
 		const master = this.props.state.course.master;
 
 		
 		if(!master)			
 			return;
 
-			
+  		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course}/>) : ""
 		return (
 			<div className="course-master-lectures">
 				{this.renderLectures(master.lectures, master.pos, memberStatus, true)}
+				{addLectureCard}
 			</div>
 		)
 	}
 	render() {
 		if(!("course" in this.props.state))
-			return "";
-			
+			return (<div>Loading</div>)
+
+
 		const course = this.props.state.course;
-  		const {lectures} = course;
-  		
+		
+			
+			
+		if(! (course.session && course.session.lectures))
+			return (<div>Loading</div>)
+			
+
+						
+  		const {lectures} = course.session;
+
   		
   		let memberStatus = "NOT_LOGIN";
   		if(LoginSession.isLogin()) {
 	  		const instructor = course.instructors.filter(instructor => (LoginSession.loginInfo.id === instructor.id))
-	  		const participant = course.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
+	  		const participant = course.session.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
 	  		if(instructor.length !== 0) 
 	  			memberStatus = "INSTRUCTOR"
 	  		else if(participant.length === 0)
@@ -258,13 +302,11 @@ class component extends Component {
 		{this.renderHeader(memberStatus)}
 		<div className="course-lectures">
 			<div className="course-session-lectures">
-				{this.renderLectures(lectures, course.pos, memberStatus)}
+				{this.renderLectures(lectures, course.session.pos, memberStatus)}
 			</div>
 			{this.renderMaster(memberStatus)}
-			{addLectureCard}	
 		</div>
   		<div className="lecture-participant-list"></div>
-  		<div className="lecture-overlay"></div>
   		</div>
   		)
   	}

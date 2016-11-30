@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 //import { Link } from 'react-router'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import './css/CourseCard.css'
 
 
 class component extends Component {

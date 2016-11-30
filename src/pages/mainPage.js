@@ -4,8 +4,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 //import ProfessorList from '../components/ProfessorList'
 //import Apply from './Apply'
-import CourseCard from '../components/CourseCard'
+import CourseCard from '../components/MainPage/CourseCard'
+import Open from './Open'
+import "./css/mainPage.css"
 
+import {Link} from 'react-router'
 class mainPage extends Component {
 	componentWillMount() {
 		const {actions} = this.props;
@@ -20,13 +23,17 @@ class mainPage extends Component {
 	const {state} = this.props
     return (
     	<section className="content">
-    		<div className="page-header"><h3>신청한 강의 목록</h3></div>
+    		<Open/>
+    		<div className="page-header"><h3>수강 목록</h3></div>
     		<ul className="course-cards">
     		{state.courses.map((course, i) => (
     			
     			<CourseCard isLink="true" course={course} key={course.id} />
     		))}
     		</ul>
+    		<div className="content-btns">
+	    		<Link className="btn btn-apply" to="/apply">강좌 찾아보기</Link>
+    		</div>
         </section>
     )
   }

@@ -109,8 +109,65 @@ div.lecture-card-lock:before, div.lesson-card-lock:before {
 }
 
 
-.lecture-card .lecture-card-sublecture {
+/*lecture-card-menu*/
+.lecture-card-menu {
+	display: none;
+	position: absolute;	
+	margin-left: -5px;
+	margin-top: -5px;
+	width: 310px;
+}
+.lecture-card-menu.show {
+	display: block;
+	z-index: 5;
+}
+.lecture-card-menu .options{
+	position: absolute;
+	left: 100%;
+}
+.lecture-card-menu .options li {
+	background: rgba(0, 0, 0, 0.8);
+	color: #eee;
+	padding: 5px 10px;
+	margin: 0px 10px 5px;
+	border-radius: 3px;
+	font-size: 13px;
+	font-weight: bold;
+}
+.lecture-card-menu .options li:hover {
+	color: #fff;
+	background: rgba(0, 0, 0, 1);
+	transform: translate(5px)
+}
+.lecture-card-menu .form-controls input.form-control {
+	padding: 3px 5px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 305px;
+    height: auto;
+    border: none;
+    border-radius: 3px;
+    box-shadow: none;
+}
+.lecture-overlay {
+	position: fixed;
+	top:0;
+	right:0;
+	left: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.1);
+	display: none;
+	z-index: 2;
+}
+
+
+
+
+.lecture-card-sublecture {
 	background: #999;
-	padding: 10px;
+	padding: 10px 0px;
 	height: 100px;
+}
+.lecture-card-sublecture .lecture-card {
+	margin: 10px 0px;
 }

@@ -3,34 +3,39 @@ import * as Actions from '../constants/ActionTypes'
 const initiallState = {
 	course: {
 		name:"",
-		lectures:[],
 		instructors:[],
 		status: -1,
 		id : -1,
-		participants : []
+		session : {},
+		master : {}
 	}
 }
 
 export default function CourseListPage(state = initiallState, action) {
+	let session = state.course.session
+	if(action.params && action.params.is_master)
+		session = state.course.master
+		
 	switch(action.type ) {
 		case "GET_COURSE":
 			state.course = action.course;
 			return Object.assign({}, state);
 			
 		case "ADD_LECTURE":
-			state.course.lectures.push(action.lecture);
+			session.lectures.push(action.lecture)
+				
 			return Object.assign({}, state);
 		case "SAVE_LECTURE_POSITION":
-			
-			state.course.pos = action.lecture_position;
-			return state;
+			session.pos = action.lecture_position;
+				
+			return Object.assign({}, state)
 		case "SWAP_LECTURE":
 			return state;
 		case "GET_PARTICIPANTS":
-			state.course.participants = action.participants;
+			state.course.session.participants = action.participants;
 			return Object.assign({}, state);			
 		case "ADD_LESSON":
-			let lectures2 = state.course.lectures.filter(lecture=>(action.lesson.lecture.id === lecture.id))
+			let lectures2 = session.lectures.filter(lecture=>(action.lesson.lecture.id === lecture.id))
 			console.log(lectures2)
 			lectures2.forEach(lecture => {
 				lecture.lessons.push(action.lesson)

@@ -1,5 +1,8 @@
 import {fetchData} from "./index.js"
-
-export const fetchGetLoginInfo = () => (dispatch, getState) => {
-	return fetchData({type:"get", target:"login_info"}).then(result =>  dispatch(result))
-}
+import {CALL_API} from "../middleware/api"
+export const fetchGetLoginInfo = () => ({
+	[CALL_API]: {
+		type: "get",
+		target: "login_info",
+	}
+})

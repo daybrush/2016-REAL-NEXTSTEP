@@ -1,4 +1,4 @@
-import {links} from "../actions/Links"
+import  {links, methodType} from "../actions/Links"
 import fetch from "../actions/fetch"
 
 
@@ -7,18 +7,50 @@ import fetch from "../actions/fetch"
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-const callApi = (options) => {
+function objectToParam(obj) {
+	var str = "";
+	for (var key in obj) {
+	    if (str != "") {
+	        str += "&";
+	    }
+    str += key + "=" + encodeURIComponent(obj[key]);
+	}
+	
+	return str;
+	
+}
 
-  const {type, target, url} = options;
+const callApi = (options) => {
+  let {type, target, url, params, body} = options;
   let _type = (type+"_" + target).toUpperCase();	
   let fullUrl = url || links.DOMAIN + links[_type];
 
 	const matchArray = fullUrl.match(/\$([a-zA-Z]+)/g);
 	if(matchArray)
 		matchArray.forEach((param) => {
-			fullUrl = fullUrl.replace(param, options[param.replace("$", "")]);
+			fullUrl = fullUrl.replace(param, params[param.replace("$", "")]);
 		});
 
+	let method = options.method || methodType[type] || "GET";
+	let myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+	
+	let info = {
+		method: method,
+		headers : myHeaders,
+	};
+	let link = links.DOMAIN + links[_type];
+	
+	if(body ) {
+		if(typeof body === "object") {
+			body  = objectToParam(body)
+		}
+		if(method === "GET") {
+			fullUrl += (fullUrl.indexOf("?") === -1 ? "?" : "&") + body;			
+		} else {
+			info.body = body;
+		}
+	}
 
 
   return fetch(fullUrl)
@@ -32,7 +64,8 @@ const callApi = (options) => {
 		
         return {
 	        type: _type,
-	        [target] : json
+	        [target] : json,
+	        params
         }
       })
     )
@@ -65,6 +98,10 @@ export default store => next => action => {
   
   return callApi(callAPI).then(
     response => next(response),
-    error => next(error)
+    error => {
+	    const result = {type:"ERROR",error}
+	    return Promise.reject(result)
+	    //return next(result)
+	 }
   )
 }

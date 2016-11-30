@@ -4,12 +4,18 @@ import { connect } from 'react-redux'
 import * as NEXTActions from '../actions/Login'
 import Header from '../components/Header'
 import LoginSession from "../class/LoginSession"
+import StoreSession from "../class/StoreSession"
 
 class App extends Component {
 componentWillMount() {
 	const {_state, actions} = this.props;
 	LoginSession.bindAction(actions)
 	LoginSession.fetchGetLoginInfo()
+	
+	StoreSession.setStore("history", this.history)
+}
+componentWillUnmount() {
+	StoreSession.unsetStore("history")
 }
 render(){
 	const { children} = this.props

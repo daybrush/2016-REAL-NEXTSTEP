@@ -26,7 +26,7 @@ export default connect(
 			return;
 			
 			
-		e.stopPropagation();
+
 		const {card, content} = this.refs;
 		console.log("DRAGOVER");
 		this.dragndrop.dragover(e, card, content);
@@ -44,7 +44,7 @@ export default connect(
 		const {card, content} = this.refs;
 		this.dragndrop.dragstart(e,card,content);
 		
-		e.stopPropagation();
+
 	
 	}
 	dragend = (e) => {
@@ -56,15 +56,8 @@ export default connect(
 		const {card, content} = this.refs;
 		this.dragndrop.dragend(e, card, content);
 	
-	
-	
-
 		const myPosition = this.props.position, targetPosition = this.getNodeIndex(card);
-		if(myPosition === targetPosition)
-			return;
-		
-		//this.props.actions.swap("lecture", myPosition, targetPosition);
-		//NEXTActions.fetchSwap("", "lecture", myId, targetId);
+
 		
 	}
 	
@@ -89,13 +82,15 @@ export default connect(
 		
 		return _badges;
 	}
+
 	render() {
 	    const {  lecture, lesson, course, status} = this.props;
+	    const session = course.session
 	    
 	    const lessonStatus = lesson.status || "private"
 	    const badges = lesson.badges || {}
 
-		const participants = course.participants, participantsLength = participants.length;
+		const participants = course.session.participants, participantsLength = participants.length;
 	    let progress = participantsLength === 0 ? 0 : (badges.completed || 0) / participantsLength * 100;
 	    if(progress >= 100)
 	    	progress = 100;
@@ -106,7 +101,8 @@ export default connect(
 	    return (
 		    <li onClick={this.go} className={classNames({"lesson-card":true, "lesson-card-disabled":!enabled, "placeholder":this.state.drag})} onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable={draggable} ref="card">
 		    	<div className="lesson-card-content" ref="content">
-			    	<div className="lesson-card-title"><Link to={"/lesson/"+lesson.id}>{lesson.title}</Link></div>
+			    	<div className="lesson-card-title"><Link to={"/" +course.id +"/" + session.id +"/lesson/"+lesson.id}>{lesson.title}</Link></div>
+			    	<Link className="lesson-card-edit glyphicon glyphicon-pencil" to={"/" +course.id +"/" + session.id +"/lesson/"+lesson.id+"/edit"}></Link>
 			    	<div className="lesson-card-badges">
 			    		{this.renderBadges(badges)}
 			    	</div>

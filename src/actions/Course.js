@@ -22,16 +22,20 @@ export const fetchGetCourse = (id) => ({
   [CALL_API]: {
     type: "get",
     target: "course",
-    id
+    params : {
+	    id
+    }
   }
 });
-
-export const fetchGetParticipants = (id) => (dispatch, getState) => {
-	return fetchData({type:"get", target:"participants", id}).then(result =>  dispatch(result))
-}
-export const fetchGetLecture = (id) => (dispatch, getState) => {
-	return fetchData({type:"get", target:"lecture", id}).then(result =>  dispatch(result))
-}
+export const fetchGetParticipants = (id) => ({
+  [CALL_API]: {
+    type: "get",
+    target: "participants",
+    params : {
+	    id
+    }
+  }
+});
 
 export const fetchAddLesson = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"lesson", id}).then(result =>  dispatch(result))

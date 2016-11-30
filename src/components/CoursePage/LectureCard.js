@@ -22,14 +22,26 @@ export default connect(
 		drag : false,
 		edit : false,
 		menu : false,
+		parent : "",
 	}
 	selector = ".course-session-lectures .lecture-card"
 	dragndrop = new DragDrop(".course-session-lectures .lecture-card");
-  
+ 
+ 
+ componentWillMount() {
+	 this.lecture = this.props.lecture
+	 this.selector = this.props.is_master ? ".course-master-lectures .lecture-card" : ".course-session-lectures .lecture-card"
+	 this.dragndrop.selector = this.selector
+ }
+
 dragover = (e) => {
-	if(!this.props.draggable || (this.props.status !== "INSTRUCTOR"))
+	if(this.props.status !== "INSTRUCTOR")
 		return;
-		
+	
+	
+	e.stopPropagation();
+	
+	
 	const {card, content} = this.refs;
 	
 	this.dragndrop.dragover(e, card, content);
@@ -39,7 +51,7 @@ dragover = (e) => {
 
 }
 dragstart= (e) => {
-	if(!this.props.draggable || (this.props.status !== "INSTRUCTOR"))
+	if(this.props.status !== "INSTRUCTOR")
 		return;
 		
 	console.log("dragstart");
@@ -47,6 +59,9 @@ dragstart= (e) => {
 	
 	const {card, content} = this.refs;
 	this.dragndrop.dragstart(e,card,content);
+	
+	
+	this.state.parent = card.parentNode
 
 
 }
@@ -57,31 +72,108 @@ dragend = (e) => {
 	this.setState({drag:false});
 	
 	const {card, content} = this.refs;
+	
+	const target = document.querySelector(this.selector + "[isdrag='1']")
 	this.dragndrop.dragend(e, card, content);
+	
 
 
+	const lecture = this.props.lecture
+	const elCards = document.querySelectorAll(".course-session-lectures .lecture-cards>.lecture-card"), length = elCards.length
+	let elCard, position, is_sublecture = false
+	
+	const lecturePosition = this.props.position
+	let cardPosition = -1;
+	
+	let pos = StoreSession.getStore("coursepage").position;
+	for(let i = 0; i < length; ++i) {
+		elCard = elCards[i]
+		if(elCard === card) {
+			cardPosition = i
+			break
+		} else if(elCard.contains(card)){
+			cardPosition = i
+			is_sublecture = true
+			break
+		}
+	}
 
-	const lectures = this.props.state.course.lectures;	
-	const myPosition = this.props.position, targetPosition = this.getNodeIndex(card);
-	if(myPosition === targetPosition)
-		return;
+	
+	let targetId = pos[lecturePosition], newPosition, sublecturePosition;
+	if(cardPosition > -1) {
+		if(targetId instanceof Array) {
+			sublecturePosition = targetId.indexOf(lecture.id)
+			
+			if(sublecturePosition === -1)
+				return
+				
+			targetId = targetId.slice(sublecturePosition, targetId.length)
+		}
 		
-	const myCourse = lectures[myPosition], targetCourse = lectures[targetPosition];
-	const myId = myCourse.id, targetId = targetCourse.id;
-
+		pos = pos.map((id, i)=> {
+			if(id instanceof Array) {
+				let index = id.indexOf(lecture.id)
+				if(index === -1)
+					return id
+				
+				else if(index === 0)
+					return lecture.id
+				
+				return id.filter((id, i) => (i<index))
+			}
+			return id
+			
+		}).filter((id, i) => (id !== lecture.id))
+		
+		if(is_sublecture) {
+			if(!(pos[cardPosition] instanceof Array))
+				pos[cardPosition] = [pos[cardPosition]]
+				
+			pos[cardPosition] = pos[cardPosition].concat(targetId)
+		} else {
+			pos.splice(cardPosition, 0, targetId)
+		}
+		
+		pos = pos.map(id => {
+			
+			if(id instanceof Array) {
+				if(id.length === 1)
+					return id[0]	
+			}
+			
+			return id
+		})
+		
+	
+		this.state.parent.insertAdjacentElement("beforeend", target)
+		this.state.parent = ""
+		
+		
+	
+		this.props.dispatch(
+	  		{
+		  		type:"SAVE_LECTURE_POSITION",
+		  		lecture_position : pos,
+		  		params : {
+			  		is_master : this.props.is_master
+		  		}
+	  		}
+  		)
+	}
 }
 dragsubover = (e) => {
 	e.stopPropagation();
-	if(!this.props.draggable || (this.props.status !== "INSTRUCTOR"))
+	if(this.props.status !== "INSTRUCTOR")
 		return;
 		
 	const {card, content} = this.refs;
 	
 	const target = document.querySelector(this.selector + "[isdrag='1']")
-	console.log("SUB")
 	
-
-	console.log(target);
+	if(!target)
+		return
+		
+		
 	this.refs.sublecture.insertAdjacentElement("beforeend", target);
 
 	
@@ -99,12 +191,10 @@ getNodeIndex = (node) => {
 
 showMenu = () => {
 	this.setState({menu:true, edit: false});
-	document.querySelector(".lecture-overlay").style.display = "block";
 	this.refs.menu_title.value = this.props.lecture.title
 }
 hideMenu = () => {
 	this.setState({menu:false});
-	document.querySelector(".lecture-overlay").style.display = "none";
 }
 saveMenu = () => {
 	this.hideMenu()
@@ -140,6 +230,9 @@ renderEdit() {
 	    </div>	
 	)
 }
+
+
+
 renderMenu() {
 	if(this.props.status !== "INSTRUCTOR")
 		return;
@@ -148,7 +241,8 @@ renderMenu() {
 	return (
 		<div>
 			<a className="lecture-card-menu-btn glyphicon glyphicon-option-horizontal" href="#" onClick={this.showMenu}></a>
-		    <div className={classNames({"lecture-card-menu":true,"lecture-card-menu-show":this.state.menu})}>
+			<div className={classNames({"lecture-overlay":true,"show":this.state.menu})} onClick={this.hideMenu}></div>
+		    <div className={classNames({"lecture-card-menu":true,"show":this.state.menu})}>
 		    	<ul className="options">
 		    		<li>All Public</li>
 		    		<li>All Private</li>
@@ -162,6 +256,22 @@ renderMenu() {
 		</div>
 	)	
 }
+
+
+renderSublecture() {
+	let sublecture = this.props.sublecture
+	if(!(sublecture instanceof Array))
+		return;
+	if(sublecture.length === 0)
+		return;
+	
+	const lecture = sublecture[0]
+	
+	sublecture = sublecture.slice(1, sublecture.length)
+	return (<LectureCard key={lecture.id} lecture={lecture} sublecture={sublecture} course={this.props.course} status={this.props.status} is_master={this.props.is_master} position={this.props.position} dispatch={this.props.dispatch}/>)
+}
+
+
 render() {
 	const {status, lecture, course} = this.props;
     const {  id, title, lessons } = lecture;
@@ -169,7 +279,7 @@ render() {
 
 	const enabled = (status === "APPROVED" || status === "INSTRUCTOR") || lessons.filter(lesson=>(lesson.status === "public")).length !== 0
 	
-	const draggable = 	this.props.draggable && (this.props.status === "INSTRUCTOR") ? "true" : "false"
+	const draggable =  (this.props.status === "INSTRUCTOR") ? "true" : "false"
     return (
       <div className={classNames({
 	     "lecture-card":true,
@@ -185,7 +295,10 @@ render() {
 	        	</ul>
 	        	{this.renderEdit()}
         	</div>
-        	<div className="lecture-card-sublecture" ref="sublecture" draggable="true" onDragOver={this.dragsubover}></div>
+        	<div className="lecture-card-sublecture" ref="sublecture" draggable="true" onDragOver={this.dragsubover}>
+        		{this.renderSublecture()}
+        		<div className="lecture-card-sublecture-add"></div>
+        	</div>
         	<div className="lecture-card-lock glyphicon glyphicon-lock"></div>
       </div>
     )

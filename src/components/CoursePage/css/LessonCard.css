@@ -87,7 +87,24 @@
 	background: #F7F7F7;
 	color: #333;
 }
-
+.lesson-card .lesson-card-edit {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	right: 5px;
+	top: 5px;
+	color:  #ccc;
+	display: none;
+}
+.lesson-card:hover .lesson-card-edit {
+	display: block;
+}
+.lesson-card .lesson-card-edit:before {
+	color:  #777;
+	font-size: 13px;
+}
 
 .lesson-card-add-show .lesson-card-add-placeholder {
 	display: none;

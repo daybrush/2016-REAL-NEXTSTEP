@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import * as NEXTActions from '../actions/Course'
+import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import './css/CourseCard.css'

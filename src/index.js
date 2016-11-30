@@ -28,7 +28,6 @@ import StoreSession from "./class/StoreSession"
 
 
 const store = configureStore();
-console.log(StoreSession)
 StoreSession.setStore("store", store.getState())
 
 
