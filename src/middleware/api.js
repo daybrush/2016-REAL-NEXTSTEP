@@ -33,8 +33,8 @@ const callApi = (options) => {
 
 	let method = options.method || methodType[type] || "GET";
 	let myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-	
+	myHeaders.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+	myHeaders.append("x-auth-token", sessionStorage.getItem("x-auth-token"))
 	let info = {
 		method: method,
 		headers : myHeaders,
@@ -52,8 +52,7 @@ const callApi = (options) => {
 		}
 	}
 
-
-  return fetch(fullUrl)
+  return fetch(fullUrl, info)
     .then(response =>
       response.json().then(json => {
         if (!response.ok) {

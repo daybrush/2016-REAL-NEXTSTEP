@@ -14,7 +14,7 @@ const links = {
 		
 		"/discussions/[\\d]" : "/json/discussion.json",
 
-		"/../user" : "/json/login.json",
+// 		"/../user" : "/json/login.json",
 		"/me/courses/participate" : "/json/mycourses.json"
 	},
 	"POST" : {
@@ -26,6 +26,7 @@ const links = {
 }
 
 export default function fetch(url, info= {}) {
+	info.method  = info.method.toUpperCase()
 	const _links = links[info.method || "GET"];
 	let _url = url;
 	for(let reg in _links) {

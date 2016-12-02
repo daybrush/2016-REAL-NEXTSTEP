@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import * as NEXTActions from '../actions'
+import * as NEXTActions from '../actions/Login'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import './css/Profile.css'
@@ -32,12 +32,15 @@ componentWillMount() {
 click = () => {
 	const dispatch = this.props.dispatch;
 	const oauth = new OAuth({
-		client_id:"74b090b94e7948c86957",
+		client_id:"47dfd22871c67b6bbf77",
 		redirect_uri : "http://localhost:3003",
 		server : "http://srello.xyz:8080/login"
 	})
-	dispatch(oauth.login()).then((a) => {
-		return this.props.actions.fetchGetLoginInfo()
+	dispatch(oauth.login()).then((response) => {
+		const headers = response.headers;
+		console.log(headers);
+		sessionStorage.setItem("x-auth-token", headers["x-auth-token"])
+		return response.json();
 	}).then(a => {
 		alert("SUCCESS")
 		console.log("SUCCESS", a)

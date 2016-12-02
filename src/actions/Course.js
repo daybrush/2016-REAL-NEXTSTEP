@@ -3,9 +3,12 @@ import {CALL_API} from "../middleware/api"
 export const fetchAddMyCourse = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"my_course", id}).then(result =>  dispatch(result))
 }
-export const fetchGetCourses = () => (dispatch, getState) => {
-	return fetchData({type:"get", target:"courses"}).then(result => { result.courses = result.courses._embedded.courses;return dispatch(result)})
-}
+export const fetchGetCourses = () => ({
+  [CALL_API]: {
+    type: "get",
+    target: "courses",
+  }
+})
 export const fetchGetMyCourses = () => (dispatch, getState) => {
 	return fetchData({type:"get", target:"my_courses"}).then(result =>  dispatch(result))
 }
