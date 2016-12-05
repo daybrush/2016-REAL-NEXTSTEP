@@ -66,6 +66,8 @@ const callApi = (options) => {
 		
 		console.log("%cAction : %c" +  _type + "\n%cFetch : ","color:blue;font-weight:bold;","color:black;font-weight:bold;",  "color:red;font-weight:bold;", fullUrl, json)
 		
+		json = json._embedded && json._embedded || json
+		
         return {
 	        type: _type,
 	        [target] : json,
