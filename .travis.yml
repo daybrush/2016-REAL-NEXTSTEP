@@ -8,7 +8,7 @@ script:
 env:
   global:
   - ENCRYPTION_LABEL: "6f5f9b467f98"
-  - COMMIT_AUTHOR_EMAIL: "you@exmaple.com"
+  - COMMIT_AUTHOR_EMAIL: "daybrush@gmail.com"
 cache:
   directories:
     - node_modules
