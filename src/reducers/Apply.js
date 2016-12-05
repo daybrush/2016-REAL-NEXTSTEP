@@ -9,7 +9,7 @@ export default function mainPage(state = initialState, action) {
 			if(!action.courses)
 				return state;
 				
-			state.courses = action.courses;
+			state.courses = action.courses.courses  && action.courses.courses  || action.courses;
 			
 			return Object.assign({}, state);
 		case Actions.GET_PROFESSOR:
