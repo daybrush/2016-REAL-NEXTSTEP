@@ -1,2 +1,4 @@
 node_modules
+deploy_key.pem
+.travis
 .DS_Store
