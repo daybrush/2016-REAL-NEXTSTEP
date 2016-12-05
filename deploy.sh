@@ -18,7 +18,7 @@ fi
 
 # Save some useful information
 REPO=`git config remote.origin.url`
-SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+SSH_REPO=${REPO/https:\/\/daybrush.com\//daybrush@gmail.com:}
 SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into out/
@@ -46,9 +46,6 @@ ssh-add deploy_key
 
 # Now let's go have some fun with the cloned repo
 cd out
-
-git config user.name "Travis CI"
-git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 #if [ -z `git diff --exit-code` ]; then
