@@ -1,0 +1,33 @@
+{
+  "id": 1,
+  "title": "Discussion 1",
+  "content": "This is a discussion.",
+  "replies": [
+    {
+      "id": 1,
+      "comment": "This is first reply.",
+      "creator": {
+        "id": 1,
+        "name": "이름",
+        "avatar_url": "https://..."
+      },
+      "created": "20161013T223842Z"
+    },
+    {
+      "id": 2,
+      "comment": "This is second reply.",
+      "creator": {
+        "id": 1,
+        "name": "이름",
+        "avatar_url": "https://..."
+      },
+      "created": "20161013T223842Z"
+    }
+  ],
+  "creator": {
+    "id": 1,
+    "name": "이름",
+    "avatar_url": "https://..."
+  },
+  "created": "20161013T223842Z"
+}

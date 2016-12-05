@@ -1,0 +1,11 @@
+{
+      "id": 5,
+      "title": "Discussion 2",
+      "content": "ADD COMMENT",
+      "creator": {
+        "id": 2,
+        "name": "NAME3",
+        "avatar_url": "https://avatars2.githubusercontent.com/u/520500?v=3&s=400"
+      },
+      "created": "20161013T223842Z"
+    }
