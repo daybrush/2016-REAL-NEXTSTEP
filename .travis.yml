@@ -12,5 +12,8 @@ after_success:
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_key.pem
 - ssh-add deploy_key.pem
-- git remote add deploy https://github.com/daybrush/daybrush.github.io.git
-- git push deploy
+- git clone https://github.com/daybrush/daybrush.github.io.git deploy
+- mv deploy/.git build/.git
+- cd build
+- git commit -am "Deploy"
+- git push origin master
