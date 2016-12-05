@@ -1,19 +1,12 @@
+dist: trusty
 language: node_js
 node_js:
-- '6'
+- stable
 install:
 - npm install
 script:
-- npm run build
-before_install:
-- openssl aes-256-cbc -K $encrypted_6f5f9b467f98_key -iv $encrypted_6f5f9b467f98_iv
-  -in deploy_key.pem.enc -out deploy_key.pem -d
-after_success:
-- eval "$(ssh-agent -s)"
-- chmod 600 deploy_key.pem
-- ssh-add deploy_key.pem
-- git clone https://github.com/daybrush/daybrush.github.io.git deploy
-- mv deploy/.git build/.git
-- cd build
-- git commit -am "Deploy"
-- git push origin master
+- bash ./deploy.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: "6f5f9b467f98"
+  - COMMIT_AUTHOR_EMAIL: "you@exmaple.com"
