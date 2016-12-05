@@ -70,21 +70,6 @@ export default class OAuth {
 		
 		return new Promise((resolve, reject) =>{
 			this.listen({ popup, provider, state, resolve, reject})
-		}).then((a) => 	{
-			console.log(a)
-			return dispatch({
-				[CALL_API]: {
-					type: "request",
-					target: "login",
-					method: "GET",
-					body : {
-						code : a.data.code,
-						state : a.data.state
-					}
-				}
-			})
-			
-						}
-		)
+		})
 	}
 }

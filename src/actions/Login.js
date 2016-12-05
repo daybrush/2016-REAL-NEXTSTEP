@@ -6,3 +6,14 @@ export const fetchGetLoginInfo = () => ({
 		target: "login_info",
 	}
 })
+export const fetchRequestLogin = (data) => ({
+	[CALL_API]: {
+		type: "request",
+		target: "login",
+		method: "GET",
+		body : {
+			code : data.code,
+			state : data.state
+		}
+	}
+})

@@ -53,10 +53,15 @@ const callApi = (options) => {
 	}
 
   return fetch(fullUrl, info)
-    .then(response =>
-      response.json().then(json => {
+    .then(response => {
+	    
+	    return response.json().then(json => {
         if (!response.ok) {
           return Promise.reject(json)
+        }
+        const token = response.headers.get("x-auth-token");
+        if(token) {
+	        sessionStorage.setItem("x-auth-token", token)
         }
 		
 		console.log("%cAction : %c" +  _type + "\n%cFetch : ","color:blue;font-weight:bold;","color:black;font-weight:bold;",  "color:red;font-weight:bold;", fullUrl, json)
@@ -67,7 +72,8 @@ const callApi = (options) => {
 	        params
         }
       })
-    )
+    }    )
+
 }
 
 // We use this Normalizr schemas to transform API responses from a nested form

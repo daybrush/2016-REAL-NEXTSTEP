@@ -32,15 +32,12 @@ componentWillMount() {
 click = () => {
 	const dispatch = this.props.dispatch;
 	const oauth = new OAuth({
-		client_id:"47dfd22871c67b6bbf77",
-		redirect_uri : "http://localhost:3003",
+		client_id:"e707ca2f9a1556499b5a",
+		redirect_uri : "http://github.brushday.com",
 		server : "http://srello.xyz:8080/login"
 	})
-	dispatch(oauth.login()).then((response) => {
-		const headers = response.headers;
-		console.log(headers);
-		sessionStorage.setItem("x-auth-token", headers["x-auth-token"])
-		return response.json();
+	dispatch(oauth.login()).then(a => {
+		return this.props.actions.fetchRequestLogin(a.data)
 	}).then(a => {
 		alert("SUCCESS")
 		console.log("SUCCESS", a)

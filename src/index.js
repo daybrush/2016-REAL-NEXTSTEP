@@ -30,6 +30,11 @@ import StoreSession from "./class/StoreSession"
 const store = configureStore();
 StoreSession.setStore("store", store.getState())
 
+var redirect = sessionStorage.redirect;
+delete sessionStorage.redirect;
+if (redirect && redirect != location.href) {
+	window.history.replaceState(null, null, redirect);
+}
 
 render(
   <Provider store={store}>
