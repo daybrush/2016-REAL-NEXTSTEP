@@ -34,13 +34,19 @@ cd ..
 # Clean out existing contents
 rm -rf out/**/* || exit 0
 
+echo "here"
+
 # Run our compile script
 doCompile
+
+echo "here1"
 
 # Now let's go have some fun with the cloned repo
 cd out
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
+
+echo "here2"
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 if [ -z `git diff --exit-code` ]; then
@@ -48,10 +54,14 @@ if [ -z `git diff --exit-code` ]; then
     exit 0
 fi
 
+echo "here3"
+
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
 git add .
 git commit -m "Deploy to GitHub Pages: ${SHA}"
+
+echo "here4"
 
 # Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
