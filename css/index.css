@@ -15,6 +15,11 @@ a , a:focus, a:hover {
 }
 #header a {
 	color: white;
+	height: 100%;
+}
+#header a img{
+	height: 26px;
+	vertical-align: middle;
 }
 #header .aside-left {
     position: absolute;
