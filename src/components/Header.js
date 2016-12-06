@@ -6,7 +6,7 @@ export default class Header extends Component {
 	state = {
 		update : true,
 		btns : {
-			"logo" : (<Link className="header-logo" to="/" key="logo">LOGO</Link>),
+			"logo" : (<Link className="header-logo" to="/" key="logo"><img src="/images/logo.png"/></Link>),
 			"profile" : (<Profile key="profile"/>)
 			
 		}
