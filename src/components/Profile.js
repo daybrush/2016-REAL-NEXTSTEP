@@ -44,17 +44,17 @@ requestLogin = (data) => {
 
 login = () => {
 	const dispatch = this.props.dispatch;
-/*
 	const oauth = new OAuth({
 		client_id:"e707ca2f9a1556499b5a",
-		redirect_uri : "http://srello.xyz/",
+		redirect_uri : "http://srello.xyz/login.html",
 	});
-*/
 
+/*
 	const oauth = new OAuth({
 		client_id:"74b090b94e7948c86957",
 		redirect_uri : "http://localhost:3001/login.html",
 	});
+*/
 	oauth.login();
 	
 	
