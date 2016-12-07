@@ -44,10 +44,18 @@ requestLogin = (data) => {
 
 login = () => {
 	const dispatch = this.props.dispatch;
+
+	const oauth = new OAuth({
+		client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
+		redirect_uri : process.env.REACT_APP_OAUTH_REDIRECT_URI
+	});
+
+/*
 	const oauth = new OAuth({
 		client_id:"e707ca2f9a1556499b5a",
 		redirect_uri : "http://srello.xyz/login.html",
 	});
+*/
 
 /*
 	const oauth = new OAuth({
