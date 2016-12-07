@@ -33,7 +33,7 @@ click = () => {
 	const dispatch = this.props.dispatch;
 	const oauth = new OAuth({
 		client_id:"e707ca2f9a1556499b5a",
-		redirect_uri : "http://github.brushday.com",
+		redirect_uri : "http://srello.xyz",
 		server : "http://srello.xyz:8080/login"
 	})
 	dispatch(oauth.login()).then(a => {
