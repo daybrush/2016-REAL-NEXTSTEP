@@ -1,0 +1,8 @@
+<script>
+	var searchParams = new URLSearchParams(location.search);
+	window.opener.requestLogin({
+		code: searchParams.get("code"),
+		state: searchParams.get("state"),
+	});
+	window.close();
+</script>
