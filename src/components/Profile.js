@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import './css/Profile.css'
 import LoginSession from "../class/LoginSession"
-import OAuth from '../class/OAuth'
+import OAuth from '../class/OAuth2'
 
 class component extends Component {
 
@@ -25,30 +25,46 @@ hide = () => {
 
 componentWillMount() {
 
-
+	window.requestLogin = this.requestLogin
 
 
 }
-click = () => {
+
+requestLogin = (data) => {
+	this.props.actions.fetchRequestLogin(data).then(data=> {
+		console.log(data);
+		if (data.login.error) {
+			
+		}
+	}).catch(data => {
+		alert("로그인에 실패하였습니다.")
+	})
+}
+
+
+login = () => {
 	const dispatch = this.props.dispatch;
+/*
 	const oauth = new OAuth({
 		client_id:"e707ca2f9a1556499b5a",
-		redirect_uri : "http://srello.xyz",
-		server : "http://srello.xyz:8080/login"
-	})
-	dispatch(oauth.login()).then(a => {
-		return this.props.actions.fetchRequestLogin(a.data)
-	}).then(a => {
-		alert("SUCCESS")
-		console.log("SUCCESS", a)
-	}).catch(a => {
-		alert("FAIL")
-		console.log("FAILR", a)
-	})
-}
+		redirect_uri : "http://srello.xyz/",
+	});
+*/
 
+	const oauth = new OAuth({
+		client_id:"74b090b94e7948c86957",
+		redirect_uri : "http://localhost:3001/login.html",
+	});
+	oauth.login();
+	
+	
+
+}
+logout = () => {
+	this.props.actions.fetchRequestLogout()
+}
 renderLoginForm() {
-	return (<a onClick={this.click}>asdasdas</a>)
+	return (<a onClick={this.login}>Login</a>)
 }
 renderLoginStatus() {
 	let is_show = this.state.show;
@@ -66,7 +82,7 @@ renderLoginStatus() {
 			<ul className="list-group">
 			<li className="list-group-item">Profile</li>
 			<li className="list-group-item">My Lectures</li>
-			<li className="list-group-item last">Logout</li>
+			<li className="list-group-item last" onClick={this.logout}>Logout</li>
 			</ul>
 			</div>
 			</div>

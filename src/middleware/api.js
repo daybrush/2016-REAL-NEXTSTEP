@@ -68,6 +68,16 @@ const callApi = (options) => {
 		
 		json = json._embedded && json._embedded || json
 		
+		
+		
+		if("error" in json) {
+			return Promise.reject({
+				type: "ERROR_" + _type,
+				error : json,
+				params
+			})
+		}
+		
         return {
 	        type: _type,
 	        [target] : json,
@@ -106,6 +116,10 @@ export default store => next => action => {
   return callApi(callAPI).then(
     response => next(response),
     error => {
+	    console.log(error)
+	    if(error.type)
+		    return Promise.reject(error)
+
 	    const result = {type:"ERROR",error}
 	    return Promise.reject(result)
 	    //return next(result)

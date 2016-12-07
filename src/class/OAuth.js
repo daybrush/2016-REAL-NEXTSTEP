@@ -45,7 +45,7 @@ export default class OAuth {
 	    if (creds && creds.code) {
 	
 
-	      popup.close();
+	      //popup.close();
 	
 	      return resolve({data : creds});
 	    } else if (popup.closed) {

@@ -17,3 +17,7 @@ export const fetchRequestLogin = (data) => ({
 		}
 	}
 })
+
+export const fetchRequestLogout = () => ({
+	type: "REQUEST_LOGOUT"
+})

@@ -14,8 +14,9 @@ export default function reducer(state = initialState, action) {
 		//http://srello.xyz:8080/user
 			state.login = action.login_info && action.login_info.principal || action.login || {}
 			console.log("LOGIN", state.login)
-			if(state.login.error)
+			if(state.login.error) {
 				return state
+			}
 				
 			if(!state.login.login)
 				return state
@@ -25,7 +26,6 @@ export default function reducer(state = initialState, action) {
 						
 		case "REQUEST_LOGOUT":
 			state.login = {login_status: "LOGOUT"}
-			
 			sessionStorage.removeItem("x-auth-token")
 			return Object.assign({}, state)
 		default:
