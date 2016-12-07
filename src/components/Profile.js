@@ -46,27 +46,14 @@ login = () => {
 	const dispatch = this.props.dispatch;
 
 	const oauth = new OAuth({
+		name: "github",
+		authorize_uri : "https://github.com/login/oauth/authorize",
 		client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
-		redirect_uri : process.env.REACT_APP_OAUTH_REDIRECT_URI
+		redirect_uri : process.env.REACT_APP_OAUTH_REDIRECT_URI,
+		scope: "user",
+		
 	});
-
-/*
-	const oauth = new OAuth({
-		client_id:"e707ca2f9a1556499b5a",
-		redirect_uri : "http://srello.xyz/login.html",
-	});
-*/
-
-/*
-	const oauth = new OAuth({
-		client_id:"74b090b94e7948c86957",
-		redirect_uri : "http://localhost:3001/login.html",
-	});
-*/
 	oauth.login();
-	
-	
-
 }
 logout = () => {
 	this.props.actions.fetchRequestLogout()
