@@ -4,7 +4,7 @@ let loginAction = {state:"", actions:""};
 
 export default class LoginSession {
 	static isLogin() {
-		return (LoginSession.loginInfo.login_status === "LOGIN")
+		return (LoginSession.getLoginInfo().login_status === "LOGIN")
 	}
 	static bindAction(actions) {
 		loginAction.actions = actions
@@ -18,7 +18,7 @@ export default class LoginSession {
 	static logout() {
 		
 	}
-	static get loginInfo() {
-		return StoreSession.getStore("store").Login.login
+	static getLoginInfo() {
+		return StoreSession.getStore("store").getState().Login.login
 	}
 }
