@@ -1,0 +1,18 @@
+<script src="oauth.js"></script>
+
+<script>
+const oauth = new OAuth({
+	name: "github",
+	width: 1024,
+	height: 620,
+	authorize_uri : "https://github.com/login/oauth/authorize?scope=user",
+	client_id: "74b090b94e7948c86957",
+	redirect_uri : "http://localhost:3001/login.html",
+	
+});
+
+login = () => {
+	oauth.login();
+	
+}
+</script>
