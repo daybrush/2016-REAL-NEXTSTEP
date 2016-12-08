@@ -1,10 +1,30 @@
 
 body.pdf-open {
-	 background: #444;
+	background: #444;
 }
 
 body.pdf-open #header {
 	background: #313639;
+}
+
+#header .aside-left-lesson-back {
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    color: #fff;
+    height: 100%;
+    line-height: normal; 
+}
+#header .aside-left-lesson-back a {
+	line-height: 60px;
+	height: 40px;
+	font-size: 18px;
+}
+#header .aside-left-lesson-back a i {
+	font-size: 26px;
+	margin-right: 10px;
+	padding-bottom: 3px;
+	vertical-align: middle;
 }
 .session-wrapper {
 	margin-right: 300px;
@@ -12,7 +32,8 @@ body.pdf-open #header {
 
 /*SLIDE-PAGE*/
 .slide-page {
-	margin: 10px auto;
+	margin: 0px auto;
+	padding: 10px 0px;
 	padding-bottom: 30px;
 }
 .slide-page .slide-control {
@@ -85,14 +106,18 @@ body.pdf-open #header {
 .tab-wrapper {
 	right: 0;
 	position: fixed;
-	top: 50px;
+	top: 60px;
 	bottom: 0;
 	width: 300px;
 	background: #383838;
 	border-left: 1px solid #2f2f2f;
 }
+
+
+
 .btn-wrapper {
 	position: fixed;
+	top: 100px;
 	z-index: 10;
 }
 .btn-wrapper .btn {

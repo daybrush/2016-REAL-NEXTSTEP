@@ -41,7 +41,7 @@ render(
     <Route path="/" component={App} store={store}>
 		<IndexRoute component={mainPage} />
 		<Route path="/apply" component={Apply} />
-		<Route path="/lesson/:id" component={LessonPage} />
+		<Route path="/:course/:session/lesson/:id" component={LessonPage} />
 		<Route path="/:course" component={CoursePage} />
 		<Route path="/:course/:session" component={CoursePage} />
     </Route>

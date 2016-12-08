@@ -11,7 +11,14 @@ export default class Header extends Component {
 			
 		}
 	}
-
+	addButton(btns) {
+		for(let name in btns) {
+			this.state.btns[name] = btns[name];
+		}
+		this.setState({update:true})
+		
+		console.log("header", this.state)
+	}
 	componentWillMount() {
 		StoreSession.setStore("header", this)	
 	}

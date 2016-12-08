@@ -1,11 +1,27 @@
-.course-cards {
-	overflow: hidden;
+
+.content {
+	max-width: 1200px;
+	margin: 0px auto;
+	padding: 10px;
+	box-sizing: border-box;
 }
+section.content .page-header {
+	padding: 30px 0px 12px;
+	margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  clear: both;
+}
+section.content .page-header h3{
+	font-size: 35px;
+	font-weight: 300;
+	color: #333;
+}
+
 .content-btns {
 	text-align: center;
 	padding: 10px 0px;
 }
-.content-btns .btn-apply {
+.content-btns .btn-apply, .content-btns .btn-more {
 	box-shadow: none;
 	background: RGBA(28, 193, 84, 1);
 	color: #fff;
@@ -13,7 +29,8 @@
 	font-weight: bold;
 	border: none;
 }
-.content-btns .btn-apply:hover {
+.content-btns .btn-apply:hover, .content-btns .btn-more:hover{
 	background: #419641;
 	color:#fff;
 }
+

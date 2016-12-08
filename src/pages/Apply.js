@@ -22,6 +22,9 @@ class Apply extends Component {
 	            <CourseCard course={course} key={course.id} actions={actions} />
 	          )}
 	      </ul>
+    		<div className="content-btns">
+	    		<a className="btn btn-more">더 보기</a>
+    		</div>
       </section>
     )
   }

@@ -47,15 +47,17 @@ class component extends Component {
 		window.onresize = this.refreshView;
 		const {actions, params} = this.props;
 		
-		const {id} = params;
+		const {course, session, id} = params;
 		
 		
 		document.body.className="pdf-open";
 		
 		actions.fetchGetLesson(id).then(result => {
-			const {id, name} = result.lesson.course
-			StoreSession.getStore("header").state.btns.leftSide = (<div className="aside-left"><Link to={"/course/" + id }>{name}</Link></div>)
-			StoreSession.getStore("header").setState({update:true})
+			const {id, name} = result.lesson.lecture
+			StoreSession.getStore("header").addButton({
+				leftSide:(<div className="aside-left-lesson-back"><Link to={"/" + course + "/" + session }>
+				<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)
+			});
 			
 		})
 
