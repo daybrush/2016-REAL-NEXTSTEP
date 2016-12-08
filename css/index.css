@@ -21,14 +21,7 @@ a , a:focus, a:hover {
 	height: 30px;
 	vertical-align: middle;
 }
-#header .aside-left {
-    position: absolute;
-    left: 10px;
-    top: 0px;
-    color: #fff;
-    height: 100%;
-    line-height: normal; 
-}
+
 .alert.goal-card {
 	padding: 10px;
     margin-bottom: 10px;
