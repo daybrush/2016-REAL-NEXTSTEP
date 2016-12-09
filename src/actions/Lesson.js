@@ -1,8 +1,15 @@
 import {fetchData} from "./index.js"
+import {CALL_API} from "../middleware/api"
 
-export const fetchGetLesson = (id) => (dispatch, getState) => {
-	return fetchData({type:"get", target:"lesson", id:id}).then(result =>  dispatch(result))
-}
+export const fetchGetLesson = (id) => ({
+  [CALL_API]: {
+    type: "get",
+    target: "lesson",
+    params : {
+	    id
+    }
+  }
+})
 export const fetchGetDiscusssions = (id) => (dispatch, getState) => {
 	return fetchData({type:"get", target:"discussions", id:id}).then(result =>  dispatch(result))
 }
