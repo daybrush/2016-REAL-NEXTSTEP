@@ -52,7 +52,7 @@ class component extends Component {
 		
 		document.body.className="pdf-open";
 		
-		console.log("WILL MOUNT")
+
 		actions.fetchGetLesson(id).then(result => {
 			const {id, name} = result.lesson.lecture
 			StoreSession.getStore("header").addButton({
@@ -60,7 +60,7 @@ class component extends Component {
 				<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)
 			});
 		})
-		console.log("WILL MOUNT2")
+
 	}
 	componentWillUnmount() {
 		document.body.className = "";
@@ -248,7 +248,7 @@ class component extends Component {
 		
 		
 	renderContents() {
-		console.log("RENDER CONTENTS")
+
 		return this.contentArray.map((content,i) => {
 			if(!content)
 				return "";
@@ -266,7 +266,7 @@ class component extends Component {
 		});
 	}
 	renderTab() {
-		console.log("RENDER TAB")
+
 		switch(this.state.tab) {
 		case 2:
 			return this.renderLinkTab()
