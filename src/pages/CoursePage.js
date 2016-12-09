@@ -262,9 +262,18 @@ class component extends Component {
 			</div>
 		)
 	}
+	renderLoading() {
+		return (
+			<div className="course-loading">
+				<p><img src="/images/loading.gif" height="60"/></p>
+				<p>Loading...</p>
+			</div>
+			
+		)
+	}
 	render() {
 		if(!("course" in this.props.state))
-			return (<div>Loading</div>)
+			return this.renderLoading()
 
 
 		const course = this.props.state.course;
@@ -272,7 +281,7 @@ class component extends Component {
 			
 			
 		if(! (course.session && course.session.lectures))
-			return (<div>Loading</div>)
+			return this.renderLoading()
 			
 
 						
