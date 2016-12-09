@@ -53,16 +53,11 @@ class component extends Component {
 		document.body.className="pdf-open";
 		
 		actions.fetchGetLesson(id).then(result => {
-			try {
-				const {id, name} = result.lesson.lecture
-				StoreSession.getStore("header").addButton({
-					leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course + "/" + session }>
-					<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)
-				});
-			} catch(e) {
-				console.log("ERR");
-				console.log(e);
-			}
+			const {id, name} = result.lesson.lecture
+			StoreSession.getStore("header").addButton({
+				leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course + "/" + session }>
+				<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)
+			});
 		})
 
 	}
@@ -230,7 +225,6 @@ class component extends Component {
 		
 		
 		const codes = document.querySelectorAll(".page-wrapper pre code")
-		console.log("codes", codes)
 		for(let i =0; codes[i]; ++i) {
 			hljs.highlightBlock(codes[i]);
 		}
@@ -253,6 +247,7 @@ class component extends Component {
 		
 		
 	renderContents() {
+		console.debug("RENDER CONTENTS")
 		return this.contentArray.map((content,i) => {
 			if(!content)
 				return "";
@@ -270,6 +265,7 @@ class component extends Component {
 		});
 	}
 	renderTab() {
+		console.debug("RENDER TAB")
 		switch(this.state.tab) {
 		case 2:
 			return this.renderLinkTab()
