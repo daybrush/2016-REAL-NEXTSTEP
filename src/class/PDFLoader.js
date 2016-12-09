@@ -1,7 +1,7 @@
 import { PDFJS } from 'pdfjs-dist';
 import worker from 'pdfjs-dist/build/pdf.worker';
 
-PDFJS.workerSrc = "/js/pdf.worker.js"
+//PDFJS.workerSrc = "/js/pdf.worker.js"
 export default class PDFLoader {
 fileName = "";
 pdfFile = "";
