@@ -22,7 +22,6 @@ state = {
 	nowDiscussion : -1
 }
 mde = "";
-textarea  = (<textarea className="form-control discussion-input" ref="name"></textarea>)
 componentWillMount() {
 	this.props.actions.fetchGetDiscusssions(this.props.lessonId);
 
@@ -105,7 +104,7 @@ render() {
 	    		})}>
 		    	{this.renderDiscussions()}
 		    	<div className="discussion-form form-group">
-		            	{this.textarea}
+		            	<textarea className="form-control discussion-input" ref="name"></textarea>
 	                   <button type="button" className="btn btn-info discussion-submit" onClick={this.submitDiscussion}> POST </button>
 	          </div>
 	        </div>

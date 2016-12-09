@@ -3,3 +3,4 @@ deploy_key.pem
 .travis
 *.DS_Store
 .env
+build
