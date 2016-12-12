@@ -6,14 +6,17 @@ export default class Header extends Component {
 	state = {
 		update : true,
 		btns : {
-			"logo" : (<Link className="header-logo" to="/" key="logo"><img src="/images/logo.png"/></Link>),
+			"logo" : (<Link className="header-logo" to="/" key="logo"><img src="/images/logo.png" alt="logo"/></Link>),
 			"profile" : (<Profile key="profile"/>)
 			
 		}
 	}
 	addButton(btns) {
+		let obj = this.state.btns
 		for(let name in btns) {
-			this.state.btns[name] = btns[name];
+			if(!btns.hasOwnProperty(name))
+				continue
+			obj[name] = btns[name];
 		}
 		this.setState({update:true})
 		
@@ -29,6 +32,8 @@ export default class Header extends Component {
 	let headers = []
 	const {btns} = this.state
 	for(let btn in btns) {
+		if(!btns.hasOwnProperty(btn))
+			continue
 		headers.push(btns[btn])
 	}
     return (

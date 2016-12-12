@@ -57,7 +57,11 @@ const callApi = (options) => {
 	    
 	    return response.json().then(json => {
         if (!response.ok) {
-          return Promise.reject(json)
+          	return Promise.reject({
+	          	type:"ERROR_" + _type,
+	        	error: json,
+	        	params
+			 })
         }
         const token = response.headers.get("x-auth-token");
         if(token) {
@@ -116,12 +120,10 @@ export default store => next => action => {
   return callApi(callAPI).then(
     response => next(response),
     error => {
-	    console.log(error)
-	    if(error.type)
-		    return Promise.reject(error)
+	    return Promise.reject(error)
 
-	    const result = {type:"ERROR",error}
-	    return Promise.reject(result)
+
+
 	    //return next(result)
 	 }
   )

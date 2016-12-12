@@ -6,8 +6,7 @@
 }
 
 .course-header {
-	padding: 10px;
-	height: 50px;
+	padding: 15px 10px;
 }
 .course-header span, .course-header span a {
 	vertical-align: middle;
@@ -17,11 +16,11 @@
 }
 .course-header-name {
 	color:#333;
-	font-weight: 900;
-	font-size: 18px;
+	font-weight: 300;
+	font-size: 30px;
 	vertical-align: middle;
 }
-.course-header-professor {
+.course-header .course-header-professor {
 	font-size: 14px;
 }
 .course-header-info {
@@ -31,31 +30,36 @@
 	width: 24px;
 	height: 24px;
 	line-height: 20px;
-	font-weight: bold;
+	font-weight: 900;
 	border-radius: 50%;
 	border: 2px solid #333;	
 }
 .course-header .label {
 	font-size: 13px;
-	margin: 0px 10px;
 }
-.course-header-apply {
-	display: inline-block;
-	background: #F77600;
-	color: #333;
+.label.course-header-status {
+	color: #fff;
 }
-.course-header-apply:hover,.course-header-apply:focus {
-	color: #333;
+.label.course-header-apply{
+	vertical-align: middle;
+	float: right;
+	background: #FBAC36;
+	color: #fff;
+	margin: 5px 20px;
+	padding: 5px 12px;
+}
+.course-header-apply:hover {
 	background: #E34300;
 }
 .course-header .course-header-status {
 	
 }
 .course-header-btn-show-menu {
+	vertical-align: middle;
 	float: right;
 	height: 100%;
 	line-height: 30px;
-	padding: 0px 5px;
+	padding: 0px 10px;
 	border-radius: 2px;
 }
 .course-header-btn-show-menu:hover {
@@ -73,7 +77,7 @@
 	position: fixed;
 	white-space: nowrap;
     margin-bottom: 10px;
-	top: 100px;
+	top: 130px;
 	left:0;
 	right: 0;
     bottom:0;
@@ -94,7 +98,7 @@
 
 .course-participants {
 	position: fixed;
-	top: 50px;
+	top: 60px;
 	right: 0;
 	bottom:0;
 	background-color: #fff;

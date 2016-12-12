@@ -54,7 +54,7 @@ class component extends Component {
 		
 
 		actions.fetchGetLesson(id).then(result => {
-			const {id, name} = result.lesson.lecture
+			const {name} = result.lesson.lecture
 			StoreSession.getStore("header").addButton({
 				leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course + "/" + session }>
 				<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)

@@ -8,7 +8,7 @@ import AddLectureCard from '../components/CoursePage/LectureCard.add'
 //import LecturePage from './LecturePage'
 import Participants from '../components/CoursePage/Participants'
 import './css/CoursePage.css'
-import { Link , goBack} from 'react-router'
+import { Link} from 'react-router'
 import LoginSession from "../class/LoginSession"
 import StoreSession from "../class/StoreSession"
 
@@ -55,6 +55,24 @@ class component extends Component {
 			alert("신청하지 못했습니다.")
 		})
 	}
+	
+	renderApplyLabel(memberStatus) {
+		switch(memberStatus) {
+			case "INSTRUCTOR":
+				return (<a className="course-header-apply label" href="#">관리자</a>)	
+				break;			
+			case "APPROVED":
+				return (<a className="course-header-apply label" href="#">승인 ㅇㅇ</a>)	
+				break;
+			case "REQUEST_APPLY":
+				return (<a className="course-header-apply label" href="#">신청중</a>)	
+			case "NOT_LOGIN":
+			case "REQUIRE_APPLY":
+			default:
+				return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
+		}
+		return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
+	}
 
 	renderHeader(memberStatus) {
 		const course = this.props.state.course
@@ -74,61 +92,38 @@ class component extends Component {
 				break;
 		}
 		
-		
-		memberStatus = "NOT_LOGIN";
-  		if(LoginSession.isLogin()) {
-	  		const instructor = course.instructors.filter(instructor => (LoginSession.loginInfo.id === instructor.id))
-	  		const participant = course.session.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
-	  		if(instructor.length !== 0) 
-	  			memberStatus = "INSTRUCTOR"
-	  		else if(participant.length === 0)
-	  			memberStatus = "REQUIRE_APPLY"
-	  		else if(participant[0].status === "request")
-	  			memberStatus = "REQUEST_APPLY"
-	  		else
-	  			memberStatus = "APPROVED"
-	  	}
-	  	
-	  	
+			  	
 		let applyLabel = ""
-		switch(memberStatus) {
-			case "INSTRUCTOR":
-				applyLabel = (<a className="course-header-apply label" href="#">관리자</a>)	
-				break;			
-			case "APPROVED":
-				applyLabel = (<a className="course-header-apply label" href="#">승인 ㅇㅇ</a>)	
-				break;
-			case "REQUEST_APPLY":
-				applyLabel = (<a className="course-header-apply label" href="#">신청중</a>)	
-			case "NOT_LOGIN":
-			case "REQUIRE_APPLY":
-			default:
-				applyLabel = (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
-				break;
-		}
-	
+
 
 		return (
 			<div className="course-header">
-				<span className="course-header-name">{name}</span>
-				{instructors.map((instructor,i) => (
-				<span className="course-header-professor" key={i}><Link to={"/professor/"+instructor.id} >{instructor.name}</Link></span>				
-				))}
 				<span className={classNames({
+					"course-header-status": true,
 					label:true,
 					"label-danger": status === 2,
 					"label-success": status === 1,
 					"label-warning": status === 0,
 					
 				})}>{statusName}</span>
+				<span className="course-header-name">{name}</span>
 				
+				
+				{instructors.map((instructor,i) => (
+				<span className="course-header-professor" key={i}><Link to={"/professor/"+instructor.id} >{instructor.name}</Link></span>				
+				))}
+				<a className="course-header-info ">i</a>
+
+
+	
 				<a className="course-header-btn-show-menu" href="#" onClick={this.showMenu}>
 					<span className="glyphicon glyphicon-option-horizontal"></span>
 					<span className="course-header-btn-text">Show Menu</span>
 				</a>
-				
-				<a className="course-header-info ">i</a>
-				{applyLabel}
+
+				{this.renderApplyLabel(memberStatus)}							
+
+
 			</div>
 			
 		)
@@ -141,7 +136,6 @@ class component extends Component {
 		return ""
 	}
 	orderLectures = (lectures, pos, is_master) => {
-		const course = this.props.state.course;
   		const objLectures = {};
   		
   		let addPos = lectures.filter(lecture => {
@@ -181,7 +175,7 @@ class component extends Component {
 	  		
 	  	})
 
-  		if(pos.length != addPos.length) {
+  		if(pos.length !== addPos.length) {
 	  		is_update = true;
   		}
   		
@@ -248,7 +242,7 @@ class component extends Component {
 			return;
 
 		const course =this.props.state.course;
-		const master = this.props.state.course.master;
+		const master = this.props.state.course.masterSession;
 
 		
 		if(!master)			
@@ -290,8 +284,10 @@ class component extends Component {
   		
   		let memberStatus = "NOT_LOGIN";
   		if(LoginSession.isLogin()) {
-	  		const instructor = course.instructors.filter(instructor => (LoginSession.loginInfo.id === instructor.id))
-	  		const participant = course.session.participants.filter(participant=>(LoginSession.loginInfo.id === participant.id))
+	  		const loginInfo = LoginSession.getLoginInfo()
+	  		console.log(loginInfo, 	course.instructors);
+	  		const instructor = course.instructors.filter(instructor => (loginInfo.id === instructor.id))
+	  		const participant = course.session.participants.filter(participant=>(loginInfo.id === participant.id))
 	  		if(instructor.length !== 0) 
 	  			memberStatus = "INSTRUCTOR"
 	  		else if(participant.length === 0)

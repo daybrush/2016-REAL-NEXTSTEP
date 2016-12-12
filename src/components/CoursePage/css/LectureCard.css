@@ -7,7 +7,7 @@
 	margin-left: 10px;
 	margin-right: 5px;
 	vertical-align: top;
-	width: 320px;
+	width: 300px;
 }
 /*DRAG*/
 .lecture-card.dragmove .lecture-card-content {
@@ -90,7 +90,7 @@ div.lecture-card-lock:before, div.lesson-card-lock:before {
 .lecture-card .add-lecture-card-content {
 	padding: 10px;
 	border-radius: 3px;
-	width: 300px;	
+	width: 280px;	
 }
 .lecture-card .add-lecture-card-content:hover {
 	background: #ddd;
@@ -98,11 +98,12 @@ div.lecture-card-lock:before, div.lesson-card-lock:before {
 .lecture-card .add-lecture-card-content.mod-edit:hover {
 	background: #fff;
 }
-.lecture-card h2 {
+.lecture-card .lecture-card-title {
 	margin:0;
 	font-size: 16px;
 	font-weight: bold;
-	margin-bottom: 10px;
+	margin-bottom: 12px;
+	margin-top: 2px;
 }
 .lecture-card .lecture-card-content a {
 	color: black;
@@ -115,7 +116,7 @@ div.lecture-card-lock:before, div.lesson-card-lock:before {
 	position: absolute;	
 	margin-left: -5px;
 	margin-top: -5px;
-	width: 310px;
+	width: 290px;
 }
 .lecture-card-menu.show {
 	display: block;
@@ -140,10 +141,10 @@ div.lecture-card-lock:before, div.lesson-card-lock:before {
 	transform: translate(5px)
 }
 .lecture-card-menu .form-controls input.form-control {
-	padding: 3px 5px;
+	padding: 5px 5px;
     font-size: 16px;
     font-weight: bold;
-    width: 305px;
+    width: 285px;
     height: auto;
     border: none;
     border-radius: 3px;
@@ -164,9 +165,8 @@ div.lecture-card-lock:before, div.lesson-card-lock:before {
 
 
 .lecture-card-sublecture {
-	background: #999;
 	padding: 10px 0px;
-	height: 100px;
+	height: 30px;
 }
 .lecture-card-sublecture .lecture-card {
 	margin: 10px 0px;

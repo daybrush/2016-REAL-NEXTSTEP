@@ -4,6 +4,7 @@ const links = {
 //		"/courses" : "/json/courses.json",	
 		"/courses/search?instructor=[\\d]&state=closed" :"/json/courses.more.json",
  		"/courses/[\\d]" : "/json/course.json",
+//  		"/courses/[\\d]/sessions/[\\d]" : "/json/session.json",
 		"/courses/[\\d]/participants" : "/json/participants.json",
 		"/courses/[\\d]/lectures" : "/json/lectures.json",
 		"/lectures/[\\d]" : "/json/lecture.json",
@@ -14,7 +15,7 @@ const links = {
 		
 		"/discussions/[\\d]" : "/json/discussion.json",
 
-// 		"/../user" : "/json/login.json",
+		"/user" : "/json/login.json",
 		"/me/courses/participate" : "/json/mycourses.json"
 	},
 	"POST" : {

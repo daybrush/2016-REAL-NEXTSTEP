@@ -289,7 +289,7 @@ render() {
       
 	       <div className="lecture-card-content" ref="content">
 		   		{this.renderMenu()}
-	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-title-name">{title}</h2>
+	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-card-title">{title}</h2>
 	        	<ul className="lesson-cards">
 	        		{lessons.map(lesson => (<LessonCard key={lesson.id} lesson={lesson} lecture={this.props.lecture} course={this.props.course} status={status}/>))}
 	        	</ul>
