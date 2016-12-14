@@ -277,7 +277,7 @@ render() {
     const {  id, title, lessons } = lecture;
     const courseId = course.id;
 
-	const enabled = (status === "APPROVED" || status === "INSTRUCTOR") || lessons.filter(lesson=>(lesson.acesss > 0)).length !== 0
+	const enabled = (status === "APPROVED" || status === "INSTRUCTOR") || lessons.filter(lesson=>(lesson.access === "PUBLIC")).length !== 0
 	
 	const draggable =  (this.props.status === "INSTRUCTOR") ? "true" : "false"
     return (

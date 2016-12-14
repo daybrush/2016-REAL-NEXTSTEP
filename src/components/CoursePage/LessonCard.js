@@ -86,14 +86,14 @@ export default connect(
 	render() {
 	    const {  lecture, lesson, course, status} = this.props;
 	    
-	    const isAcess = lesson.acesss > 0
+	    const isAccess = lesson.access === "PUBLIC"
 	    const badges = lesson.badges || {}
 
 		const participants = this.props.participants, participantsLength = participants.length;
 	    let progress = participantsLength === 0 ? 0 : (badges.completed || 0) / participantsLength * 100;
 	    if(progress >= 100)
 	    	progress = 100;
-		const enabled = isAcess ||  (status === "APPROVED" || status === "INSTRUCTOR")
+		const enabled = isAccess ||  (status === "APPROVED" || status === "INSTRUCTOR")
 		
 		const draggable = 	(status === "INSTRUCTOR") ? "true" : "false"
 		
