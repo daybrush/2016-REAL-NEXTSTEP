@@ -15,11 +15,16 @@ class Apply extends Component {
 
   render() {
 	const {state, actions} = this.props
+	
+	if(!state.courses._embedded)
+		return (<div>LOADING</div>);
+		
+		
     return (
 	    <div>
 	        <div className="page-header"><h3>개설한 강좌 목록</h3></div>
 	    	<ul className="course-cards">
-	          {state.courses.map(course =>
+	          {state.courses._embedded.courses.map(course =>
 	            <CourseCard course={course} key={course.id} actions={actions} />
 	          )}
 	          <CourseCardAdd/>

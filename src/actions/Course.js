@@ -30,6 +30,17 @@ export const fetchGetCourse = (id) => ({
     }
   }
 });
+export const fetchGetSession = (courseId, sessionId) => ({
+  [CALL_API]: {
+    type: "get",
+    target: "session",
+    url: "/courses/$courseId/sessions/$sessionId",
+    params : {
+	    courseId,
+	    sessionId
+    }
+  }
+});
 export const fetchGetParticipants = (id) => ({
   [CALL_API]: {
     type: "get",

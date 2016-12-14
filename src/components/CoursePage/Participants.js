@@ -26,13 +26,14 @@ renderStatus(status) {
 	const decline = (<button type="button" key={2} className="btn btn-sm btn-warning">거부</button>)
 	const revoke = (<button type="button" key={3} className="btn btn-sm btn-danger">취소</button>)
 	let buttons;
-	if(status === "request")
+	if(status === "PENDING")
 		buttons= [success, decline, revoke]
 	
 	return (<div className="course-participant-message">{buttons}</div>)
 }
 render() {
-	const participants = this.props.session.participants || []
+	const enrollments = this.props.session.enrollments || []
+	
   	
     
     return (
@@ -42,15 +43,18 @@ render() {
       	Members
       	</h3>
       	<ul>
-      		{participants.map((participant,i) =>(
-	      		<li key={i}>
+      		{enrollments.map((enrollment,i) =>{
+	      		const participant = enrollment.user
+	      		return(<li key={i}>
 	      			<div className="course-participant">
-	      				<img src={participant.avatar_url} className="course-participant-thumb" />
+	      				<img src={participant.avatarUrl} className="course-participant-thumb" />
 	      				<div className="course-participant-name">{participant.name}</div>
-	      				{this.renderStatus(participant.status)}
+	      				{this.renderStatus(enrollment.status)}
 	      			</div>
 	      		</li>
-      		))}
+      		)}
+      		
+      		)}
       	</ul>
       </div>
     )

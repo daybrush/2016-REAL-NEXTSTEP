@@ -21,6 +21,8 @@ class mainPage extends Component {
 
   render() {
 	const {state} = this.props
+
+		
     return (
     	<section className="content">
     		<Open/>

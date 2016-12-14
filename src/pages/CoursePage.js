@@ -36,8 +36,7 @@ class component extends Component {
 		StoreSession.unsetStore("coursepage")
 	}
 	componentWillUpdate() {
-		const course = this.props.state.course;
-		const {lectures, pos} = course.session;
+		const {lectures, pos} = this.getSession()
 		this.orderLectures(lectures, pos);
 	}
 	showMenu = () => {
@@ -54,6 +53,12 @@ class component extends Component {
 		}).reject(result=> {
 			alert("신청하지 못했습니다.")
 		})
+	}
+	getSession() {
+		return this.props.state.course._embedded.defaultSession
+	}
+	getMaster() {
+		return this.props.state.course._embedded.masterSession
 	}
 	
 	renderApplyLabel(memberStatus) {
@@ -73,22 +78,41 @@ class component extends Component {
 		}
 		return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
 	}
-
+	
 	renderHeader(memberStatus) {
 		const course = this.props.state.course
-		const {name, instructors, status} = course;
-			
+		const session = this.getSession()
+		const {startDate, endDate} = session
+		const {name} = course
+		const instructors = course.instructors
+	
+	
+	
+		let nowDate = new Date()
+		let stringNowDate = (nowDate.getYear() + 1900) + "-" + (nowDate.getMonth()+1) + "-" + nowDate.getDate()
 		let statusName;
+		
+		
+		let status = 0;
+		
+		if(!startDate || !endDate)
+			status = 0;
+		else if(startDate < stringNowDate && stringNowDate < endDate)
+			status = 0;
+		else if(startDate > stringNowDate)
+			status = 1;
+		else if(stringNowDate < endDate)
+			status = 2;
 		
 		switch(status) {
 			case 1:
-				statusName = "수강중";
+				statusName = "강의 예정";
 				break;
 			case 2:
-				statusName = "강의 끝";
+				statusName = "강의 종료";
 				break;
 			default:
-				statusName = "강의 예정";
+				statusName = "강의중";
 				break;
 		}
 		
@@ -101,9 +125,9 @@ class component extends Component {
 				<span className={classNames({
 					"course-header-status": true,
 					label:true,
-					"label-danger": status === 2,
-					"label-success": status === 1,
-					"label-warning": status === 0,
+					"label-end": status === 2,
+					"label-upcomming": status === 1,
+					"label-inprogress label-success": status === 0,
 					
 				})}>{statusName}</span>
 				<span className="course-header-name">{name}</span>
@@ -129,7 +153,7 @@ class component extends Component {
 		)
 	}
 	renderParticipants() {
-		const session = this.props.state.course.session;
+		const session = this.getSession()
 		if(session.id > 0)
 			return (<Participants session={session} ref="participants"/>)
 			
@@ -137,7 +161,9 @@ class component extends Component {
 	}
 	orderLectures = (lectures, pos, is_master) => {
   		const objLectures = {};
-  		
+		lectures = lectures || []
+		pos = pos || []
+		
   		let addPos = lectures.filter(lecture => {
 	  		objLectures[lecture.id] = lecture;
 	  		
@@ -218,6 +244,9 @@ class component extends Component {
 			return objLectures[id]
 		})
 
+		const participants = course._embedded.defaultSession.enrollments.filter(enrollment=>(enrollment.status === "APPROVED"))
+		
+		
   		return (<div className="lecture-cards">{_pos.map((_lecture,i) => {
 	  			let sublecture = [];
 	  			let lecture = _lecture
@@ -231,7 +260,17 @@ class component extends Component {
 		  			sublecture = _lecture.slice(1, _lecture.length);
 		  			
 	  			}
-				return (<LectureCard key={lecture.id} position={i} lecture={lecture} sublecture={sublecture} course={course} status={memberStatus} is_master={is_master}/>)
+	  			const props = {
+					key: lecture.id,
+					position: i,
+					lecture: lecture,
+					sublecture: sublecture,
+					course: course,
+					status: memberStatus,
+					is_master:is_master,
+					participants: participants
+					}
+				return (<LectureCard {...props}/>)
 			})}</div>)
   		
 
@@ -242,7 +281,7 @@ class component extends Component {
 			return;
 
 		const course =this.props.state.course;
-		const master = this.props.state.course.masterSession;
+		const master = this.getMaster();
 
 		
 		if(!master)			
@@ -265,49 +304,61 @@ class component extends Component {
 			
 		)
 	}
+	getMemberStatus() {
+		const course = this.props.state.course
+		let memberStatus = "NOT_LOGIN"
+
+		if(LoginSession.isLogin()) {
+	  		const loginInfo = LoginSession.getLoginInfo()
+	  		const instructor = course.instructors.filter(instructor => (loginInfo.username === instructor.username))
+	  		const enrollment = this.getSession().enrollments.filter(enrollment=>(enrollment.username === enrollment.user.username))
+	  		if(instructor.length !== 0) 
+	  			memberStatus = "INSTRUCTOR"
+	  		else if(enrollment.length === 0)
+	  			memberStatus = "REQUIRE_APPLY"
+	  		else if(enrollment[0].status === "PENDING")
+	  			memberStatus = "PENDING"
+	  		else
+	  			memberStatus = "APPROVED"
+	  	}
+	  	
+	  	return memberStatus
+	}
 	render() {
 		if(!("course" in this.props.state))
 			return this.renderLoading()
 
 
-		const course = this.props.state.course;
-		
+		const course = this.props.state.course
+
+		if(!("_embedded" in course))
+			return this.renderLoading()				
 			
+		const session = this.getSession()
 			
-		if(! (course.session && course.session.lectures))
+		if(! session)
 			return this.renderLoading()
 			
 
 						
-  		const {lectures} = course.session;
+  		const {lectures} = session;
 
   		
-  		let memberStatus = "NOT_LOGIN";
-  		if(LoginSession.isLogin()) {
-	  		const loginInfo = LoginSession.getLoginInfo()
-	  		console.log(loginInfo, 	course.instructors);
-	  		const instructor = course.instructors.filter(instructor => (loginInfo.id === instructor.id))
-	  		const participant = course.session.participants.filter(participant=>(loginInfo.id === participant.id))
-	  		if(instructor.length !== 0) 
-	  			memberStatus = "INSTRUCTOR"
-	  		else if(participant.length === 0)
-	  			memberStatus = "REQUIRE_APPLY"
-	  		else if(participant[0].status === "request")
-	  			memberStatus = "REQUEST_APPLY"
-	  		else
-	  			memberStatus = "APPROVED"
-	  	}
+  		let memberStatus = this.getMemberStatus();
+  		
+  		
   		
   		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course}/>) : ""
-  		
+//  		{this.renderParticipants()}  		
   		return (
   		<div className="course-lectrues-wrapper">
 
-  		{this.renderParticipants()}
+
 		{this.renderHeader(memberStatus)}
+		{this.renderParticipants()}  		
 		<div className="course-lectures">
 			<div className="course-session-lectures">
-				{this.renderLectures(lectures, course.session.pos, memberStatus)}
+				{this.renderLectures(lectures, session.pos, memberStatus)}
 			</div>
 			{this.renderMaster(memberStatus)}
 		</div>

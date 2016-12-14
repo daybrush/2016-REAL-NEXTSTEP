@@ -283,7 +283,16 @@ class component extends Component {
 						{this.contentArray.map((content,i) => {
 							if(!content.id || content.id === "html")
 								return "";
-							return (<li key={content.id}>{content.id}</li>)
+							return (<li key={content.id}>
+								<div class="link-icon">
+									{}
+								</div>
+								<div class="link-content">
+									<p class="link-content-name">{content.id}</p>
+									<p class="link-content-date"></p>
+									
+								</div>
+							</li>)
 						
 						})}
 						{codes.map((pre,i) => {

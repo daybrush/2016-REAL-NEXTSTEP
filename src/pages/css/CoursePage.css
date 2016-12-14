@@ -19,6 +19,7 @@
 	font-weight: 300;
 	font-size: 30px;
 	vertical-align: middle;
+	margin-bottom: 3px;
 }
 .course-header .course-header-professor {
 	font-size: 14px;
@@ -32,13 +33,23 @@
 	line-height: 20px;
 	font-weight: 900;
 	border-radius: 50%;
-	border: 2px solid #333;	
+	border: 2px solid #333;
+	box-sizing: border-box;	
+}
+.course-header-info:hover {
+	color: #333;
 }
 .course-header .label {
 	font-size: 13px;
 }
 .label.course-header-status {
 	color: #fff;
+}
+.label.course-header-status.label-upcomming {
+	background: #aaa;
+}
+.label.course-header-status.label-end {
+	background: #777;
 }
 .label.course-header-apply{
 	vertical-align: middle;

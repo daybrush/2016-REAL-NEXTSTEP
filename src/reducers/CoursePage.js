@@ -12,27 +12,29 @@ const initiallState = {
 }
 
 export default function CourseListPage(state = initiallState, action) {
-	let session = state.course.session
+	let session = state.course._embedded && state.course._embedded.defaultSession
 	if(action.params && action.params.is_master)
-		session = state.course.master
+		session = state.course._embedded && state.course._embedded.masterSession
 		
 	switch(action.type ) {
 		case "GET_COURSE":
-			state.course = action.course;
-			return Object.assign({}, state);
+			state.course = action.course
+			state.course.id = action.params.id
+			return Object.assign({}, state)
 			
 		case "ADD_LECTURE":
 			session.lectures.push(action.lecture)
 				
 			return Object.assign({}, state);
 		case "SAVE_LECTURE_POSITION":
-			session.pos = action.lecture_position;
+			if(session)
+				session.pos = action.lecture_position;
 				
 			return Object.assign({}, state)
 		case "SWAP_LECTURE":
 			return state;
 		case "GET_PARTICIPANTS":
-			state.course.session.participants = action.participants;
+			session.participants = action.participants;
 			return Object.assign({}, state);			
 		case "ADD_LESSON":
 			let lectures2 = session.lectures.filter(lecture=>(action.lesson.lecture.id === lecture.id))

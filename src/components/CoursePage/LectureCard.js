@@ -268,7 +268,7 @@ renderSublecture() {
 	const lecture = sublecture[0]
 	
 	sublecture = sublecture.slice(1, sublecture.length)
-	return (<LectureCard key={lecture.id} lecture={lecture} sublecture={sublecture} course={this.props.course} status={this.props.status} is_master={this.props.is_master} position={this.props.position} dispatch={this.props.dispatch}/>)
+	return (<LectureCard key={lecture.id} lecture={lecture} sublecture={sublecture} course={this.props.course} status={this.props.status} is_master={this.props.is_master} position={this.props.position} dispatch={this.props.dispatch} participants={this.props.participants}/>)
 }
 
 
@@ -291,7 +291,7 @@ render() {
 		   		{this.renderMenu()}
 	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-card-title">{title}</h2>
 	        	<ul className="lesson-cards">
-	        		{lessons.map(lesson => (<LessonCard key={lesson.id} lesson={lesson} lecture={this.props.lecture} course={this.props.course} status={status}/>))}
+	        		{lessons.map(lesson => (<LessonCard key={lesson.id} lesson={lesson} lecture={this.props.lecture} course={this.props.course} status={status} participants={this.props.participants}/>))}
 	        	</ul>
 	        	{this.renderEdit()}
         	</div>
