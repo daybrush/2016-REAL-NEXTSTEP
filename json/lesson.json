@@ -19,8 +19,9 @@
   "discussions": [
   ],
   "attachments": [
-  	{"id":"1", "url" : "rec02a.pdf"},
-  	{"id":"1", "url" : "rec02a.pdf"}
+  	{"id":"1", "url" : "첫 번째 슬라이드.pdf", "date": "Add 24 Mar 2016"},
+  	{"id":"2", "url" : "두 번째 슬라이드.pdf", "date": "Add 24 Mar 2016"},
+  	{"id":"3", "url" : "삽입 동영상.avi", "date": "Add 24 Mar 2016"}
   ],
   "content" : "[embededpdf:/lec02a.pdf]  # HI descsdfsdf  [???????] sdsdsdsdsdsdsd ```javascript  var a= {'hi':'hi'} ``` [2323232323232] [embededvideo:/talk.mp4] "
 }
