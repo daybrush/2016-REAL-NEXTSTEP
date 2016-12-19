@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //import { Link } from 'react-router'
-import * as NEXTActions from '../../actions'
+import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -16,17 +16,19 @@ editMode = () => {
 }
 add = (e) => {
 	const {actions, course, professor} = this.props;
-	const name = this.refs.name;
 	
-	NEXTActions.fetch(actions, {type:"add", target:"course", by:"professor", value : {
-		name : name.value,
-		professor : professor.id
-	},
-	}).then(function(value) {
-		actions.load({type:"add", target:"course", value:{name:value.name, id:3}});
-	});
 	
-	name.value = "";
+	//name, description
+	
+	
+	actions.fetchAddCourse(this.inputName.value, "").then(function(value) {
+		//actions.load({type:"add", target:"course", value:{name:value.name, id:3}});
+		console.log(value)
+	}).catch(e => {
+		console.log("ERR", e)
+	})
+	
+	this.inputName.value = "";
 	
 	this.close();
 }
@@ -40,7 +42,7 @@ close = (e) => {
   	const is_edit = this.state.edit;
     
     return (
-      <li className="course-card course-card-add col-xs-12 col-sm-6 col-md-3">
+      <li className="course-card-add course-card col-xxs-12 col-xs-6 col-sm-4 col-md-3">
 			<a onClick={this.editMode}>Create New Course...    </a>
 			
 
@@ -53,7 +55,7 @@ close = (e) => {
       <div className="modal-body">
           <div className="form-group">
             <label className="control-label">Name:</label>
-            <input type="text" className="form-control" id="recipient-name" ref="name"/>
+            <input type="text" className="form-control" id="recipient-name" ref={(input) => { this.inputName = input; }}/>
           </div>
       </div>
       <div className="modal-footer">

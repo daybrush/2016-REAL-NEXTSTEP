@@ -33,6 +33,8 @@
 	right: 0;
 	margin: 0;
 	top: 100%;
+	margin-top: 10px;
+	width: 250px;
 }
 .header-profile .modal-header {
 	padding: 5px 15px;	
@@ -43,11 +45,18 @@
 .header-profile .modal-body {
 	padding: 5px;
 }
+#header .list-group {
+	box-shadow: none;
+}
+.list-group .list-group-item:first-child {
+	border-radius: 0;
+}
 .list-group li.list-group-item{
 	text-align: left;
 	padding: 0;
 	border: 0;
 	padding-left: 10px;
+	line-height: 50px;
 }
 .list-group li.list-group-item.last{
 	border-top: 1px solid #ddd;

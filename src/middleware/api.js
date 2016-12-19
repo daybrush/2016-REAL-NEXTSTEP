@@ -33,7 +33,7 @@ const callApi = (options) => {
 
 	let method = options.method || methodType[type] || "GET";
 	let myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+
 	myHeaders.append("x-auth-token", sessionStorage.getItem("x-auth-token"))
 	let info = {
 		method: method,
@@ -46,9 +46,11 @@ const callApi = (options) => {
 			body  = objectToParam(body)
 		}
 		if(method === "GET") {
+			
 			fullUrl += (fullUrl.indexOf("?") === -1 ? "?" : "&") + body;			
 		} else {
-			info.body = body;
+			myHeaders.append("Content-Type", "application/json")
+			info.body = JSON.stringify(options.body);
 		}
 	}
 

@@ -34,6 +34,7 @@ links["GET_MY_COURSES"] = "/me/courses/participate"
 
 
 links["ADD_LESSON"] = "/lectures/$id/lessons";
+links["ADD_COURSE"] = "/courses";
 links["ADD_LECTURE"] = "/courses/$id";
 links["ADD_MY_COURSE"] = "/me/courses/participate";
 links["ADD_DISCUSSION"] = "/lessons/$id/discussions"

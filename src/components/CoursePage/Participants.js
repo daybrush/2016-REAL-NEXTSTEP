@@ -23,11 +23,10 @@ componentWillMount(status) {
 
 renderStatus(status) {
 	const success = (<button type="button" key={1} className="btn btn-sm btn-success">승인</button>)
-	const decline = (<button type="button" key={2} className="btn btn-sm btn-warning">거부</button>)
-	const revoke = (<button type="button" key={3} className="btn btn-sm btn-danger">취소</button>)
+	const revoke = (<button type="button" key={2} className="btn btn-sm btn-danger">거부</button>)
 	let buttons;
 	if(status === "PENDING")
-		buttons= [success, decline, revoke]
+		buttons= [success, revoke]
 	
 	return (<div className="course-participant-message">{buttons}</div>)
 }

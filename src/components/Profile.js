@@ -67,7 +67,7 @@ renderLoginStatus() {
 	return (
 		<div>
 		<div className="btn header-btn" onClick={this.toggle}><img src={avatar_url}/> <strong>{name}</strong></div>
-			<div className="profile-dialog modal-dialog modal-sm" role="document" style={{display:(is_show?"block":"none")}}>
+			<div className="profile-dialog modal-dialog" role="document" style={{display:(is_show?"block":"none")}}>
 			<div className="modal-content">
 			  <div className="modal-header">
 			    <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.hide}><span aria-hidden="true">&times;</span></button>

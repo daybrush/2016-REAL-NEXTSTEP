@@ -49,7 +49,18 @@ export const fetchGetParticipants = (id) => ({
 	    id
     }
   }
-});
+})
+
+export const fetchAddCourse = (name, description="") => ({
+	[CALL_API]: {
+		type:"add",
+		target:"course",
+		body : {
+			name, description
+		}
+	}
+})
+
 
 export const fetchAddLesson = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"lesson", id}).then(result =>  dispatch(result))
@@ -59,3 +70,5 @@ export const fetchAddLesson = (id) => (dispatch, getState) => {
 export const fetchAddLecture = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"lecture", id}).then(result =>  dispatch(result))
 }
+
+
