@@ -33,8 +33,8 @@ renderApply() {
 renderLink() {
 	const course = this.props.course
     const {  name, id , instructors} = course
+    const instructor = instructors[0] || {}
     
-    //{course.image}
 	return (
 
         <Link to={"/"+ id} className="course-title">
@@ -50,9 +50,9 @@ renderLink() {
                 
 				<div className="course-instructor-profile">
                     <span className="course-profile-image img_wrap">
-                    	<img src={instructors[0].avatarUrl} width="35" height="35" alt="XXXX님"/>
+                    	<img src={instructor.avatarUrl} width="35" height="35" alt="XXXX님"/>
                     </span>                                                    
-                    <span className="course-instructor-name">{instructors[0].name}</span>
+                    <span className="course-instructor-name">{instructor.name}</span>
 				</div>
 			</div>
 		</Link>
