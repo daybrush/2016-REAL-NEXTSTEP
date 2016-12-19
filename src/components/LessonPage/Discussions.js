@@ -105,7 +105,9 @@ render() {
 		    	{this.renderDiscussions()}
 		    	<div className="discussion-form form-group">
 		            	<textarea className="form-control discussion-input" ref="name"></textarea>
+		            	<div className="discussion-form-btns">
 	                   <button type="button" className="btn btn-info discussion-submit" onClick={this.submitDiscussion}> POST </button>
+	                   </div>
 	          </div>
 	        </div>
 	        <div className="discussion-reply-tab">

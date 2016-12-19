@@ -6,6 +6,7 @@ import classNames from 'classnames'
 
 
 import PDFLoader from '../class/PDFLoader.js'
+import LinkTab from '../components/LessonPage/LinkTab'
 import Slide from '../components/LessonPage/Slide'
 import Video from '../components/LessonPage/Video'
 import Html from '../components/LessonPage/Html'
@@ -47,16 +48,16 @@ class component extends Component {
 		window.onresize = this.refreshView;
 		const {actions, params} = this.props;
 		
-		const {course, session, id} = params;
+		const {course, lesson} = params;
 		
 		
 		document.body.className="pdf-open";
 		
 
-		actions.fetchGetLesson(id).then(result => {
+		actions.fetchGetLesson(lesson).then(result => {
 			const {name} = result.lesson.lecture
 			StoreSession.getStore("header").addButton({
-				leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course + "/" + session }>
+				leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course }>
 				<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)
 			});
 		})
@@ -70,11 +71,11 @@ class component extends Component {
 		window.onresize = "";
 	}
 	
-	addZoom = () => {
+	addZoom = (e) => {
 		let scale = this.state.scale + 0.2;
 		this.zoom(scale);
 	}
-	minusZoom = () => {
+	minusZoom =(e) =>{
 		let scale = this.state.scale - 0.2;
 		if(scale <= 0)
 			scale = 0.2;
@@ -83,11 +84,11 @@ class component extends Component {
 		this.zoom(scale);
 		
 	}
-	zoom = (scale) => {			
+	zoom(scale) {			
 		this.contentArray.forEach((content,i) => {
 			switch(content.type) {
 			case "pdf":
-				content.zoom && content.zoom(scale)
+				content.component.zoom && content.component.zoom(scale)
 				break;
 			default:
 				break;
@@ -214,6 +215,9 @@ class component extends Component {
 			}		
 		});
 	}
+	componentDidMount() {
+		this.resizeView(300)
+	}
 	componentDidUpdate(nextProps, nextState) {
 		let content = nextProps.state.lesson.content;
 		
@@ -275,44 +279,13 @@ class component extends Component {
 		}
 	}
 	renderLinkTab() {
-		const codes = [].slice.call(document.querySelectorAll(".page-wrapper .hljs"));
-		return (
-			<div className="link-tab">
-				<div className="link-wrapper">
-					<ul>
-						{this.contentArray.map((content,i) => {
-							if(!content.id || content.id === "html")
-								return "";
-							return (<li key={content.id}>
-								<div class="link-icon">
-									{}
-								</div>
-								<div class="link-content">
-									<p class="link-content-name">{content.id}</p>
-									<p class="link-content-date"></p>
-									
-								</div>
-							</li>)
-						
-						})}
-						{codes.map((pre,i) => {
-							return (<li key={i} dangerouslySetInnerHTML={{__html:pre.outerHTML}} ></li>)
-						})
-						}
-					</ul>
-					<div className="upload-wrapper">
-						<p className="glyphicon glyphicon-plus"></p>
-						<p>업로드할 파일을 선택해주세요.</p>
-					</div>
-				</div>
-			</div>
-		)
+		return (<LinkTab attachments={this.props.state.lesson.attachments}/>)
 	}
 	renderDiscussionTab() {
 		if(this.props.state.lesson.id < 0)
 			return ""
 			
-		return (<Discussions lessonId={this.props.params.id} resizeView={this.resizeView} contents={this.contentArray} option={this.option}/>)
+		return (<Discussions lessonId={this.props.params.lesson} resizeView={this.resizeView} contents={this.contentArray} option={this.option}/>)
 	}
 	render() {
 	    const html = (<div onDragOver={this.dragover}  >

@@ -25,7 +25,7 @@ export default class component extends Component {
 			content.is_load = true;
 			this.state.numPages = pdfjs.numPages
 			this.setState({is_load:true})
-			pdfjs.loadPage(this.state.nowPage, this.refs.page)
+			pdfjs.loadPage(this.state.nowPage,  this.state.scale, this.refs.page)
 		});
 		
 		content.component = this
@@ -53,7 +53,7 @@ export default class component extends Component {
 	trace = (position) => {
 		position = parseInt(position)
 		this.setState({nowPage:position});
-		this.state.pdfjs.loadPage(position, this.refs.page)
+		this.state.pdfjs.loadPage(position, this.state.scale, this.refs.page)
 	}
 	onClick = (e) => {
 

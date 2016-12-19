@@ -1,7 +1,7 @@
 import { PDFJS } from 'pdfjs-dist';
 import worker from 'pdfjs-dist/build/pdf.worker';
 
-//PDFJS.workerSrc = "/js/pdf.worker.js"
+PDFJS.workerSrc = "/js/pdf.worker.js"
 export default class PDFLoader {
 fileName = "";
 pdfFile = "";
@@ -23,18 +23,18 @@ zoom = async function(nowPage, scale, pageElem) {
 	await this.pages[nowPage].zoom(scale, pageElem);
 }
 
-_loadPage = async function(pageNumber, pageElem) {
+_loadPage = async function(pageNumber, scale, pageElem) {
 	const page = this.pages[pageNumber]
-	await page.render(pageElem)
+	await page.zoom(scale, pageElem)
 }
-loadPage = async function(pageNumber, pageElem) {
+loadPage = async function(pageNumber, scale, pageElem) {
 	if(this.pages[pageNumber]) {
-		this._loadPage(pageNumber, pageElem);
+		this._loadPage(pageNumber, scale, pageElem);
 		return;
 	}
 	const page = await this.pdfFile.getPage(pageNumber);
 	this.pages[pageNumber] = new PDFPage(pageNumber, page);
-	await this._loadPage(pageNumber, pageElem);
+	await this._loadPage(pageNumber, scale, pageElem);
 	
 }
 
@@ -106,6 +106,8 @@ class PDFPage {
 		const page = this.page;
 		const scale = this.scale;
 		
+		
+
 		const viewport = page.getViewport(scale);
 		
 	

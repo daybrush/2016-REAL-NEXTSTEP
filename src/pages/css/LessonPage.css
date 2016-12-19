@@ -201,7 +201,9 @@ body.pdf-open #header {
 .discussion.discussion-selected {
 	background: #F4DCFC;
 }
-
+.discussions-tab .hljs {
+	margin: 0;
+}
 /*DICUSSION-FORM-INPUT*/
 .discussion-form {
 	position: absolute;
@@ -220,6 +222,9 @@ body.pdf-open #header {
 /* 	margin-bottom: 10px; */
 }
 
+.discussion-form-btns {
+	text-align: right;
+}
 .discussion-submit {
 	margin-top: 10px;
 }
@@ -340,35 +345,3 @@ body.pdf-open #header {
 
 
 
-
-/*LINK-TAB*/
-
-.link-tab {
-	padding: 5px;
-}
-.link-wrapper {
-	
-}
-.link-wrapper li {
-	margin:5px 0px;
-	background: #fff;
-	padding: 5px;
-}
-
-
-.upload-wrapper {
-	text-align: center;
-	color: #ddd;
-	padding: 20px;
-	font-weight: bold;
-	border: 2px dashed #ddd;
-}
-.upload-wrapper .glyphicon{
-	margin-bottom: 10px;
-	font-size: 30px;
-}
-
-.upload-wrapper:hover {
-	border-color: #fff;
-	color: #fff;
-}
