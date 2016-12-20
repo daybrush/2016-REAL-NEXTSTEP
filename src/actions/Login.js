@@ -11,7 +11,8 @@ export const fetchRequestLogin = (data) => ({
 		target: "login",
 		method: "GET",
 		body : {
-			code : data.code
+			code : data.code,
+			redirect_uri: "http://srello.xyz"
 		}
 	}
 })
