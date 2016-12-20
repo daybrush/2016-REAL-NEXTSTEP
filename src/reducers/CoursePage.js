@@ -29,7 +29,15 @@ export default function CourseListPage(state = initiallState, action) {
 		case "SAVE_LECTURE_POSITION":
 			if(session)
 				session.pos = action.lecture_position;
-				
+			return Object.assign({}, state)
+			
+		case "SAVE_LESSON_POSITION":
+			if(session)
+				session.lectures.filter(lecture => {
+					return lecture.id === action.params.lectureId
+				}).forEach(lecture => {
+					lecture.pos = action.lesson_position
+				})
 			return Object.assign({}, state)
 		case "SWAP_LECTURE":
 			return state;

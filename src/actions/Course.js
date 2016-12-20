@@ -61,6 +61,27 @@ export const fetchAddCourse = (name, description="") => ({
 	}
 })
 
+export const fetchSwapLecture = (params) => ({
+	[CALL_API]: {
+		type:"swap",
+		target:"lecture",
+		params,
+		body : {
+			pos : JSON.stringify(params.pos)
+		}
+	}
+})
+export const fetchSwapLesson = (params) => ({
+	[CALL_API]: {
+		type:"swap",
+		target:"lesson",
+		params,
+		body : {
+			pos : JSON.stringify(params.pos)
+		}
+	}
+})
+
 
 export const fetchAddLesson = (id) => (dispatch, getState) => {
 	return fetchData({type:"add", target:"lesson", id}).then(result =>  dispatch(result))

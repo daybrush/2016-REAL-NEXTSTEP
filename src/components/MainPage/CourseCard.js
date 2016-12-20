@@ -33,7 +33,7 @@ renderApply() {
 renderLink() {
 	const course = this.props.course
     const {  name, id , instructors} = course
-    const instructor = instructors[0] || {}
+    const instructor = instructors && instructors[0] || {}
     
 	return (
 

@@ -7,6 +7,8 @@ import { bindActionCreators } from 'redux'
 import DragDrop from "../../class/dragdrop"
 import LoginSession from "../../class/LoginSession"
 
+import StoreSession from "../../class/StoreSession"
+
 
 import "./css/LessonCard.css"
 
@@ -56,8 +58,88 @@ export default connect(
 		const {card, content} = this.refs;
 		this.dragndrop.dragend(e, card, content);
 	
-		const myPosition = this.props.position, targetPosition = this.getNodeIndex(card);
+/*
+		const target = document.querySelector(this.selector + "[isdrag='1']")
+		const lecture = this.props.lecture
+		const elCards = document.querySelectorAll(".course-session-lectures .lecture-cards>.lecture-card"), length = elCards.length
+		let elCard, position, is_sublecture = false
+		
+		const lecturePosition = this.props.position
+		let cardPosition = -1;
+		
+		let pos = StoreSession.getStore("coursepage").position;
+		for(let i = 0; i < length; ++i) {
+			elCard = elCards[i]
+			if(elCard === card) {
+				cardPosition = i
+				break
+			} else if(elCard.contains(card)){
+				cardPosition = i
+				is_sublecture = true
+				break
+			}
+		}
 
+		
+		let targetId = pos[lecturePosition], newPosition, sublecturePosition;
+		if(cardPosition > -1) {
+			if(targetId instanceof Array) {
+				sublecturePosition = targetId.indexOf(lecture.id)
+				
+				if(sublecturePosition === -1)
+					return
+					
+				targetId = targetId.slice(sublecturePosition, targetId.length)
+			}
+			
+			pos = pos.map((id, i)=> {
+				if(id instanceof Array) {
+					let index = id.indexOf(lecture.id)
+					if(index === -1)
+						return id
+					
+					else if(index === 0)
+						return lecture.id
+					
+					return id.filter((id, i) => (i<index))
+				}
+				return id
+				
+			}).filter((id, i) => (id !== lecture.id))
+			
+			if(is_sublecture) {
+				if(!(pos[cardPosition] instanceof Array))
+					pos[cardPosition] = [pos[cardPosition]]
+					
+				pos[cardPosition] = pos[cardPosition].concat(targetId)
+			} else {
+				pos.splice(cardPosition, 0, targetId)
+			}
+			
+			pos = pos.map(id => {
+				
+				if(id instanceof Array) {
+					if(id.length === 1)
+						return id[0]	
+				}
+				
+				return id
+			})
+			
+		
+			this.state.parent.insertAdjacentElement("beforeend", target)
+			this.state.parent = ""
+			
+			
+			const course = this.props.course, courseId = this.props.params.course, sessionId = this.props.is_master? course.masterSession.id : course.defaultSession.id
+			
+			this.props.actions.fetchSwapLecture({
+				courseId, sessionId, pos,
+		  		is_master : this.props.is_master
+	  		})
+	
+		}
+*/
 		
 	}
 	
@@ -95,7 +177,7 @@ export default connect(
 	    	progress = 100;
 		const enabled = isAccess ||  (status === "APPROVED" || status === "INSTRUCTOR")
 		
-		const draggable = 	(status === "INSTRUCTOR") ? "true" : "false"
+		const draggable = (status === "INSTRUCTOR") ? "true" : "false"
 		
 	    return (
 		    <li onClick={this.go} className={classNames({"lesson-card":true, "lesson-card-disabled":!enabled, "placeholder":this.state.drag})} onDragStart={this.dragstart} onDragOver={this.dragover} onDragEnd={this.dragend}  draggable={draggable} ref="card">

@@ -11,8 +11,7 @@ export const fetchRequestLogin = (data) => ({
 		target: "login",
 		method: "GET",
 		body : {
-			code : data.code,
-			state : data.state
+			code : data.code
 		}
 	}
 })

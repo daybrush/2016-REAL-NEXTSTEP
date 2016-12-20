@@ -62,8 +62,6 @@ dragstart= (e) => {
 	
 	
 	this.state.parent = card.parentNode
-
-
 }
 dragend = (e) => {
 	if(!this.state.drag)
@@ -149,16 +147,13 @@ dragend = (e) => {
 		this.state.parent = ""
 		
 		
-	
-		this.props.dispatch(
-	  		{
-		  		type:"SAVE_LECTURE_POSITION",
-		  		lecture_position : pos,
-		  		params : {
-			  		is_master : this.props.is_master
-		  		}
-	  		}
-  		)
+		const course = this.props.course, courseId = this.props.params.course, sessionId = this.props.is_master? course.masterSession.id : course.defaultSession.id
+		
+		this.props.actions.fetchSwapLecture({
+			courseId, sessionId, pos,
+	  		is_master : this.props.is_master
+  		})
+
 	}
 }
 dragsubover = (e) => {
@@ -215,6 +210,77 @@ addLesson = () => {
 	this.setState({edit:false});
 	//NEXTActions
 }
+
+
+orderLessons = () => {
+	const objLectures = {};
+	const lecture = this.props.lecture, lectureId = lecture.id
+	const lessons = lecture.lessons	
+	let pos = lessons.pos || []
+	
+	let addPos = lessons.filter(lesson => {
+		objLectures[lesson.id] = lesson;
+		
+		return pos.every((id, index) => {
+			
+			//lecture가 pos Array에  하나라도 없을 때 true를 return한다.
+			
+		if(id instanceof Array)
+			return id.indexOf(lesson.id) === -1
+		
+		return id !== lesson.id
+		})
+	}).map(lesson=>(lesson.id))
+	
+	
+	
+	let is_update = false;
+	
+	
+	if(addPos.length > 0) {
+		pos = pos.concat(addPos);
+		is_update = true;
+	
+	}
+	
+	addPos = pos;
+	pos = pos.filter((id, i) => {	
+		return id in objLectures
+	})
+	
+	if(pos.length !== addPos.length) {
+		is_update = true;
+	}
+	
+	if(is_update) {
+
+		this.props.dispatch(
+			{
+		  		type:"SWAP_LESSON_POSITION",
+		  		params: {
+			  		lectureId,
+			  		is_master: this.props.is_master	  		
+		  		},
+		  		lesson_position: pos
+			}
+		)
+
+
+		this.props.actions.fetchSwapLesson({
+			lectureId:lecture.id,
+			pos: pos
+		})
+
+	}
+
+	
+	return pos;
+}
+
+
+
+
+
 renderEdit() {
 	if(this.props.status !== "INSTRUCTOR")
 		return;
@@ -272,6 +338,29 @@ renderSublecture() {
 }
 
 
+renderLessons() {
+	const objLectures = {};
+	const lecture = this.props.lecture, lessons = lecture.lessons || []
+	lessons.filter(lecture => {
+  		objLectures[lecture.id] = lecture;
+	});	
+	let pos = this.orderLessons()
+	
+	const _pos = pos.map((id, i)=> {
+		if(typeof id === "object")
+			return id.map(id => {
+				return objLectures[id]
+			})
+		
+		
+		return objLectures[id]
+	})
+	return (<ul className="lesson-cards">
+        		{lessons.map(lesson => (<LessonCard key={lesson.id} lesson={lesson} lecture={this.props.lecture} course={this.props.course} status={this.props.status} participants={this.props.participants}/>))}
+        	</ul>)
+}
+
+
 render() {
 	const {status, lecture, course} = this.props;
     const {  id, title, lessons } = lecture;
@@ -290,9 +379,7 @@ render() {
 	       <div className="lecture-card-content" ref="content">
 		   		{this.renderMenu()}
 	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-card-title">{title}</h2>
-	        	<ul className="lesson-cards">
-	        		{lessons.map(lesson => (<LessonCard key={lesson.id} lesson={lesson} lecture={this.props.lecture} course={this.props.course} status={status} participants={this.props.participants}/>))}
-	        	</ul>
+	        	{this.renderLessons()}
 	        	{this.renderEdit()}
         	</div>
         	<div className="lecture-card-sublecture" ref="sublecture" draggable="true" onDragOver={this.dragsubover}>

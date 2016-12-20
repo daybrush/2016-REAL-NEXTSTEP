@@ -45,10 +45,14 @@ links["GET_LOGIN_INFO"] = "/user"
 links["REQUEST_LOGIN"] = "/login"
 links["REQUEST_LOGOUT"] = "/me/logout"
 
+
+links["SWAP_LECTURE"] = "/courses/$courseId/sessions/$sessionId";
+links["SWAP_LESSON"] = "/lectures/$lectureId";
 const methodType = {
 	"get" : "GET",
 	"add" : "POST",
 	"request" : "POST",
+	"swap" : "PATCH"
 }
 
 export {links, methodType};

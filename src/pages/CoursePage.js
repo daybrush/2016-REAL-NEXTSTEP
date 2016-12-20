@@ -11,6 +11,7 @@ import './css/CoursePage.css'
 import { Link} from 'react-router'
 import LoginSession from "../class/LoginSession"
 import StoreSession from "../class/StoreSession"
+import loadPage from "../class/Page"
 
 class component extends Component {
 	courseId = "";
@@ -36,8 +37,18 @@ class component extends Component {
 		StoreSession.unsetStore("coursepage")
 	}
 	componentWillUpdate() {
-		const {lectures, pos} = this.getSession()
-		this.orderLectures(lectures, pos);
+		try {
+			const session = this.getSession()
+			if(typeof session === "undefined")
+				return;
+				
+			const {lectures, pos} = session
+			this.orderLectures(session);
+			this.orderLectures(this.getMaster(), true);
+		} catch(e) {
+			console.error(e);
+			this.props.state.course._embedded = {}
+		}
 	}
 	showMenu = () => {
 		this.refs.participants.getWrappedInstance().show();
@@ -83,7 +94,7 @@ class component extends Component {
 		const course = this.props.state.course
 		const session = this.getSession()
 		const {startDate, endDate} = session
-		const {name} = course
+		const {name} = this.getSession()
 		const instructors = course.instructors
 	
 	
@@ -159,10 +170,10 @@ class component extends Component {
 			
 		return ""
 	}
-	orderLectures = (lectures, pos, is_master) => {
+	orderLectures = (session, is_master = false) => {
   		const objLectures = {};
-		lectures = lectures || []
-		pos = pos || []
+		let pos = session.pos || []
+		let lectures = session.lectures
 		
   		let addPos = lectures.filter(lecture => {
 	  		objLectures[lecture.id] = lecture;
@@ -205,34 +216,43 @@ class component extends Component {
 	  		is_update = true;
   		}
   		
-  		if(!is_master && is_update) {
-	  		this.props.dispatch(
-		  		{
+  		if(is_update) {
+			this.props.dispatch(
+				{
 			  		type:"SAVE_LECTURE_POSITION",
-			  		lecture_position : pos
-		  		}
-	  		)
+			  		params: {
+				  		is_master: is_master
+			  		},
+			  		lecture_position: pos
+				}
+			)
+			this.props.actions.fetchSwapLecture({
+				courseId:this.props.params.course,
+				sessionId: session.id,
+				pos: pos
+			})
+
   		}
   		
   		
-  		if(!is_master) {
-	  		this.position = pos;
-	  		console.log("SAVE", pos)
-  		} 
-  		
   		return pos;
 	}
-	renderLectures(lectures, pos=[],  memberStatus, is_master = false ) {
+	
+	renderLectures(session,  memberStatus, is_master = false ) {
+
   		const course = this.props.state.course;
 		const objLectures = {};
-		const draggable = !is_master && memberStatus === "INSTRUCTOR"
+		const draggable = memberStatus === "INSTRUCTOR"
+		const lectures = session.lectures
+		
+		
 	  	lectures.filter(lecture => {
 	  		objLectures[lecture.id] = lecture;
 		});	
 		
-		if(is_master) {
-			pos = this.orderLectures(lectures, pos, is_master);
-		}
+
+		let pos = this.orderLectures(session, is_master);
+
 		
 		const _pos = pos.map((id, i)=> {
 			if(typeof id === "object")
@@ -244,7 +264,7 @@ class component extends Component {
 			return objLectures[id]
 		})
 
-		const participants = course._embedded.defaultSession.enrollments.filter(enrollment=>(enrollment.status === "APPROVED"))
+		const participants = this.getSession().enrollments.filter(enrollment=>(enrollment.status === "APPROVED"))
 		
 		
   		return (<div className="lecture-cards">{_pos.map((_lecture,i) => {
@@ -290,7 +310,7 @@ class component extends Component {
   		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course}/>) : ""
 		return (
 			<div className="course-master-lectures">
-				{this.renderLectures(master.lectures, master.pos, memberStatus, true)}
+				{this.renderLectures(master, memberStatus, true)}
 				{addLectureCard}
 			</div>
 		)
@@ -326,18 +346,18 @@ class component extends Component {
 	}
 	render() {
 		if(!("course" in this.props.state))
-			return this.renderLoading()
+			return loadPage("loading")
 
 
 		const course = this.props.state.course
 
 		if(!("_embedded" in course))
-			return this.renderLoading()				
+			return loadPage("loading")
 			
 		const session = this.getSession()
 			
-		if(! session)
-			return this.renderLoading()
+		if(!session)
+			return loadPage("error", {message: "관리자에게 문의해주세요. ", submessage: "message:No Session"})
 			
 
 						
@@ -358,7 +378,7 @@ class component extends Component {
 		{this.renderParticipants()}  		
 		<div className="course-lectures">
 			<div className="course-session-lectures">
-				{this.renderLectures(lectures, session.pos, memberStatus)}
+				{this.renderLectures(session, memberStatus)}
 			</div>
 			{this.renderMaster(memberStatus)}
 		</div>
