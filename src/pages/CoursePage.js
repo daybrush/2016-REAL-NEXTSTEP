@@ -42,7 +42,7 @@ class component extends Component {
 			if(typeof session === "undefined")
 				return;
 				
-			const {lectures, pos} = session
+			const lectures = session.lectures
 			this.orderLectures(session);
 			this.orderLectures(this.getMaster(), true);
 		} catch(e) {
@@ -66,10 +66,10 @@ class component extends Component {
 		})
 	}
 	getSession() {
-		return this.props.state.course._embedded.defaultSession
+		return this.props.state.course._embedded && this.props.state.course._embedded.sessions.filter(session=>(session.role==="default"))[0]
 	}
 	getMaster() {
-		return this.props.state.course._embedded.masterSession
+		return this.props.state.course._embedded && this.props.state.course._embedded.sessions.filter(session=>(session.role==="master"))[0]
 	}
 	
 	renderApplyLabel(memberStatus) {
