@@ -30,3 +30,17 @@ a , a:focus, a:hover {
 	position: relative;
 	top: 60px;
 }
+
+
+
+.message-notify {
+	text-align: center;
+	padding: 160px 0px 0px;
+	font-size: 40px;
+}
+.message-notify p {
+	padding: 10px;
+}
+.message-notify-submessage {
+	font-size: 20px;
+}
