@@ -42,7 +42,7 @@ links["ADD_DISCUSSION_REPLY"] = "/discussions/$id/reply"
 
 
 links["GET_LOGIN_INFO"] = "/user"
-links["REQUEST_LOGIN"] = "/login"
+links["REQUEST_LOGIN"] = "/login/github"
 links["REQUEST_LOGOUT"] = "/me/logout"
 
 
