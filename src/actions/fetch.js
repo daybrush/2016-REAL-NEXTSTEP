@@ -15,7 +15,7 @@ const links = {
 		
 		"/discussions/[\\d]" : "/json/discussion.json",
 
-		"/user" : "/json/login.json",
+// 		"/user" : "/json/login.json",
 		"/me/courses/participate" : "/json/mycourses.json"
 	},
 	"POST" : {
