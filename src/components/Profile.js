@@ -32,11 +32,9 @@ componentWillMount() {
 
 requestLogin = (data) => {
 	this.props.actions.fetchRequestLogin(data).then(data=> {
-		console.log(data);
-		if (data.login.error) {
-			
-		}
+		return LoginSession.fetchGetLoginInfo()
 	}).catch(data => {
+		console.log(data);
 		alert("로그인에 실패하였습니다.")
 	})
 }
@@ -63,10 +61,10 @@ renderLoginForm() {
 }
 renderLoginStatus() {
 	let is_show = this.state.show;
-	const {name,id,avatar_url} = LoginSession.getLoginInfo()
+	const {name,id,avatarUrl} = LoginSession.getLoginInfo()
 	return (
 		<div>
-		<div className="btn header-btn" onClick={this.toggle}><img src={avatar_url}/> <strong>{name}</strong></div>
+		<div className="btn header-btn" onClick={this.toggle}><img src={avatarUrl}/> <strong>{name}</strong></div>
 			<div className="profile-dialog modal-dialog" role="document" style={{display:(is_show?"block":"none")}}>
 			<div className="modal-content">
 			  <div className="modal-header">

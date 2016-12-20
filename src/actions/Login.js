@@ -12,7 +12,7 @@ export const fetchRequestLogin = (data) => ({
 		method: "GET",
 		body : {
 			code : data.code,
-			redirect_uri: "http://srello.xyz"
+			redirect_uri: process.env.REACT_APP_OAUTH_REDIRECT_URI
 		}
 	}
 })

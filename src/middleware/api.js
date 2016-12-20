@@ -56,41 +56,40 @@ const callApi = (options) => {
 
   return fetch(fullUrl, info)
     .then(response => {
+	    const status = response.status
 	    
-	    return response.json().then(json => {
-        if (!response.ok) {
+	    if (!response.ok) {
           	return Promise.reject({
 	          	type:"ERROR_" + _type,
-	        	error: json,
+	          	status,
 	        	params
 			 })
         }
         const token = response.headers.get("x-auth-token");
-        if(token) {
+        if(token)
 	        sessionStorage.setItem("x-auth-token", token)
-        }
-		
-		console.log("%cAction : %c" +  _type + "\n%cFetch : ","color:blue;font-weight:bold;","color:black;font-weight:bold;",  "color:red;font-weight:bold;", fullUrl, json)
-		
-		//json = json._embedded && json._embedded || json
-		
-		
-		
-		if("error" in json) {
-			return Promise.reject({
-				type: "ERROR_" + _type,
-				error : json,
+
+	    return response.json().then(json => {
+	        if("error" in json) {
+				return Promise.reject({
+					type: "ERROR_" + _type,
+					error : json,
+					params
+				})
+			}
+	        return {
+		        type: _type,
+		        [target] : json,
+		        params
+	        }
+		}).catch(err => {
+			return {
+				type: _type,
+				status,
 				params
-			})
-		}
-		
-        return {
-	        type: _type,
-	        [target] : json,
-	        params
-        }
-      })
-    }    )
+			}
+		})
+    })
 
 }
 

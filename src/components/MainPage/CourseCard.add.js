@@ -26,6 +26,8 @@ add = (e) => {
 		console.log(value)
 	}).catch(e => {
 		console.log("ERR", e)
+		if(e.status === 403)
+			alert("권한이 없습니다.")
 	})
 	
 	this.inputName.value = "";

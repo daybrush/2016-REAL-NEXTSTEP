@@ -10,11 +10,13 @@ class App extends Component {
 componentWillMount() {
 	const {_state, actions} = this.props;
 	LoginSession.bindAction(actions)
-	LoginSession.fetchGetLoginInfo().catch(e => {
-		console.log("Not Login")
-		console.error(e)
-	})
 	
+	
+	if(sessionStorage.getItem("x-auth-token")) {
+		LoginSession.fetchGetLoginInfo().catch(e => {
+			console.log("Not Login")
+		})
+	}		
 	StoreSession.setStore("history", this.history)
 }
 componentWillUnmount() {

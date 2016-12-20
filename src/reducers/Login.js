@@ -12,13 +12,13 @@ export default function reducer(state = initialState, action) {
 			console.log(action.login)
 		case "GET_LOGIN_INFO":
 		//http://srello.xyz:8080/user
-			state.login = action.login_info && action.login_info.principal || action.login || {}
+			state.login = action.login_info || action.login || {}
 			console.log("LOGIN", state.login)
 			if(state.login.error) {
 				return state
 			}
 				
-			if(!state.login.login)
+			if(!state.login.username)
 				return state
 
 			state.login.login_status = "LOGIN"
