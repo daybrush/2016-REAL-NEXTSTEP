@@ -20,7 +20,8 @@ export default class OAuth {
 	
 	
 	getUri(state) {
-		return this.authorize_uri + (this.authorize_uri.indexOf("?") === -1 ? "?" : "&" )+  "client_id=" + this.client_id + '&redirect_uri=' +  this.redirect_uri + '&state=' +state;
+// 		return "http://srello.xyz/api/login/github"
+ 		return this.authorize_uri + (this.authorize_uri.indexOf("?") === -1 ? "?" : "&" )+  "client_id=" + this.client_id + '&redirect_uri=' +  this.redirect_uri + '&state=' +state;
 	}
 	
 	login() {

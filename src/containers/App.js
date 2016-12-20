@@ -10,7 +10,10 @@ class App extends Component {
 componentWillMount() {
 	const {_state, actions} = this.props;
 	LoginSession.bindAction(actions)
-	LoginSession.fetchGetLoginInfo()
+	LoginSession.fetchGetLoginInfo().catch(e => {
+		console.log("Not Login")
+		console.error(e)
+	})
 	
 	StoreSession.setStore("history", this.history)
 }

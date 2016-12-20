@@ -48,8 +48,8 @@ login = () => {
 	const oauth = new OAuth({
 		name: "github",
 		authorize_uri : "https://github.com/login/oauth/authorize",
-		client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
-		redirect_uri : process.env.REACT_APP_OAUTH_REDIRECT_URI,
+		client_id: "1500e8bb648222bc11a2",//process.env.REACT_APP_OAUTH_CLIENT_ID,
+		redirect_uri : "http://localhost:3001/login.html",//process.env.REACT_APP_OAUTH_REDIRECT_URI,
 		scope: "user",
 		
 	});

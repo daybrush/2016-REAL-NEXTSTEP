@@ -37,7 +37,7 @@ const callApi = (options) => {
 	myHeaders.append("x-auth-token", sessionStorage.getItem("x-auth-token"))
 	let info = {
 		method: method,
-		headers : myHeaders,
+		headers : myHeaders
 	};
 	let link = links.DOMAIN + links[_type];
 	
