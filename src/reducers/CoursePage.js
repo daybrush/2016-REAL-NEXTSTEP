@@ -12,9 +12,9 @@ const initiallState = {
 }
 
 export default function CourseListPage(state = initiallState, action) {
-	let session = state.course._embedded && state.course._embedded.defaultSession
+	let session = state.course.defaultSession || {}
 	if(action.params && action.params.is_master)
-		session = state.course._embedded && state.course._embedded.masterSession
+		session = state.course.masterSession
 		
 	switch(action.type ) {
 		case "GET_COURSE":
@@ -45,9 +45,9 @@ export default function CourseListPage(state = initiallState, action) {
 			session.participants = action.participants;
 			return Object.assign({}, state);			
 		case "ADD_LESSON":
-			let lectures2 = session.lectures.filter(lecture=>(action.lesson.lecture.id === lecture.id))
-			console.log(lectures2)
+			let lectures2 = session.lectures.filter(lecture=>(action.params.id === lecture.id))
 			lectures2.forEach(lecture => {
+				lecture.lessons = lecture.lessons || []
 				lecture.lessons.push(action.lesson)
 			})
 			return Object.assign({}, state);

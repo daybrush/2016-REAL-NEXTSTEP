@@ -41,13 +41,12 @@ class component extends Component {
 			const session = this.getSession()
 			if(typeof session === "undefined")
 				return;
-				
-			const lectures = session.lectures
+			
 			this.orderLectures(session);
 			this.orderLectures(this.getMaster(), true);
 		} catch(e) {
 			console.error(e);
-			this.props.state.course._embedded = {}
+			this.props.state.course = {}
 		}
 	}
 	showMenu = () => {
@@ -59,35 +58,35 @@ class component extends Component {
 			
 			
 		const {actions, state} = this.props;
-		actions.fetchAddMyCourse(state.course.id).then(result=> {
+		actions.fetchRequestEnrole({
+			url : this.getSession()._links.self.href
+		}).then(result=> {
 			alert("신청되었습니다.")
-		}).reject(result=> {
+		}).catch(result=> {
 			alert("신청하지 못했습니다.")
 		})
 	}
 	getSession() {
-		return this.props.state.course._embedded && this.props.state.course._embedded.sessions.filter(session=>(session.role==="default"))[0]
+		return this.props.state.course.defaultSession
 	}
 	getMaster() {
-		return this.props.state.course._embedded && this.props.state.course._embedded.sessions.filter(session=>(session.role==="master"))[0]
+		return this.props.state.course.masterSession
 	}
 	
 	renderApplyLabel(memberStatus) {
 		switch(memberStatus) {
 			case "INSTRUCTOR":
-				return (<a className="course-header-apply label" href="#">관리자</a>)	
-				break;			
+				return (<a className="course-header-apply label" href="#">관리자</a>)		
 			case "APPROVED":
 				return (<a className="course-header-apply label" href="#">승인 ㅇㅇ</a>)	
-				break;
-			case "REQUEST_APPLY":
+			case "PENDING":
 				return (<a className="course-header-apply label" href="#">신청중</a>)	
 			case "NOT_LOGIN":
 			case "REQUIRE_APPLY":
 			default:
 				return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
 		}
-		return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
+		//return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
 	}
 	
 	renderHeader(memberStatus) {
@@ -128,7 +127,6 @@ class component extends Component {
 		}
 		
 			  	
-		let applyLabel = ""
 
 
 		return (
@@ -165,10 +163,12 @@ class component extends Component {
 	}
 	renderParticipants() {
 		const session = this.getSession()
-		if(session.id > 0)
-			return (<Participants session={session} ref="participants"/>)
+		if(!session)
+			return ""		
+		
+		return (<Participants session={session} ref="participants"/>)
 			
-		return ""
+		
 	}
 	orderLectures = (session, is_master = false) => {
   		const objLectures = {};
@@ -177,7 +177,13 @@ class component extends Component {
 		
   		let addPos = lectures.filter(lecture => {
 	  		objLectures[lecture.id] = lecture;
-	  		
+	  		try {
+		  		if(typeof pos === "string")
+		  			pos = JSON.parse(pos)
+		  	} catch(e) {
+			  	pos = []
+		  	}
+		  	session.pos = pos
 	  		return pos.every((id, index) => {
 		  		
 		  		//lecture가 pos Array에  하나라도 없을 때 true를 return한다.
@@ -217,19 +223,14 @@ class component extends Component {
   		}
   		
   		if(is_update) {
-			this.props.dispatch(
-				{
-			  		type:"SAVE_LECTURE_POSITION",
-			  		params: {
-				  		is_master: is_master
-			  		},
-			  		lecture_position: pos
-				}
-			)
+	  		const id = session.id
+	  		console.log(id, session)
+			this.props.actions.saveLecturePosition(is_master, pos)
 			this.props.actions.fetchSwapLecture({
-				courseId:this.props.params.course,
-				sessionId: session.id,
-				pos: pos
+				id,
+				pos, 
+				is_master,
+				url: session._links.self.href
 			})
 
   		}
@@ -242,7 +243,7 @@ class component extends Component {
 
   		const course = this.props.state.course;
 		const objLectures = {};
-		const draggable = memberStatus === "INSTRUCTOR"
+
 		const lectures = session.lectures
 		
 		
@@ -286,10 +287,11 @@ class component extends Component {
 					lecture: lecture,
 					sublecture: sublecture,
 					course: course,
+					session,
 					status: memberStatus,
 					is_master:is_master,
 					participants: participants
-					}
+				}
 				return (<LectureCard {...props}/>)
 			})}</div>)
   		
@@ -307,7 +309,7 @@ class component extends Component {
 		if(!master)			
 			return;
 
-  		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course}/>) : ""
+  		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course} session={master} is_master={true}/>) : ""
 		return (
 			<div className="course-master-lectures">
 				{this.renderLectures(master, memberStatus, true)}
@@ -329,9 +331,9 @@ class component extends Component {
 		let memberStatus = "NOT_LOGIN"
 
 		if(LoginSession.isLogin()) {
-	  		const loginInfo = LoginSession.getLoginInfo()
+	  		const loginInfo = LoginSession.getLoginInfo().user
 	  		const instructor = course.instructors.filter(instructor => (loginInfo.username === instructor.username))
-	  		const enrollment = this.getSession().enrollments.filter(enrollment=>(enrollment.username === enrollment.user.username))
+	  		const enrollment = this.getSession().enrollments.filter(enrollment=>(enrollment.user.username === loginInfo.username))
 	  		if(instructor.length !== 0) 
 	  			memberStatus = "INSTRUCTOR"
 	  		else if(enrollment.length === 0)
@@ -351,7 +353,7 @@ class component extends Component {
 
 		const course = this.props.state.course
 
-		if(!("_embedded" in course))
+		if(!("defaultSession" in course))
 			return loadPage("loading")
 			
 		const session = this.getSession()
@@ -368,17 +370,19 @@ class component extends Component {
   		
   		
   		
-  		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course}/>) : ""
-//  		{this.renderParticipants()}  		
+  		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course} session={session} is_master={false}/>) : ""
+  		
   		return (
   		<div className="course-lectrues-wrapper">
 
 
+  		
 		{this.renderHeader(memberStatus)}
 		{this.renderParticipants()}  		
 		<div className="course-lectures">
 			<div className="course-session-lectures">
-				{this.renderLectures(session, memberStatus)}
+			{this.renderLectures(session, memberStatus, false)}
+				{addLectureCard}
 			</div>
 			{this.renderMaster(memberStatus)}
 		</div>

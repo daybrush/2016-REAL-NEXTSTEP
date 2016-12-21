@@ -1,8 +1,6 @@
 import {fetchData} from "./index.js"
 import {CALL_API} from "../middleware/api"
-export const fetchAddMyCourse = (id) => (dispatch, getState) => {
-	return fetchData({type:"add", target:"my_course", id}).then(result =>  dispatch(result))
-}
+
 export const fetchGetCourses = () => ({
   [CALL_API]: {
     type: "get",
@@ -41,10 +39,10 @@ export const fetchGetSession = (courseId, sessionId) => ({
     }
   }
 });
-export const fetchGetParticipants = (id) => ({
+export const fetchGetEnrollments = (id) => ({
   [CALL_API]: {
     type: "get",
-    target: "participants",
+    target: "enrollments",
     params : {
 	    id
     }
@@ -60,14 +58,27 @@ export const fetchAddCourse = (name, description="") => ({
 		}
 	}
 })
-
+export const saveLecturePosition = (is_master, pos) => ({
+	type:"SAVE_LECTURE_POSITION",
+	params: {
+		is_master
+	},
+	lecture_position: pos
+})
+export const saveLessonPosition = (is_master, pos) => ({
+	type:"SAVE_LESSON_POSITION",
+	params: {
+		is_master
+	},
+	lesson_position: pos
+})
 export const fetchSwapLecture = (params) => ({
 	[CALL_API]: {
 		type:"swap",
 		target:"lecture",
 		params,
 		body : {
-			pos : JSON.stringify(params.pos)
+			pos : params.pos
 		}
 	}
 })
@@ -77,19 +88,47 @@ export const fetchSwapLesson = (params) => ({
 		target:"lesson",
 		params,
 		body : {
-			pos : JSON.stringify(params.pos)
+			pos : params.pos
 		}
 	}
 })
 
 
-export const fetchAddLesson = (id) => (dispatch, getState) => {
-	return fetchData({type:"add", target:"lesson", id}).then(result =>  dispatch(result))
-}
+export const fetchRequestEnrole = (params) => ({
+	[CALL_API]: {
+		type:"request",
+		target:"enrole",
+		params,
+		body : {
+			session : params.url
+		}
+	}
+})
+export const fetchAddLecture = (name, is_master, session) => ({
+	[CALL_API]: {
+		type:"add",
+		target:"lecture",
+		params : {
+			is_master
+		},
+		body : {
+			name,
+			session
+		}
+	}
+})
 
+export const fetchAddLesson = (params) => ({
+	[CALL_API]: {
+		type:"add",
+		target:"lesson",
+		params : params,
+		body : {
+			name: params.name,
+			lecture: params.lecture
+		}
+	}
+})
 
-export const fetchAddLecture = (id) => (dispatch, getState) => {
-	return fetchData({type:"add", target:"lecture", id}).then(result =>  dispatch(result))
-}
 
 

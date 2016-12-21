@@ -14,20 +14,21 @@ editMode = () => {
 	this.setState({edit:true});	
 }
 closeEdit = () => {
+	this.refs.name.value = "";
 	this.setState({edit:false});	
 }
 
 addCourse = () => {
 	console.log(this);
-	const title = this.refs.title.value;
-	this.props.actions.fetchAddLecture(this.props.course.id);
-	//NEXTActions
+	const name = this.refs.name.value;
+	this.props.actions.fetchAddLecture(name, this.props.is_master, this.props.session._links.self.href);
+	this.closeEdit();
 }
 renderEdit() {
 	return (
 		<div className="lecture-add-controls"  style={{display:(this.state.edit?"block":"none")}}>
 			<div className="form-controls">
-				<input type="text" ref="title" className="form-control" placeholder="Add a list..."/>
+				<input type="text" ref="name" className="form-control" placeholder="Add a list..."/>
 				<button onClick={this.addCourse} className="btn btn-success">Add</button>
 				<button onClick={this.closeEdit} className="btn btn-default btn-close">X</button>
 			</div>

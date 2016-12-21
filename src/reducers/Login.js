@@ -9,7 +9,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
 	switch(action.type ) {
 		case "REQUEST_LOGIN":
-			console.log(action.login)
+			return state;
 		case "GET_LOGIN_INFO":
 		//http://srello.xyz:8080/user
 			state.login = action.login_info || action.login || {}
@@ -18,7 +18,7 @@ export default function reducer(state = initialState, action) {
 				return state
 			}
 				
-			if(!state.login.username)
+			if(!state.login.user.username)
 				return state
 
 			state.login.login_status = "LOGIN"

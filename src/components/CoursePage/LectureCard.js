@@ -32,8 +32,12 @@ export default connect(
 	 this.lecture = this.props.lecture
 	 this.selector = this.props.is_master ? ".course-master-lectures .lecture-card" : ".course-session-lectures .lecture-card"
 	 this.dragndrop.selector = this.selector
- }
 
+	 this.orderLessons()
+ }
+ componentWillUpdate() {
+	 this.orderLessons()	 
+ }
 dragover = (e) => {
 	if(this.props.status !== "INSTRUCTOR")
 		return;
@@ -70,20 +74,23 @@ dragend = (e) => {
 	this.setState({drag:false});
 	
 	const {card, content} = this.refs;
-	
+	const session = this.props.session
+	const is_master = this.props.is_master	
 	const target = document.querySelector(this.selector + "[isdrag='1']")
 	this.dragndrop.dragend(e, card, content);
 	
 
 
 	const lecture = this.props.lecture
-	const elCards = document.querySelectorAll(".course-session-lectures .lecture-cards>.lecture-card"), length = elCards.length
+	const elCards = document.querySelectorAll((this.props.is_master ? ".course-master-lectures" : ".course-session-lectures" ) + " .lecture-cards>.lecture-card"), length = elCards.length
+	
 	let elCard, position, is_sublecture = false
 	
 	const lecturePosition = this.props.position
 	let cardPosition = -1;
 	
-	let pos = StoreSession.getStore("coursepage").position;
+	let pos = session.pos
+	
 	for(let i = 0; i < length; ++i) {
 		elCard = elCards[i]
 		if(elCard === card) {
@@ -97,7 +104,7 @@ dragend = (e) => {
 	}
 
 	
-	let targetId = pos[lecturePosition], newPosition, sublecturePosition;
+	let targetId = pos[lecturePosition], sublecturePosition;
 	if(cardPosition > -1) {
 		if(targetId instanceof Array) {
 			sublecturePosition = targetId.indexOf(lecture.id)
@@ -142,18 +149,23 @@ dragend = (e) => {
 			return id
 		})
 		
+		
+		console.log("POS", pos)
 	
 		this.state.parent.insertAdjacentElement("beforeend", target)
 		this.state.parent = ""
 		
 		
-		const course = this.props.course, courseId = this.props.params.course, sessionId = this.props.is_master? course.masterSession.id : course.defaultSession.id
-		
-		this.props.actions.fetchSwapLecture({
-			courseId, sessionId, pos,
-	  		is_master : this.props.is_master
-  		})
 
+		const id = this.props.session.id
+		
+		this.props.actions.saveLecturePosition(is_master, pos)
+		this.props.actions.fetchSwapLecture({
+			id,
+			pos, 
+			is_master,
+			url: this.props.session._links.self.href
+		})
 	}
 }
 dragsubover = (e) => {
@@ -177,7 +189,7 @@ dragsubover = (e) => {
 getNodeIndex = (node) => {
     var index = 0;
     while ( (node = node.previousSibling) ) {
-        if (node.nodeType != 3 || !/^\s*$/.test(node.data)) {
+        if (node.nodeType !== 3 || !/^\s*$/.test(node.data)) {
             index++;
         }
     }
@@ -186,7 +198,7 @@ getNodeIndex = (node) => {
 
 showMenu = () => {
 	this.setState({menu:true, edit: false});
-	this.refs.menu_title.value = this.props.lecture.title
+	this.refs.menu_title.value = this.props.lecture.name
 }
 hideMenu = () => {
 	this.setState({menu:false});
@@ -205,8 +217,18 @@ hideEdit = () => {
 
 addLesson = () => {
 	console.log(this);
-	const title = this.refs.title.value;
-		this.props.actions.fetchAddLesson(this.props.course.id)
+	const name = this.refs.name.value;
+	const id = this.props.lecture.id
+	this.props.actions.fetchAddLesson({
+		name,
+		is_master: this.props.is_master,
+		lecture: this.props.lecture._links.self.href,
+		id
+	}).catch(e => {
+		alert("생성하지 못했습니다.");
+	})
+	
+	this.refs.name.value = "";
 	this.setState({edit:false});
 	//NEXTActions
 }
@@ -215,9 +237,16 @@ addLesson = () => {
 orderLessons = () => {
 	const objLectures = {};
 	const lecture = this.props.lecture, lectureId = lecture.id
-	const lessons = lecture.lessons	
-	let pos = lessons.pos || []
-	
+	const lessons = lecture.lessons	|| []
+	let pos = lecture.pos
+	try {
+  		if(typeof pos === "string")
+  			pos = JSON.parse(pos)
+  	} catch(e) {
+	  	pos = []
+  	}
+  	lecture.pos = pos
+  	
 	let addPos = lessons.filter(lesson => {
 		objLectures[lesson.id] = lesson;
 		
@@ -253,10 +282,10 @@ orderLessons = () => {
 	}
 	
 	if(is_update) {
-
+		console.log(lectureId, pos);
 		this.props.dispatch(
 			{
-		  		type:"SWAP_LESSON_POSITION",
+		  		type:"SAVE_LESSON_POSITION",
 		  		params: {
 			  		lectureId,
 			  		is_master: this.props.is_master	  		
@@ -289,7 +318,7 @@ renderEdit() {
 	    <div className={classNames({"lesson-card-add":true,"lesson-card-add-show":this.state.edit})}>
 			<span className="lesson-card-add-placeholder" onClick={this.showEdit}>Add a Lesson...</span>
 			<div className="lesson-card-add-controls form-controls">
-				<input type="text" ref="title" className="form-control" placeholder="Add a Lesson..."/>
+				<input type="text" ref="name" className="form-control" placeholder="Add a Lesson..."/>
 				<button onClick={this.addLesson} className="btn btn-success">Add</button>
 				<button onClick={this.hideEdit} className="btn btn-default btn-close">X</button>		
 			</div>
@@ -334,7 +363,24 @@ renderSublecture() {
 	const lecture = sublecture[0]
 	
 	sublecture = sublecture.slice(1, sublecture.length)
-	return (<LectureCard key={lecture.id} lecture={lecture} sublecture={sublecture} course={this.props.course} status={this.props.status} is_master={this.props.is_master} position={this.props.position} dispatch={this.props.dispatch} participants={this.props.participants}/>)
+	const {course, status, session, position, participants, is_master, actions, state, dispatch}  = this.props
+	const props = {
+		key: lecture.id,
+		position,
+		lecture,
+		sublecture,
+		course,
+		session,
+		status,
+		is_master,
+		participants,
+		actions,
+		state,
+		dispatch
+	}
+	
+	return (<LectureCard {...props}/>)
+	
 }
 
 
@@ -344,8 +390,7 @@ renderLessons() {
 	lessons.filter(lecture => {
   		objLectures[lecture.id] = lecture;
 	});	
-	let pos = this.orderLessons()
-	
+	const pos = lecture.pos
 	const _pos = pos.map((id, i)=> {
 		if(typeof id === "object")
 			return id.map(id => {
@@ -356,14 +401,14 @@ renderLessons() {
 		return objLectures[id]
 	})
 	return (<ul className="lesson-cards">
-        		{lessons.map(lesson => (<LessonCard key={lesson.id} lesson={lesson} lecture={this.props.lecture} course={this.props.course} status={this.props.status} participants={this.props.participants}/>))}
+        		{lessons.map((lesson,i) => (<LessonCard key={lesson.id} position={i} lesson={lesson} lecture={this.props.lecture} lectureCard={this} course={this.props.course} status={this.props.status} participants={this.props.participants} is_master={this.props.is_master}/>))}
         	</ul>)
 }
 
 
 render() {
 	const {status, lecture, course} = this.props;
-    const {  id, title, lessons } = lecture;
+    const {  id, name, lessons } = lecture;
     const courseId = course.id;
 
 	const enabled = (status === "APPROVED" || status === "INSTRUCTOR") || lessons.filter(lesson=>(lesson.access === "PUBLIC")).length !== 0
@@ -378,7 +423,7 @@ render() {
       
 	       <div className="lecture-card-content" ref="content">
 		   		{this.renderMenu()}
-	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-card-title">{title}</h2>
+	        	<h2 title="실전 프로젝트" dir="auto" className="lecture-card-title">{name}</h2>
 	        	{this.renderLessons()}
 	        	{this.renderEdit()}
         	</div>

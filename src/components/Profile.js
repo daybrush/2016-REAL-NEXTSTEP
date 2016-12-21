@@ -61,7 +61,7 @@ renderLoginForm() {
 }
 renderLoginStatus() {
 	let is_show = this.state.show;
-	const {name,id,avatarUrl} = LoginSession.getLoginInfo()
+	const {name,id,avatarUrl} = LoginSession.getLoginInfo().user
 	return (
 		<div>
 		<div className="btn header-btn" onClick={this.toggle}><img src={avatarUrl}/> <strong>{name}</strong></div>
