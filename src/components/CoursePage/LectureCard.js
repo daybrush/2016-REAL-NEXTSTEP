@@ -204,6 +204,14 @@ hideMenu = () => {
 	this.setState({menu:false});
 }
 saveMenu = () => {
+	const {lecture, is_master} = this.props, name = this.refs.menu_title.value
+	this.props.actions.fetchChangeLecture({
+		id: lecture.id,
+		is_master,
+	}, {
+		name
+	})
+	
 	this.hideMenu()
 }
 showEdit = () => {
@@ -225,6 +233,7 @@ addLesson = () => {
 		lecture: this.props.lecture._links.self.href,
 		id
 	}).catch(e => {
+		console.error(e);
 		alert("생성하지 못했습니다.");
 	})
 	
@@ -232,7 +241,20 @@ addLesson = () => {
 	this.setState({edit:false});
 	//NEXTActions
 }
-
+deleteLecture = (e) => {
+	e.preventDefault();
+	const a = confirm("삭제하시겠습니까?")
+	
+	if(!a)
+		return;
+		
+	this.props.actions.deleteLecture({
+		id: this.props.lecture.id
+	}).catch(e=> {
+		console.error(e)
+		alert("실패하였습니다.")
+	})
+}
 
 orderLessons = () => {
 	const objLectures = {};
@@ -245,7 +267,7 @@ orderLessons = () => {
   	} catch(e) {
 	  	pos = []
   	}
-  	lecture.pos = pos
+  	lecture.pos = pos || []
   	
 	let addPos = lessons.filter(lesson => {
 		objLectures[lesson.id] = lesson;
@@ -283,23 +305,16 @@ orderLessons = () => {
 	
 	if(is_update) {
 		console.log(lectureId, pos);
-		this.props.dispatch(
-			{
-		  		type:"SAVE_LESSON_POSITION",
-		  		params: {
-			  		lectureId,
-			  		is_master: this.props.is_master	  		
-		  		},
-		  		lesson_position: pos
-			}
-		)
+		const is_master = this.props.is_master
 
-
-		this.props.actions.fetchSwapLesson({
-			lectureId:lecture.id,
-			pos: pos
+		this.props.actions.saveLessonPosition({
+			is_master, pos, lectureId
 		})
-
+		this.props.actions.fetchSwapLesson({
+			id:lecture.id,
+			pos,
+			is_master
+		})
 	}
 
 	
@@ -341,7 +356,7 @@ renderMenu() {
 		    	<ul className="options">
 		    		<li>All Public</li>
 		    		<li>All Private</li>
-		    		<li>Delete</li>	    		
+		    		<li onClick={this.deleteLecture}>Delete</li>	    		
 		    	</ul>
 				<div className="lecture-card-menu-controls form-controls">
 					<input className="form-control" ref="menu_title"/>
@@ -390,7 +405,7 @@ renderLessons() {
 	lessons.filter(lecture => {
   		objLectures[lecture.id] = lecture;
 	});	
-	const pos = lecture.pos
+	const pos = lecture.pos || []
 	const _pos = pos.map((id, i)=> {
 		if(typeof id === "object")
 			return id.map(id => {

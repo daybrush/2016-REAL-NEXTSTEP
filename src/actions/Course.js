@@ -3,13 +3,9 @@ import {CALL_API} from "../middleware/api"
 
 export const fetchGetCourses = () => ({
   [CALL_API]: {
-    type: "get",
-    target: "courses",
+    type: "GET_COURSES",
   }
 })
-export const fetchGetMyCourses = () => (dispatch, getState) => {
-	return fetchData({type:"get", target:"my_courses"}).then(result =>  dispatch(result))
-}
 
 
 export const fetchGetCoursesMore = (instructor_id) => (dispatch, getState) => {
@@ -18,11 +14,16 @@ export const fetchGetCoursesMore = (instructor_id) => (dispatch, getState) => {
 		return dispatch(result)
 	})
 }
-
+export const fetchGetMyCourses = (params) => ({
+	[CALL_API]: {
+		endpoint: "/users/$id/enrollments",
+		type: "GET_MY_COURSES",
+		params
+	}
+});
 export const fetchGetCourse = (id) => ({
   [CALL_API]: {
-    type: "get",
-    target: "course",
+    type: "GET_COURSE",
     params : {
 	    id
     }
@@ -30,8 +31,7 @@ export const fetchGetCourse = (id) => ({
 });
 export const fetchGetSession = (courseId, sessionId) => ({
   [CALL_API]: {
-    type: "get",
-    target: "session",
+    type: "GET_SESSION",
     url: "/courses/$courseId/sessions/$sessionId",
     params : {
 	    courseId,
@@ -39,20 +39,11 @@ export const fetchGetSession = (courseId, sessionId) => ({
     }
   }
 });
-export const fetchGetEnrollments = (id) => ({
-  [CALL_API]: {
-    type: "get",
-    target: "enrollments",
-    params : {
-	    id
-    }
-  }
-})
+
 
 export const fetchAddCourse = (name, description="") => ({
 	[CALL_API]: {
-		type:"add",
-		target:"course",
+		type:"ADD_COURSE",
 		body : {
 			name, description
 		}
@@ -63,19 +54,25 @@ export const saveLecturePosition = (is_master, pos) => ({
 	params: {
 		is_master
 	},
-	lecture_position: pos
+	value: pos
 })
-export const saveLessonPosition = (is_master, pos) => ({
+export const saveLessonPosition = (params) => ({
 	type:"SAVE_LESSON_POSITION",
-	params: {
-		is_master
-	},
-	lesson_position: pos
+	params,
+	value: params.pos
 })
+export const fetchChangeLecture = (params, body) => ({
+	[CALL_API]: {
+		endpoint: "/lectures/$id",
+		type:"CHANGE_LECTURE",
+		params,
+		body
+	}
+})
+
 export const fetchSwapLecture = (params) => ({
 	[CALL_API]: {
-		type:"swap",
-		target:"lecture",
+		type:"SWAP_LECTURE",
 		params,
 		body : {
 			pos : params.pos
@@ -84,8 +81,7 @@ export const fetchSwapLecture = (params) => ({
 })
 export const fetchSwapLesson = (params) => ({
 	[CALL_API]: {
-		type:"swap",
-		target:"lesson",
+		type:"SWAP_LESSON",
 		params,
 		body : {
 			pos : params.pos
@@ -94,10 +90,9 @@ export const fetchSwapLesson = (params) => ({
 })
 
 
-export const fetchRequestEnrole = (params) => ({
+export const fetchRequestEnroll = (params) => ({
 	[CALL_API]: {
-		type:"request",
-		target:"enrole",
+		type:"REQUEST_ENROLL",
 		params,
 		body : {
 			session : params.url
@@ -106,8 +101,7 @@ export const fetchRequestEnrole = (params) => ({
 })
 export const fetchAddLecture = (name, is_master, session) => ({
 	[CALL_API]: {
-		type:"add",
-		target:"lecture",
+		type:"ADD_LECTURE",
 		params : {
 			is_master
 		},
@@ -120,8 +114,7 @@ export const fetchAddLecture = (name, is_master, session) => ({
 
 export const fetchAddLesson = (params) => ({
 	[CALL_API]: {
-		type:"add",
-		target:"lesson",
+		type:"ADD_LESSON",
 		params : params,
 		body : {
 			name: params.name,
@@ -130,12 +123,38 @@ export const fetchAddLesson = (params) => ({
 	}
 })
 
+export const deleteLecture = (params) => ({
+	[CALL_API]: {
+		endpoint: "/lectures/$id",
+		type:"DELETE_LECTURE",
+		params : params,
+	}
+})
+export const deleteLesson = (params) => ({
+	[CALL_API]: {
+		endpoint: "/lessons/$id",
+		type:"DELETE_LESSON",
+		params : params,
+	}
+})
 
+
+
+
+
+/*ENROLLMENTS*/
+
+export const fetchGetEnrollments = (params) => ({
+  [CALL_API]: {
+	endpoint : "/courseSessions/$id/enrollments",
+    type: "GET_ENROLLMENTS",
+    params 
+  }
+})
 export const fetchChangeEnrollmentStatus = (params) => ({
 	[CALL_API]: {
-		endpoint : "/courseSession/$id/enrollments/$enrollmentId",
-		type:"change",
-		target:"enrollment_status",
+		endpoint : "/enrollments/$enrollmentId",
+		type:"CHANGE_ENROLLMENT_STATUS",
 		params,
 		body : {
 			status: params.status,

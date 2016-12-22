@@ -12,11 +12,14 @@ import { Link} from 'react-router'
 import LoginSession from "../class/LoginSession"
 import StoreSession from "../class/StoreSession"
 import loadPage from "../class/Page"
-
+import Info from "../components/CoursePage/Info"
 class component extends Component {
 	courseId = "";
 	sessionId = "";
 	position = [];
+	state = {
+		show_info : false
+	}
 	componentWillMount() {
 		document.body.className = "view-course";
 		const {actions, params} = this.props;
@@ -27,7 +30,9 @@ class component extends Component {
 		console.log("course : " + course + "  session : " + session)
 		//by Course Id
 		if(typeof course !== "undefined")
-			actions.fetchGetCourse(course);
+			actions.fetchGetCourse(course).catch(e => {
+				alert("페이지가 존재하지 않습니다.")
+			})
 			
 			
 		StoreSession.setStore("coursepage", this)
@@ -60,12 +65,16 @@ class component extends Component {
 		if(!confirm("강의를 신청하시겠습니까?"))
 			return;
 			
-			
+		
 		const {actions, state} = this.props;
-		actions.fetchRequestEnrole({
+		actions.fetchRequestEnroll({
 			url : this.getSession()._links.self.href
 		}).then(result=> {
 			alert("신청되었습니다.")
+			
+			actions.fetchGetEnrollment({
+				id : this.getSession().id
+			})
 		}).catch(result=> {
 			alert("신청하지 못했습니다.")
 		})
@@ -76,7 +85,7 @@ class component extends Component {
 	getMaster() {
 		return this.props.state.course.masterSession
 	}
-	
+
 	renderApplyLabel(memberStatus) {
 		switch(memberStatus) {
 			case "INSTRUCTOR":
@@ -85,6 +94,8 @@ class component extends Component {
 				return (<a className="course-header-apply label" href="#">승인 ㅇㅇ</a>)	
 			case "PENDING":
 				return (<a className="course-header-apply label" href="#">신청중</a>)	
+			case "REJECTED":
+				return (<a className="course-header-apply label label-danger" href="#">거절당함</a>)	
 			case "NOT_LOGIN":
 			case "REQUIRE_APPLY":
 			default:
@@ -97,14 +108,15 @@ class component extends Component {
 		const course = this.props.state.course
 		const session = this.getSession()
 		const {startDate, endDate} = session
-		const {name} = this.getSession()
+		let {name, state} = this.getSession()
 		const instructors = course.instructors
 	
 	
 	
+/*
 		let nowDate = new Date()
 		let stringNowDate = (nowDate.getYear() + 1900) + "-" + (nowDate.getMonth()+1) + "-" + nowDate.getDate()
-		let statusName;
+
 		
 		
 		let status = 0;
@@ -117,15 +129,18 @@ class component extends Component {
 			status = 1;
 		else if(stringNowDate < endDate)
 			status = 2;
-		
-		switch(status) {
-			case 1:
+*/
+		let statusName;
+		//IN_SESSION , UPCOMIING, EXPIRED
+		switch(state) {
+			case "UPCOMIING":
 				statusName = "강의 예정";
 				break;
-			case 2:
+			case "EXPIRED":
 				statusName = "강의 종료";
 				break;
 			default:
+				state = "IN_SESSION"
 				statusName = "강의중";
 				break;
 		}
@@ -138,9 +153,9 @@ class component extends Component {
 				<span className={classNames({
 					"course-header-status": true,
 					label:true,
-					"label-end": status === 2,
-					"label-upcomming": status === 1,
-					"label-inprogress label-success": status === 0,
+					"label-end": state === "EXPIRED",
+					"label-upcomming": state === "UPCOMMING",
+					"label-inprogress label-success": state === "IN_SESSION",
 					
 				})}>{statusName}</span>
 				<span className="course-header-name">{name}</span>
@@ -149,7 +164,10 @@ class component extends Component {
 				{instructors.map((instructor,i) => (
 				<span className="course-header-professor" key={i}><Link to={"/professor/"+instructor.id} >{instructor.name}</Link></span>				
 				))}
-				<a className="course-header-info ">i</a>
+				<a className="course-header-info" href="#" onClick={(e)=>{
+					this.setState({show_info:true})
+					e.preventDefault()
+				}}>i</a>
 
 
 	
@@ -344,11 +362,17 @@ class component extends Component {
 	  			memberStatus = "REQUIRE_APPLY"
 	  		else if(enrollment[0].status === "PENDING")
 	  			memberStatus = "PENDING"
+	  		else if(enrollment[0].status === "REJECTED")
+	  			memberStatus = "REJECTED"
 	  		else
 	  			memberStatus = "APPROVED"
 	  	}
 	  	
 	  	return memberStatus
+	}
+	renderInfo() {
+		if(this.state.show_info)
+			return (<Info CoursePage={this}/>)
 	}
 	render() {
 		if(!("course" in this.props.state))
@@ -382,7 +406,8 @@ class component extends Component {
 
   		
 		{this.renderHeader(memberStatus)}
-		{this.renderParticipants(memberStatus)}  		
+		{this.renderParticipants(memberStatus)}  
+		{this.renderInfo()}		
 		<div className="course-lectures">
 			<div className="course-session-lectures">
 			{this.renderLectures(session, memberStatus, false)}

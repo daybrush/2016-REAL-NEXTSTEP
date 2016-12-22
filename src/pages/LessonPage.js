@@ -22,6 +22,7 @@ import hljs from 'highlight.js'
 
 import { Link } from 'react-router'
 
+import loadPage from "../class/Page"
 
 import StoreSession from "../class/StoreSession"
 
@@ -55,11 +56,11 @@ class component extends Component {
 		
 
 		actions.fetchGetLesson(lesson).then(result => {
-			const {name} = result.lesson.lecture
+			const {name} = result.value._embedded.lecture
 			StoreSession.getStore("header").addButton({
 				leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course }>
 				<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)
-			});
+			})
 		})
 
 	}
@@ -171,7 +172,7 @@ class component extends Component {
 	}
 
 	componentWillUpdate(nextProps, nextState) {
-		let content = nextProps.state.lesson.content;
+		let content = nextProps.state.lesson.content || ""
 	
 		if(this.content === content)
 			return;
@@ -216,6 +217,7 @@ class component extends Component {
 		});
 	}
 	componentDidMount() {
+
 		this.resizeView(300)
 	}
 	componentDidUpdate(nextProps, nextState) {
@@ -252,7 +254,9 @@ class component extends Component {
 		
 		
 	renderContents() {
-
+		if(!this.props.state.lesson) {
+			return loadPage("loading")
+		}
 		return this.contentArray.map((content,i) => {
 			if(!content)
 				return "";
@@ -282,12 +286,15 @@ class component extends Component {
 		return (<LinkTab attachments={this.props.state.lesson.attachments}/>)
 	}
 	renderDiscussionTab() {
+		if(!this.props.state.lesson)
+			return ""
 		if(this.props.state.lesson.id < 0)
 			return ""
 			
-		return (<Discussions lessonId={this.props.params.lesson} resizeView={this.resizeView} contents={this.contentArray} option={this.option}/>)
+		return (<Discussions lesson={this.props.state.lesson} lessonId={this.props.params.lesson} resizeView={this.resizeView} contents={this.contentArray} option={this.option}/>)
 	}
 	render() {
+
 	    const html = (<div onDragOver={this.dragover}  >
 	    {this.renderButtons()}
 	    	<div className="lesson-wrapper"  ref="wrapper">

@@ -98,6 +98,9 @@
 	color:  #ccc;
 	display: none;
 }
+.lesson-card .lesson-card-edit.glyphicon-pencil {
+	right: 25px;
+}
 .lesson-card:hover .lesson-card-edit {
 	display: block;
 }

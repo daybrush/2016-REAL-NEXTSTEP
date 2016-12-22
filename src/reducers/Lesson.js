@@ -1,40 +1,40 @@
 //import * as Actions from '../constants/ActionTypes'
 
 const initialState = {
-	"lesson" :{
-	  "id": -1,
-	  "course": {
-	    "id": 0,
-	    "title": ""
-	  },
-	  "comments": [
-	  ],
-	  "discussions": [
-	  ],
-	  "attachments": [
-	  ],
-	  "content" : ""
-	}
+	"lesson" : 0
 }
 
 export default function reducer(state = initialState, action) {
 	switch(action.type ) {
 		case "ADD_DISCUSSION":
-			state.lesson.discussions.push(action.discussion);
+			action.value.createdBy = action.value._embedded.createdBy
+			state.lesson.discussions._embedded.discussions.push(action.value);
 			return Object.assign({}, state);
 		case "GET_DISCUSSIONS":
-			state.lesson.discussions = action.discussions
+			state.lesson.discussions = action.value
 			return Object.assign({}, state);
-		case "GET_DISCUSSION" :
-			const _discussion = action.discussion
-			state.lesson.discussions.filter(discussion => {
-				return discussion.id === _discussion.id
+		case "GET_DISCUSSION_REPLIES" :
+			const id = action.params.discussionId
+			state.lesson.discussions._embedded.discussions.filter(discussion => {
+				return discussion.id === id
 			}).map(discussion => {
-				discussion.replies = _discussion.replies
+				discussion.replies = action.value._embedded.discussionReplies
+			})
+			return Object.assign({}, state);						
+		case "ADD_DISCUSSION_REPLY":
+			const id2 = action.params.id
+			
+			action.value.createdBy = action.value._embedded.createdBy
+			
+			state.lesson.discussions._embedded.discussions.filter(discussion => {
+				return discussion.id === id2
+			}).map(discussion => {
+
+				discussion.replies.push(action.value)
 			})
 			return Object.assign({}, state);								
 		case "GET_LESSON":
-			state.lesson = action.lesson;
+			state.lesson = action.value;
 			return Object.assign({}, state);
 
 		default:

@@ -7,12 +7,15 @@ import classNames from 'classnames'
 import marked from '../../js/custommarked';
 
 import hljs from 'highlight.js'
+import 'time-elements';
 
 export default class component extends Component {
-	discussion = "";
+	comment = "";
 	componentWillMount() {
-		this.discussion = this.props.discussion.content;
-		this.discussion =  this.discussion.replace(/\n/g, "<br/>");
+		this.comment = this.props.discussion.comment;
+		this.comment =  this.comment.replace(/\n/g, "<br/>");
+		this.props.discussion.createdDate += "+09:00"
+
 	}
 	componentDidMount() {
 		const codes = this.refs.content.querySelectorAll("pre code")
@@ -41,24 +44,25 @@ export default class component extends Component {
 		this.props.onClick(this.props.discussion)
 	}
 	render() {
-		const {discussion} = this.props
-		const {creator, title, id, created} = discussion
+		const {discussion, nowDiscussion} = this.props
+		let {id,createdDate} = discussion
+		const {avatarUrl, name} = discussion.createdBy
 		//					{title}
-		const nowDiscussionId = this.props.nowDiscussion
+
 		return (
 			<li className={classNames({
 					"discussion": true,
-					"discussion-selected" : id === nowDiscussionId
+					"discussion-selected" : id === nowDiscussion
 				})} onClick={this.onClick}>
 				<div className="dicussion-header">
-					<img src={creator.avatar_url} alt="profile" className="discussion-author-thumb"/>
+					<img src={avatarUrl} alt="profile" className="discussion-author-thumb"/>
 					<div className="dicussion-text">
-						<p className="dicussion-author-name">{creator.name}</p>
-						<p className="dicussion-time">{created}</p>
-						</div>
-
+						<p className="dicussion-author-name">{name}</p>
+						
+						<p className="dicussion-time"><relative-time datetime={createdDate}></relative-time></p>
+					</div>
 				</div>
-				<div className="discussion-content"  dangerouslySetInnerHTML={{__html:marked(this.discussion)}} ref="content">
+				<div className="discussion-content"  dangerouslySetInnerHTML={{__html:marked(this.comment)}} ref="content">
 				</div>
 	    	</li>
 	    )

@@ -117,6 +117,21 @@ export default connect(
 	    }
 	    return index;
 	}
+	deleteLesson = (e) => {
+		e.preventDefault();
+		const a = confirm("삭제하시겠습니까?")
+		
+		if(!a)
+			return;
+			
+		this.props.actions.deleteLesson({
+			id: this.props.lesson.id,
+			lectureId: this.props.lecture.id
+		}).catch(e=> {
+			console.error(e)
+			alert("실패하였습니다.")
+		})
+	}
 	componentWillMount() {
 		//console.log(Loginlesson.info)
 	}
@@ -149,6 +164,7 @@ export default connect(
 		    	<div className="lesson-card-content" ref="content">
 			    	<div className="lesson-card-name"><Link to={"/" +course.id +"/lesson/"+lesson.id}>{lesson.name}</Link></div>
 			    	<Link className="lesson-card-edit glyphicon glyphicon-pencil" to={"/" +course.id+"/lesson/"+lesson.id+"/edit"}></Link>
+			    	<a className="lesson-card-edit glyphicon glyphicon-remove" href="#" onClick={this.deleteLesson}></a>
 			    	<div className="lesson-card-badges">
 			    		{this.renderBadges(badges)}
 			    	</div>

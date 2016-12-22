@@ -11,7 +11,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
 	switch(action.type ) {
 		case Actions.GET_PROFESSOR:
-			state.professor = action.professor;
+			state.professor = action.value;
 			return Object.assign({}, state);
 	}
 	return state;

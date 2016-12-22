@@ -12,7 +12,7 @@ export default function reducer(state = initialState, action) {
 			return state;
 		case "GET_LOGIN_INFO":
 		//http://srello.xyz:8080/user
-			state.login = action.login_info || action.login || {}
+			state.login = action.value || {}
 			console.log("LOGIN", state.login)
 			if(state.login.error) {
 				return state

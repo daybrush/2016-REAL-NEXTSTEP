@@ -9,30 +9,49 @@ import Open from './Open'
 import "./css/mainPage.css"
 
 import {Link} from 'react-router'
+
+import LoginSession from "../class/LoginSession"
 class mainPage extends Component {
 	componentWillMount() {
 		const {actions} = this.props;
 
 		document.body.className = "";
 		
-		actions.fetchGetMyCourses()
+		
 		
 	}
+	componentWillUpdate() {
+		if(!LoginSession.isLogin())
+			return;
+		if(this.props.state.courses)
+			return;
+			
+		this.props.actions.fetchGetMyCourses({
+			id: this.props.state2.login.userId
+		})
+	}
 
+	renderMyCourses() {
+		if(!LoginSession.isLogin())
+			return;
+		if(!this.props.state.courses)
+			return;
+			
+		return (<ul className="course-cards">
+			{this.props.state.courses.map((course, i) => (				
+				<CourseCard isLink="true" course={course} key={course.id} />
+			))}
+		</ul>)
+	}
   render() {
 	const {state} = this.props
-
-		
+	
+	const _Open = (this.props.state2.login.role === "ROLE_INSTRUCTOR"  || this.props.state2.login.role === "ROLE_ADMIN") ? (<Open/>) : ""
     return (
     	<section className="content">
-    		<Open/>
+    		{_Open}
     		<div className="page-header"><h3>수강 목록</h3></div>
-    		<ul className="course-cards">
-    		{state.courses.map((course, i) => (
-    			
-    			<CourseCard isLink="true" course={course} key={course.id} />
-    		))}
-    		</ul>
+    		{this.renderMyCourses()}
     		<div className="content-btns">
 	    		<Link className="btn btn-apply" to="/apply">강좌 찾아보기</Link>
     		</div>
@@ -43,7 +62,7 @@ class mainPage extends Component {
 
 
 const mapStateToProps = state => {
-	return {state: state.MyCourses}
+	return {state: state.MyCourses, state2: state.Login}
 }
 
 const mapDispatchToProps = dispatch => {

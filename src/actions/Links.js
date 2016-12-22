@@ -28,7 +28,7 @@ links["GET_PARTICIPANTS"] = "/lectures/$id/participants"
 
 
 
-links["GET_MY_COURSES"] = "/me/courses/participate"
+//links["GET_MY_COURSES"] = "/me/courses/participate"
 
 
 
@@ -42,7 +42,7 @@ links["ADD_DISCUSSION_REPLY"] = "/discussions/$id/reply"
 
 
 links["GET_LOGIN_INFO"] = "/user"
-links["REQUEST_ENROLE"] = "/enrollments"
+links["REQUEST_ENROLL"] = "/enrollments"
 links["REQUEST_LOGIN"] = "/login/github"
 links["REQUEST_LOGOUT"] = "/me/logout"
 
@@ -50,11 +50,12 @@ links["REQUEST_LOGOUT"] = "/me/logout"
 links["SWAP_LECTURE"] = "/sessions/$id";
 links["SWAP_LESSON"] = "/lectures/$id";
 const methodType = {
-	"get" : "GET",
-	"add" : "POST",
-	"request" : "POST",
-	"swap" : "PATCH",
-	"change" : "PATCH"
+	"GET" : "GET",
+	"ADD" : "POST",
+	"REQUEST" : "POST",
+	"SWAP" : "PATCH",
+	"DELETE" : "DELETE",
+	"CHANGE" : "PATCH"
 }
 
 export {links, methodType};

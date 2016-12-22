@@ -9,11 +9,11 @@ const links = {
 		"/courses/[\\d]/lectures" : "/json/lectures.json",
 		"/lectures/[\\d]" : "/json/lecture.json",
 		"/lectures/[\\d]/participants" : "/json/participants.json",
-		"/lessons/[\\d]" : "/json/lesson.json",
+// 		"/lessons/[\\d]" : "/json/lesson.json",
 		"/lessons/[\\d]/attachments/[\\d]" : "/json/lesson.json",
-		"/lessons/[\\d]/discussions" : "/json/discussions.json",
+//		"/lessons/[\\d]/discussions" : "/json/discussions.json",
 		
-		"/discussions/[\\d]" : "/json/discussion.json",
+// 		"/discussions/[\\d]" : "/json/discussion.json",
 
 // 		"/user" : "/json/login.json",
 		"/me/courses/participate" : "/json/mycourses.json"

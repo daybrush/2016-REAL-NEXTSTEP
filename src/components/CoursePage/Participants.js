@@ -33,12 +33,16 @@ changeStatus = (index, status) => {
 	})
 }
 approveStatus =(index) => {
-	this.changeStatus(index, "APPROVE")
+	this.changeStatus(index, 1) // "APPROVED"
 }
 revokeStatus =(index) => {
-	this.changeStatus(index, "REVOKE")
+	this.changeStatus(index, 2) // "REJECTED"
 }
 renderStatus(index, status) {
+	if(this.props.status !== "INSTRUCTOR")
+		return "";
+		
+	
 	const success = (<button type="button" key={1} onClick={()=>{this.approveStatus(index)}} className="btn btn-sm btn-success">승인</button>)
 	const revoke = (<button type="button" key={2} onClick={()=>{this.revokeStatus(index)}} className="btn btn-sm btn-danger">거부</button>)
 	let buttons;

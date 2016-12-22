@@ -7,31 +7,39 @@ import classNames from 'classnames'
 import marked from '../../js/custommarked';
 
 import hljs from 'highlight.js'
+import 'time-elements';
+
 
 export default class component extends Component {
-	reply = "";
+	comment = "";
 	componentWillMount() {
-		this.reply = this.props.reply.comment;
-		this.reply =  this.reply.replace(/\n/g, "<br/>");
+		this.comment = this.props.discussion.comment;
+		this.comment =  this.comment.replace(/\n/g, "<br/>");
+		this.props.discussion.createdDate += "+09:00"
 	}
 	componentDidMount() {
 		hljs.highlightBlock(this.refs.content);
 	}
 	render() {
-		const {reply} = this.props
-		const {creator, id, created} = reply
-		//					{title}
-		return (
-			<li className="discussion discussion-reply">
-				<div className="dicussion-header">
-					<img src={creator.avatar_url} alt="profile" className="discussion-author-thumb"/>
-					<div className="dicussion-text">
-						<p className="dicussion-author-name">{creator.name}</p>
-						<p className="dicussion-time">{created}</p>
-						</div>
+		const {discussion, nowDiscussion} = this.props
+		let {id,createdDate} = discussion
+		const {avatarUrl, name} = discussion.createdBy
 
+
+		return (
+			<li className={classNames({
+					"discussion": true,
+					"discussion-reply" : true
+				})} onClick={this.onClick}>
+				<div className="dicussion-header">
+					<img src={avatarUrl} alt="profile" className="discussion-author-thumb"/>
+					<div className="dicussion-text">
+						<p className="dicussion-author-name">{name}</p>
+						
+						<p className="dicussion-time"><relative-time datetime={createdDate}></relative-time></p>
+					</div>
 				</div>
-				<div className="discussion-content"  dangerouslySetInnerHTML={{__html:marked(this.reply)}} ref="content">
+				<div className="discussion-content"  dangerouslySetInnerHTML={{__html:marked(this.comment)}} ref="content">
 				</div>
 	    	</li>
 	    )

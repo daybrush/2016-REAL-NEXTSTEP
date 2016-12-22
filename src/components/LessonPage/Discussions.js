@@ -12,7 +12,7 @@ import 'simplemde/dist/simplemde.min.css';
 
 import Discussion from './Discussion'
 import DiscussionReply from './DiscussionReply'
-
+import loadPage from "../../class/Page"
 class component extends Component {
 
 state = {
@@ -23,7 +23,7 @@ state = {
 }
 mde = "";
 componentWillMount() {
-	this.props.actions.fetchGetDiscusssions(this.props.lessonId);
+	this.props.actions.fetchGetDiscussions(this.props.lessonId);
 
 }
 componentDidMount() {
@@ -39,9 +39,33 @@ componentDidMount() {
 		this.setState({load_mark:true});
 }
 submitDiscussion = (e) => {
+	if(this.state.nowDiscussion !== -1)
+		return this.submitDiscussionReply(e)
+		
+		
+	const value = this.mde.value()
+	const lessonId = this.props.lessonId
+	this.props.actions.fetchAddDiscusssion({
+		lessonId,
+		lesson : this.props.lesson._links.self.href,
+		comment: value
+	}).catch(e => {
+		alert("등록되지 않았습니다.")
+	})
+	
+	
+	this.mde.value("");
+}
+submitDiscussionReply = (e) => {
 	const value = this.mde.value();
-
-	this.props.actions.fetchAddDiscusssion(this.props.lessonId, value);
+	const lessonId = this.props.lessonId
+	this.props.actions.fetchAddDiscusssionReply({
+		discussion : this.state.nowDiscussion._links.self.href,
+		comment: value,
+		id: this.state.nowDiscussion.id
+	}).catch(e => {
+		alert("등록되지 않았습니다.")
+	})
 	
 	
 	this.mde.value("");
@@ -59,22 +83,36 @@ showReplyTab = (discussion) => {
 	
 		
 	this.setState({showReply:true, nowDiscussion:discussion})
-	this.props.actions.fetchGetDiscusssion(discussion.id);
+	this.props.actions.fetchGetDiscussionReplies({
+		discussionId: discussion.id,
+		lessonId: this.props.state.lesson.id
+	});
 
 }
 
 renderDiscussions() {
-	const {discussions} = this.props.state.lesson;
+	if(!this.props.state.lesson.discussions || !this.props.state.lesson.discussions._embedded) {
+		return loadPage("loading")
+	}
+	
+	
+	const discussions = this.props.state.lesson.discussions._embedded.discussions
+
+
 	if(!this.state.load_mark)
 		return(<div className="discussions"></div>)
-	return(<div className="discussions">
-    		<ul>
-    			{ discussions.map((discussion,i) => (
-	    			<Discussion discussion={discussion} nowDiscussion={this.state.nowDiscussion.id} key={i} onClick={this.showReplyTab} contents={this.props.contents} />
-    			))}
-    			
-    		</ul>
-    	</div>)
+		
+		
+	return (
+	<div className="discussions">
+		<ul>
+			{ discussions.map((discussion,i) => (
+    			<Discussion discussion={discussion} nowDiscussion={this.state.nowDiscussion.id} key={i} onClick={this.showReplyTab} contents={this.props.contents} />
+			))}
+			
+		</ul>
+	</div>
+	)
 }
 renderReply() {
 	if(!this.state.showReply || this.state.nowDiscussion === -1)
@@ -84,8 +122,8 @@ renderReply() {
 	if(replies.length === 0)
 		return (<div>No Replies</div>)
 	return (<ul>
-		{replies.map((reply,i) => (
-			<DiscussionReply reply={reply} key={i}/>
+		{replies.map((discussion,i) => (
+			<DiscussionReply discussion={discussion} key={i}/>
 		))}
 	</ul>)
 	

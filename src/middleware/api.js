@@ -21,9 +21,8 @@ function objectToParam(obj) {
 }
 
 const callApi = (options) => {
-  let {type, target,  url, params, body, endpoint} = options;
-  let _type = (type+"_" + target).toUpperCase();	
-  let fullUrl = url || links.DOMAIN +( endpoint || links[_type]);
+  let {type, url, params, body, endpoint} = options;
+  let fullUrl = url || links.DOMAIN +( endpoint || links[type]);
 
 	const matchArray = fullUrl.match(/\$([a-zA-Z]+)/g);
 	if(matchArray)
@@ -31,7 +30,7 @@ const callApi = (options) => {
 			fullUrl = fullUrl.replace(param, params[param.replace("$", "")]);
 		});
 
-	let method = options.method || methodType[type] || "GET";
+	let method = options.method || methodType[type.split("_")[0]] || "GET";
 	let myHeaders = new Headers();
 
 	myHeaders.append("x-auth-token", sessionStorage.getItem("x-auth-token"))
@@ -39,7 +38,6 @@ const callApi = (options) => {
 		method: method,
 		headers : myHeaders
 	};
-	let link = links.DOMAIN + links[_type];
 	
 	if(body ) {
 		if(typeof body === "object") {
@@ -50,7 +48,8 @@ const callApi = (options) => {
 			fullUrl += (fullUrl.indexOf("?") === -1 ? "?" : "&") + body;			
 		} else {
 			myHeaders.append("Content-Type", "application/json")
-			info.body = JSON.stringify(options.body);
+			body = options.body;
+			info.body = JSON.stringify(body);
 		}
 	}
 
@@ -60,7 +59,8 @@ const callApi = (options) => {
 	    
 	    if (!response.ok) {
           	return Promise.reject({
-	          	type:"ERROR_" + _type,
+	          	type:"ERROR_" + type,
+			  	method: method,
 	          	status,
 	        	params
 			 })
@@ -72,20 +72,23 @@ const callApi = (options) => {
 	    return response.json().then(json => {
 	        if("error" in json) {
 				return Promise.reject({
-					type: "ERROR_" + _type,
+					type: "ERROR_" + type,
 					error : json,
 					params
 				})
 			}
 	        return {
-		        type: _type,
-		        [target] : json,
+		        type: type,
+				method: method,
+		        value: json,
+		        body,
 		        params
 	        }
 		}).catch(err => {
 			return {
-				type: _type,
+				type: type,
 				status,
+				body,
 				params
 			}
 		})
