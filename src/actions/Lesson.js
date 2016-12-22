@@ -48,3 +48,30 @@ export const fetchAddDiscusssionReply = (params) => ({
     }
   }
 })
+
+export const fetchGetEnrollmentsInLesson = (params) => ({
+  [CALL_API]: {
+	endpoint : "/courseSessions/$id/enrollments",
+    type: "GET_ENROLLMENTS_LESSONS",
+    params 
+  }
+})
+export const saveLesson = (params) => ({
+	type: "SAVE_LESSON",
+	params,
+	value : {
+	    name: params.name,
+	    content: params.content
+    }
+})
+export const fetchSaveLesson = (params) => ({
+  [CALL_API]: {
+	endpoint : "/lessons/$id",
+    type: "SAVE_LESSON_FETCH",
+    params,
+    body: {
+	    name: params.name,
+	    content: params.content
+    }
+  }
+})

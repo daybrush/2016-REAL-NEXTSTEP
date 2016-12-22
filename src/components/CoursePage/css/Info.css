@@ -1,0 +1,27 @@
+.modal.course-info-modal {
+	overflow-y: auto;
+	background: rgba(0, 0, 0, 0.5);	
+	display: block;
+}
+
+.course-info-dialog .modal-content {
+	padding: 30px;
+}
+.course-info-dialog .modal-header {
+	padding: 20px 0px;
+	position: relative;
+	margin-bottom: 20px;
+}
+.course-info-dialog .modal-title {
+	font-weight: 300;
+	font-size: 30pt;
+}
+.course-info-dialog .modal-header .close {
+	right: 0;
+	top:0;
+	bottom: 0;
+	margin: auto;
+}
+.course-info-dialog .modal-body {
+	padding: 0;
+}

@@ -72,10 +72,13 @@ class component extends Component {
 		}).then(result=> {
 			alert("신청되었습니다.")
 			
-			actions.fetchGetEnrollment({
+			actions.fetchGetEnrollments({
 				id : this.getSession().id
+			}).catch(e => {
+				console.log(e)
 			})
 		}).catch(result=> {
+			console.error(result)
 			alert("신청하지 못했습니다.")
 		})
 	}

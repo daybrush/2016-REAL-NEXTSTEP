@@ -17,15 +17,18 @@ class mainPage extends Component {
 
 		document.body.className = "";
 		
-		
+		this.loadMyCourses();
 		
 	}
-	componentWillUpdate() {
+	componentWillUpdate() {	
+		this.loadMyCourses(true);
+	}
+	loadMyCourses = (is_update = false) => {
 		if(!LoginSession.isLogin())
 			return;
-		if(this.props.state.courses)
+		if(!is_update && this.props.state.courses)
 			return;
-			
+		
 		this.props.actions.fetchGetMyCourses({
 			id: this.props.state2.login.userId
 		})

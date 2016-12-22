@@ -44,6 +44,7 @@ render(
 		<Route path="/:course/:session/lesson/:id" component={LessonPage} />
 		<Route path="/:course" component={CoursePage} />
 		<Route path="/:course/lesson/:lesson" component={LessonPage} />
+		<Route path="/:course/lesson/:lesson/:type" component={LessonPage} />
 		<Route path="/:course/:session" component={CoursePage} />
     </Route>
   </Router>

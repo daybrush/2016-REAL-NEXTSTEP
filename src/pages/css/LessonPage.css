@@ -89,10 +89,9 @@ body.pdf-open #header {
 .html-page {
 	color: white;
 	margin: 30px auto;
-	width: 400px;
+/* 	width: 400px; */
 }
 .html-page-inner {
-	width: 400px;
 	transform-origin: 0px 0px;
 }
 /*VIDEO-Page*/
@@ -100,6 +99,55 @@ body.pdf-open #header {
 	margin: 30px auto;
 	display: block;
 }
+
+
+.page-wrapper {
+	
+}
+.lesson-page-viewer, .lesson-page-edit-area {
+	box-sizing: border-box;
+	padding: 50px;
+	width: 90%;
+	max-width: 1000px;
+	margin: 0px auto;
+}
+.page-wrapper .editor-toolbar {
+	background: #fff;
+	opacity: 1;
+}
+.page-wrapper .CodeMirror-wrap {
+}
+.page-wrapper .editor-preview-side {
+}
+.lesson-page-edit-name {
+	color: white;
+	background: transparent;
+	padding: 20px;
+	border:0;
+	border-bottom: 2px solid #f55;
+	width: 100%;
+	font-size: 40px;
+
+	margin-bottom: 50px;
+}
+.lesson-page-viewer-name {
+	color: white;
+	padding: 20px;
+	border:0;
+	border-bottom: 2px solid #f55;
+	width: 100%;
+	font-size: 40px;
+
+	margin-bottom: 50px;
+}
+
+
+.lesson-page-edit-area .CodeMirror-measure {
+}
+
+
+
+
 
 
 

@@ -27,7 +27,7 @@ componentWillMount() {
 
 }
 componentDidMount() {
-
+	if(!this.mde)
 		this.mde = new SimpleMDE({
 				element: this.refs.name,
 				status:false,

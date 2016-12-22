@@ -29,15 +29,16 @@ export default class component extends Component {
 	}
 	refresh = () => {
 		const innerElement = this.refs.inner, htmlElement = this.refs.html;
-		const rect = innerElement.getBoundingClientRect();	
-		htmlElement.style.width = rect.width +"px";;
-		htmlElement.style.height = rect.height +"px";	
+		innerElement.style.width = parseInt(htmlElement.getBoundingClientRect().width / this.props.scale)+ "px"
+		const rect = innerElement.getBoundingClientRect()
+		htmlElement.style.height = rect.height + "px"
+		innerElement.style.transform = "scale(" + this.props.scale + ")"
 	}
 	render() {
 		const content = this.props.content.value, scale = this.props.scale;
 		return (
 			<div className="html-page" ref="html">
-				<div className="html-page-inner"  style={{transform:"scale("+scale+")"}} dangerouslySetInnerHTML={{__html:content}} ref="inner">
+				<div className="html-page-inner"  dangerouslySetInnerHTML={{__html:content}} ref="inner">
 				</div>
 			</div>
 		)

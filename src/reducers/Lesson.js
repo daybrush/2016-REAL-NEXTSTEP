@@ -32,11 +32,20 @@ export default function reducer(state = initialState, action) {
 
 				discussion.replies.push(action.value)
 			})
-			return Object.assign({}, state);								
+			return Object.assign({}, state)
 		case "GET_LESSON":
 			state.lesson = action.value;
+			
+			state.lesson.createdBy = action.value._embedded.createdBy
+			state.lesson.lecture = action.value._embedded.lecture
+			return Object.assign({}, state)
+		case "SAVE_LESSON":
+			state.lesson.name = action.value.name
+			state.lesson.content = action.value.content
+			return Object.assign({}, state)
+		case "GET_ENROLLMENTS_LESSONS":
+			state.lesson.enrollments = action.value._embedded.enrollments;
 			return Object.assign({}, state);
-
 		default:
 			return state;
 	}

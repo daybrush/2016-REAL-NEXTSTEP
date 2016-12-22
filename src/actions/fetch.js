@@ -1,21 +1,12 @@
 const links = {
 	"DOMAIN" : "http://srello.xyz/api",
 	"GET":{
-//		"/courses" : "/json/courses.json",	
 		"/courses/search?instructor=[\\d]&state=closed" :"/json/courses.more.json",
-//  		"/courses/[\\d]" : "/json/course.json",
-//  		"/courses/[\\d]/sessions/[\\d]" : "/json/session.json",
 		"/courses/[\\d]/participants" : "/json/participants.json",
 		"/courses/[\\d]/lectures" : "/json/lectures.json",
 		"/lectures/[\\d]" : "/json/lecture.json",
 		"/lectures/[\\d]/participants" : "/json/participants.json",
-// 		"/lessons/[\\d]" : "/json/lesson.json",
 		"/lessons/[\\d]/attachments/[\\d]" : "/json/lesson.json",
-//		"/lessons/[\\d]/discussions" : "/json/discussions.json",
-		
-// 		"/discussions/[\\d]" : "/json/discussion.json",
-
-// 		"/user" : "/json/login.json",
 		"/me/courses/participate" : "/json/mycourses.json"
 	},
 	"POST" : {

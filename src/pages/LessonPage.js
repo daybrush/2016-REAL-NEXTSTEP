@@ -25,9 +25,14 @@ import { Link } from 'react-router'
 import loadPage from "../class/Page"
 
 import StoreSession from "../class/StoreSession"
+import LoginSession from "../class/LoginSession"
 
 
+import SimpleMDE from 'simplemde';
 class component extends Component {
+	static contextTypes =  {
+	    router: React.PropTypes.object.isRequired
+	  }
 	contentArray = [];
 	content = ""
 	
@@ -36,7 +41,8 @@ class component extends Component {
 	state = {
 		embed_load : false,
 		scale : 1,
-		tab : 1
+		tab : 1,
+		is_edit: false,
 		
 	}
 	option = {
@@ -44,23 +50,40 @@ class component extends Component {
 		drag_start_x : 0,
 		now_width : 300
 	}
+	
+	memberStatus = "LOADING"
+	
 	componentWillMount() {
 		document.body.onscroll = this.refreshView;
 		window.onresize = this.refreshView;
 		const {actions, params} = this.props;
 		
-		const {course, lesson} = params;
+		const {course, lesson, type} = params;
 		
 		
 		document.body.className="pdf-open";
 		
 
 		actions.fetchGetLesson(lesson).then(result => {
-			const {name} = result.value._embedded.lecture
+			console.log(result)
+			const {name} = result.value.lecture
+
 			StoreSession.getStore("header").addButton({
 				leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course }>
 				<i className="glyphicon glyphicon-menu-left"></i>{name}</Link></div>)
 			})
+			if(type === "edit") {
+				this.editMode();
+			}
+			actions.fetchGetEnrollmentsInLesson({
+				id: course
+			}).then(result => {
+				this.memberStatus = this.getMemberStatus()
+				console.log(this.memberStatus)
+			})
+			
+		}).catch(e => {
+			console.error(e)
 		})
 
 	}
@@ -156,6 +179,10 @@ class component extends Component {
 		}
 	}
 	refreshView = (e) => {
+		if(this.state.is_edit)
+			return;
+			
+			
 		let now = {
 			value : "",
 			name : ""
@@ -166,9 +193,34 @@ class component extends Component {
 				return;
 				
 			this._refreshView(content, now);
+			if(content.type === "html") {
+				content.component.refresh()	
+			}
 		});
 		
 		console.log("NOW - " + now.name + "-" + now.value);
+	}
+	getMemberStatus() {
+		const lesson = this.props.state.lesson
+		let memberStatus = "NOT_LOGIN"
+
+		if(LoginSession.isLogin()) {
+	  		const loginInfo = LoginSession.getLoginInfo().user
+	  		const is_instructor = lesson.createdBy.username === loginInfo.username
+	  		const enrollment = lesson.enrollments.filter(enrollment=>(enrollment.user.username === loginInfo.username))
+	  		if(is_instructor) 
+	  			memberStatus = "INSTRUCTOR"
+	  		else if(enrollment.length === 0)
+	  			memberStatus = "REQUIRE_APPLY"
+	  		else if(enrollment[0].status === "PENDING")
+	  			memberStatus = "PENDING"
+	  		else if(enrollment[0].status === "REJECTED")
+	  			memberStatus = "REJECTED"
+	  		else
+	  			memberStatus = "APPROVED"
+	  	}
+	  	
+	  	return memberStatus
 	}
 
 	componentWillUpdate(nextProps, nextState) {
@@ -217,10 +269,19 @@ class component extends Component {
 		});
 	}
 	componentDidMount() {
-
+		if(!this.mde) {
+			this.mde = new SimpleMDE({
+				element: this.refs.editcontent,
+				status:false,
+	    		showIcons: ["code"],
+	    		placeholder: "Type here...",
+			});
+		}
 		this.resizeView(300)
 	}
 	componentDidUpdate(nextProps, nextState) {
+		
+		
 		let content = nextProps.state.lesson.content;
 		
 		if(this.content === content)
@@ -235,6 +296,9 @@ class component extends Component {
 		for(let i =0; codes[i]; ++i) {
 			hljs.highlightBlock(codes[i]);
 		}
+		
+
+		this.setState({load_mark:true});
 	}
 	showTab = (tab) => {
 		if(this.option.tab_width < 300)
@@ -242,14 +306,65 @@ class component extends Component {
 			
 		this.setState({tab:tab})
 	}
+	clickEdit = (e) => {
+		e.preventDefault();
+		console.log(this)
+		console.log(this.context.router)
+
+		this.context.router.replace("/" + this.props.params.course +"/lesson/" + this.props.params.lesson + "/edit")
+		this.editMode();
+
+	}
+	editMode = () => {
+		this.setState({is_edit: true});
+		console.log(this.props.state.lesson)
+		this.refs.editname.value = this.props.state.lesson.name || ""
+		this.mde.value(this.props.state.lesson.content || "")
+		window.dispatchEvent(new Event("resize"))
+	}
+	saveEdit = () => {
+		const name = this.refs.editname.value
+		const content = this.mde.value()
+		
+		this.props.actions.saveLesson({
+			name,
+			content
+		})
+		
+		this.props.actions.fetchSaveLesson({
+			id: this.props.state.lesson.id,
+			name,
+			content
+		}).then(e=> {
+			alert("저장되었습니다.");
+			this.cancelEdit();
+		})
+	}
+	cancelEdit = () => {
+		this.context.router.replace("/" + this.props.params.course +"/lesson/" + this.props.params.lesson)
+		this.setState({is_edit: false});
+	}
 	renderButtons() {
 		return (
 			<div className="btn-wrapper">
 				<a className="btn btn-default" role="button" onClick={this.addZoom}>+</a>
 				<a className="btn btn-default" role="button" onClick={this.minusZoom}>-</a>
 				<a className="btn btn-default" role="button">꽉</a>
+				<a className="btn btn-default" role="button" onClick={this.clickEdit}>수정</a>
 			</div>
 		)
+	}
+	
+	renderEdit() {
+		const is_show  = this.state.is_edit ? "block" : "none"
+		return (<div className="lesson-page-edit-area" style={{"display":is_show}}>
+			<input ref="editname" className="lesson-page-edit-name"/>
+			<textarea ref="editcontent" className="lesson-page-edit-content"></textarea>
+			<div className="lesson-page-edit-btn-area">
+				<button className="lesson-page-edit-save" onClick={this.saveEdit}>Save</button>
+				<button className="lesson-page-edit-cancel" onClick={this.cancelEdit}>Cancel</button>
+			</div>
+		</div>)
 	}
 		
 		
@@ -257,21 +372,26 @@ class component extends Component {
 		if(!this.props.state.lesson) {
 			return loadPage("loading")
 		}
-		return this.contentArray.map((content,i) => {
-			if(!content)
-				return "";
+		
+		const is_show  = this.state.is_edit ? "none" : "block"
+		return (<div className="lesson-page-viewer" style={{"display":is_show}}>
+			<div className="lesson-page-viewer-name">{this.props.state.lesson.name}</div>
+			{this.contentArray.map((content,i) => {
+				if(!content)
+					return "";
+					
 				
+				if(content.type === "html") {
+					return (<Html content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>)
+				}else if(content.type === "pdf") {					
+					return (<Slide content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>);
+				} else if(content.type === "video") {
+					return (<Video content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>);
+				}
 				
-			if(content.type === "html") {
-				return (<Html content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>)
-			}else if(content.type === "pdf") {					
-				return (<Slide content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>);
-			} else if(content.type === "video") {
-				return (<Video content={content} key={i} scale={this.state.scale} refreshView={this.refreshView}/>);
-			}
-			
-			return ""
-		});
+				return ""
+			})
+		}</div>)
 	}
 	renderTab() {
 
@@ -299,6 +419,7 @@ class component extends Component {
 	    {this.renderButtons()}
 	    	<div className="lesson-wrapper"  ref="wrapper">
 		    	<div className="page-wrapper">
+		    		{this.renderEdit()}
 		    		{this.renderContents()}
 		    	</div>
 		    </div>

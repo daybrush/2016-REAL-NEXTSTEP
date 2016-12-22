@@ -55,7 +55,8 @@ const methodType = {
 	"REQUEST" : "POST",
 	"SWAP" : "PATCH",
 	"DELETE" : "DELETE",
-	"CHANGE" : "PATCH"
+	"CHANGE" : "PATCH",
+	"SAVE" : "PATCH"
 }
 
 export {links, methodType};
