@@ -131,4 +131,16 @@ export const fetchAddLesson = (params) => ({
 })
 
 
+export const fetchChangeEnrollmentStatus = (params) => ({
+	[CALL_API]: {
+		endpoint : "/courseSession/$id/enrollments/$enrollmentId",
+		type:"change",
+		target:"enrollment_status",
+		params,
+		body : {
+			status: params.status,
+		}
+	}
+})
+
 

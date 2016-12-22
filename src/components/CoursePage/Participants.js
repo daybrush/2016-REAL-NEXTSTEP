@@ -20,10 +20,27 @@ hide = () => {
 componentWillMount(status) {
 	const {actions, session} = this.props;
 }
-
-renderStatus(status) {
-	const success = (<button type="button" key={1} className="btn btn-sm btn-success">승인</button>)
-	const revoke = (<button type="button" key={2} className="btn btn-sm btn-danger">거부</button>)
+changeStatus = (index, status) => {
+	const session = this.props.session
+	const enrollment = session.enrollments[index]
+	this.props.actions.fetchChangeEnrollmentStatus({
+		id:session.id,
+		enrollmentId: enrollment.id,
+		status,
+	}).then(() => {
+		enrollment.status = status
+		this.setState({update: true})
+	})
+}
+approveStatus =(index) => {
+	this.changeStatus(index, "APPROVE")
+}
+revokeStatus =(index) => {
+	this.changeStatus(index, "REVOKE")
+}
+renderStatus(index, status) {
+	const success = (<button type="button" key={1} onClick={()=>{this.approveStatus(index)}} className="btn btn-sm btn-success">승인</button>)
+	const revoke = (<button type="button" key={2} onClick={()=>{this.revokeStatus(index)}} className="btn btn-sm btn-danger">거부</button>)
 	let buttons;
 	if(status === "PENDING")
 		buttons= [success, revoke]
@@ -48,7 +65,7 @@ render() {
 	      			<div className="course-participant">
 	      				<img src={participant.avatarUrl} className="course-participant-thumb" />
 	      				<div className="course-participant-name">{participant.name}</div>
-	      				{this.renderStatus(enrollment.status)}
+	      				{this.renderStatus(i, enrollment.status)}
 	      			</div>
 	      		</li>
       		)}

@@ -21,9 +21,9 @@ function objectToParam(obj) {
 }
 
 const callApi = (options) => {
-  let {type, target, url, params, body} = options;
+  let {type, target,  url, params, body, endpoint} = options;
   let _type = (type+"_" + target).toUpperCase();	
-  let fullUrl = url || links.DOMAIN + links[_type];
+  let fullUrl = url || links.DOMAIN +( endpoint || links[_type]);
 
 	const matchArray = fullUrl.match(/\$([a-zA-Z]+)/g);
 	if(matchArray)

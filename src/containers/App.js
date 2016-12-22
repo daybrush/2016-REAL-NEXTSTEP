@@ -19,6 +19,9 @@ componentWillMount() {
 	}		
 	StoreSession.setStore("history", this.history)
 }
+componentWillUpdate() {
+
+}
 componentWillUnmount() {
 	StoreSession.unsetStore("history")
 }

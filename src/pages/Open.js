@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import CourseCard from '../components/MainPage/CourseCard'
 import CourseCardAdd from '../components/MainPage/CourseCard.add'
+import LoginSession from '../class/LoginSession'
 
 class Apply extends Component {
 	componentWillMount() {
@@ -19,7 +20,9 @@ class Apply extends Component {
 	if(!state.courses._embedded)
 		return (<div>LOADING</div>);
 		
-		
+	
+	
+	const _CourseCardAdd = (LoginSession.getLoginInfo().role === "ROLE_INSTRUCTOR") ? <CourseCardAdd/> : "";
     return (
 	    <div>
 	        <div className="page-header"><h3>개설한 강좌 목록</h3></div>
@@ -27,7 +30,7 @@ class Apply extends Component {
 	          {state.courses._embedded.courses.map(course =>
 	            <CourseCard course={course} key={course.id} actions={actions} />
 	          )}
-	          <CourseCardAdd/>
+	          {_CourseCardAdd}
 	      </ul>
       </div>
     )

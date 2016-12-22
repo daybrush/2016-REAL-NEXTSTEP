@@ -19,9 +19,11 @@ export default connect(
 (class component extends Component {
 
 	state = {
-		drag : false
+		drag : false,
+		parent: "",
 	}
-	dragndrop = new DragDrop(".lesson-card");
+	selector = ".lesson-card"
+	dragndrop = new DragDrop(".lesson-card")
   
 	dragover = (e) => {
 		if(this.props.status !== "INSTRUCTOR")
@@ -46,7 +48,7 @@ export default connect(
 		const {card, content} = this.refs;
 		this.dragndrop.dragstart(e,card,content);
 		
-
+		this.state.parent = card.parentNode
 	
 	}
 	dragend = (e) => {
@@ -56,14 +58,12 @@ export default connect(
 		this.setState({drag:false});
 		
 		const {card, content} = this.refs;
-		this.dragndrop.dragend(e, card, content);
-	
+		const {is_master, lecture, lesson} = this.props;
 
-		const is_master = this.props.is_master
-		const target = this.props.lectureCard.querySelector(this.selector + "[isdrag='1']")
-		const lecture = this.props.lecture
-		const elCards = this.props.lectureCard.querySelector(this.selector), length = elCards.length
-		let elCard, position
+		const target = document.querySelector(this.selector + "[isdrag='1']")
+		this.dragndrop.dragend(e, card, content);
+		const elCards = this.props.lectureCard.refs.card.querySelectorAll(this.selector), length = elCards.length
+		let elCard
 		
 		const lecturePosition = this.props.position
 		let cardPosition = -1;
@@ -77,25 +77,17 @@ export default connect(
 			}
 		}
 
-		
+
 		let targetId = pos[lecturePosition];
+		
+		console.log(pos, cardPosition, targetId)
 		if(cardPosition > -1) {
 			
-			pos = pos.filter((id, i) => (id !== lecture.id))
+			pos = pos.filter((id, i) => (id !== lesson.id))
 			
 			pos.splice(cardPosition, 0, targetId)
 			
-			
-			pos = pos.map(id => {
-				
-				if(id instanceof Array) {
-					if(id.length === 1)
-						return id[0]	
-				}
-				
-				return id
-			})
-			
+					
 			
 			console.log("POS", pos)
 		
@@ -104,8 +96,7 @@ export default connect(
 			
 			
 	
-			const id = this.props.lecture.id
-			
+			const id = lecture.id
 			this.props.actions.saveLessonPosition(is_master, pos)
 			this.props.actions.fetchSwapLesson({
 				id,

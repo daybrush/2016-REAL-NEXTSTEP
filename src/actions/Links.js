@@ -48,12 +48,13 @@ links["REQUEST_LOGOUT"] = "/me/logout"
 
 
 links["SWAP_LECTURE"] = "/sessions/$id";
-links["SWAP_LESSON"] = "/lectures/$lectureId";
+links["SWAP_LESSON"] = "/lectures/$id";
 const methodType = {
 	"get" : "GET",
 	"add" : "POST",
 	"request" : "POST",
-	"swap" : "PATCH"
+	"swap" : "PATCH",
+	"change" : "PATCH"
 }
 
 export {links, methodType};

@@ -20,7 +20,11 @@ export default function reducer(state = initialState, action) {
 				
 			if(!state.login.user.username)
 				return state
-
+			try {
+				state.login.role = state.login.authorities[0].authority || "ROLE_USER"
+			} catch(e) {
+				state.login.role = "ROLE_USER"
+			}
 			state.login.login_status = "LOGIN"
 			return Object.assign({}, state)
 						

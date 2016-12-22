@@ -53,6 +53,10 @@ class component extends Component {
 		this.refs.participants.getWrappedInstance().show();
 	}
 	applyCourse = (e) => {
+		if(!LoginSession.isLogin()) {
+			alert("로그인을 해주세요.");
+			return;
+		}
 		if(!confirm("강의를 신청하시겠습니까?"))
 			return;
 			
@@ -161,12 +165,12 @@ class component extends Component {
 			
 		)
 	}
-	renderParticipants() {
+	renderParticipants(memberStatus) {
 		const session = this.getSession()
 		if(!session)
 			return ""		
 		
-		return (<Participants session={session} ref="participants"/>)
+		return (<Participants session={session} status={memberStatus} ref="participants"/>)
 			
 		
 	}
@@ -378,7 +382,7 @@ class component extends Component {
 
   		
 		{this.renderHeader(memberStatus)}
-		{this.renderParticipants()}  		
+		{this.renderParticipants(memberStatus)}  		
 		<div className="course-lectures">
 			<div className="course-session-lectures">
 			{this.renderLectures(session, memberStatus, false)}
@@ -393,7 +397,7 @@ class component extends Component {
 }
 
 
-const mapStateToProps = state => ({state: state.CoursePage})
+const mapStateToProps = state => ({state: state.CoursePage, state2:state.Login})
 
 const mapDispatchToProps = dispatch => {
   return{  actions: bindActionCreators(NEXTActions, dispatch), dispatch}

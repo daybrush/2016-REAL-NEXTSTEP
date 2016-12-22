@@ -54,6 +54,7 @@ login = () => {
 	oauth.login();
 }
 logout = () => {
+	this.hide();
 	this.props.actions.fetchRequestLogout()
 }
 renderLoginForm() {
