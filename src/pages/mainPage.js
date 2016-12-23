@@ -17,15 +17,16 @@ class mainPage extends Component {
 
 		document.body.className = "";
 		
-		this.loadMyCourses();
+		this.loadMyCourses(true);
 		
 	}
 	componentWillUpdate() {	
-		this.loadMyCourses(true);
+		this.loadMyCourses();
 	}
 	loadMyCourses = (is_update = false) => {
 		if(!LoginSession.isLogin())
 			return;
+			
 		if(!is_update && this.props.state.courses)
 			return;
 		
@@ -33,7 +34,7 @@ class mainPage extends Component {
 			id: this.props.state2.login.userId
 		})
 	}
-
+	componentW
 	renderMyCourses() {
 		if(!LoginSession.isLogin())
 			return;

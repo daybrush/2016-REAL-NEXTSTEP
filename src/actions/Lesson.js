@@ -10,29 +10,27 @@ export const fetchGetLesson = (id) => ({
     }
   }
 })
-export const fetchGetDiscussions = (id) => ({
+export const fetchGetDiscussions = (params) => ({
 	[CALL_API]: {
-		endpoint : "/lessons/$id/discussions",
+		url : params.url,
 		type: "GET_DISCUSSIONS",
-		params : {
-			id
-		}
+		params
 	}
 })
 export const fetchAddDiscusssion = (params) => ({
-	  [CALL_API]: {
-		 endpoint : "/discussions",
-	    type: "ADD_DISCUSSION",
-	    params,
-	    body: {
-		    lesson: params.lesson,
-		    comment: params.comment,
-	    }
-	  }
+	[CALL_API]: {
+		endpoint : "/discussions",
+		type: "ADD_DISCUSSION",
+		params,
+		body: {
+			lesson: params.lesson,
+			comment: params.comment,
+		}
+	}
 })
 export const fetchGetDiscussionReplies = (params) => ({
 	[CALL_API]: {
-		endpoint : "/discussions/$discussionId/replies",
+		url : params.url,
 		type: "GET_DISCUSSION_REPLIES",
 		params
 	}
@@ -51,7 +49,7 @@ export const fetchAddDiscusssionReply = (params) => ({
 
 export const fetchGetEnrollmentsInLesson = (params) => ({
   [CALL_API]: {
-	endpoint : "/courseSessions/$id/enrollments",
+	endpoint : "/lessons/$id/authorities",
     type: "GET_ENROLLMENTS_LESSONS",
     params 
   }
@@ -66,7 +64,7 @@ export const saveLesson = (params) => ({
 })
 export const fetchSaveLesson = (params) => ({
   [CALL_API]: {
-	endpoint : "/lessons/$id",
+	url : params.url,
     type: "SAVE_LESSON_FETCH",
     params,
     body: {

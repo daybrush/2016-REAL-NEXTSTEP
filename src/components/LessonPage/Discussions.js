@@ -23,7 +23,10 @@ state = {
 }
 mde = "";
 componentWillMount() {
-	this.props.actions.fetchGetDiscussions(this.props.lessonId);
+	this.props.actions.fetchGetDiscussions({
+		url: this.props.lesson._links.discussions.href,
+		id: this.props.lessonId
+	});
 
 }
 componentDidMount() {
@@ -85,7 +88,8 @@ showReplyTab = (discussion) => {
 	this.setState({showReply:true, nowDiscussion:discussion})
 	this.props.actions.fetchGetDiscussionReplies({
 		discussionId: discussion.id,
-		lessonId: this.props.state.lesson.id
+		lessonId: this.props.state.lesson.id,
+		url: discussion._links.replies.href
 	});
 
 }

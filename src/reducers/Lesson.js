@@ -44,7 +44,7 @@ export default function reducer(state = initialState, action) {
 			state.lesson.content = action.value.content
 			return Object.assign({}, state)
 		case "GET_ENROLLMENTS_LESSONS":
-			state.lesson.enrollments = action.value._embedded.enrollments;
+			state.lesson.authorities = action.value.authorities;
 			return Object.assign({}, state);
 		default:
 			return state;

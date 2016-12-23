@@ -1,5 +1,5 @@
 import * as Actions from '../constants/ActionTypes'
-
+import {addTypes, checkType} from './Reducer'
 const initiallState = {
 	course: {
 		name:"",
@@ -10,16 +10,9 @@ const initiallState = {
 		master : {}
 	}
 }
-function checkType(state, action, etc) {
-	if(!(action.type in types))
-		return state
-		
-	return types[action.type](state, action, etc)
-}
 
 
-
-const types = {
+addTypes({
 	"GET_COURSE" : function(state, action, session) {
 		state.course = action.value
 		state.course.id = action.params.id
@@ -81,7 +74,7 @@ const types = {
 		session.lectures = session.lectures.filter(lecture=>(action.params.id !== lecture.id))
 		return Object.assign({}, state);
 	}
-}
+})
 
 
 export default function CourseListPage(state = initiallState, action) {

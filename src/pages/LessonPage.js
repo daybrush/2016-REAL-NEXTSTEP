@@ -65,8 +65,8 @@ class component extends Component {
 		
 
 		actions.fetchGetLesson(lesson).then(result => {
-			console.log(result)
-			const {name} = result.value.lecture
+			const lesson = result.value;
+			const {name} = lesson.lecture
 
 			StoreSession.getStore("header").addButton({
 				leftSide:(<div key="left-side" className="aside-left-lesson-back"><Link to={"/" + course }>
@@ -76,10 +76,10 @@ class component extends Component {
 				this.editMode();
 			}
 			actions.fetchGetEnrollmentsInLesson({
-				id: course
+				id: lesson.id,
+// 				url : lesson.lecture._links.session 
 			}).then(result => {
-				this.memberStatus = this.getMemberStatus()
-				console.log(this.memberStatus)
+				this.memberStatus = this.getMemberStatus(result.value)
 			})
 			
 		}).catch(e => {
@@ -194,7 +194,7 @@ class component extends Component {
 				
 			this._refreshView(content, now);
 			if(content.type === "html") {
-				content.component.refresh()	
+				content.component && content.component.refresh()	
 			}
 		});
 		
@@ -204,21 +204,21 @@ class component extends Component {
 		const lesson = this.props.state.lesson
 		let memberStatus = "NOT_LOGIN"
 
-		if(LoginSession.isLogin()) {
-	  		const loginInfo = LoginSession.getLoginInfo().user
-	  		const is_instructor = lesson.createdBy.username === loginInfo.username
-	  		const enrollment = lesson.enrollments.filter(enrollment=>(enrollment.user.username === loginInfo.username))
-	  		if(is_instructor) 
-	  			memberStatus = "INSTRUCTOR"
-	  		else if(enrollment.length === 0)
-	  			memberStatus = "REQUIRE_APPLY"
-	  		else if(enrollment[0].status === "PENDING")
-	  			memberStatus = "PENDING"
-	  		else if(enrollment[0].status === "REJECTED")
-	  			memberStatus = "REJECTED"
-	  		else
+		if(!LoginSession.isLogin())
+			return memberStatus
+
+  		const loginInfo = LoginSession.getLoginInfo().user
+  		const is_instructor = lesson.authorities.filter(authority=>(authority.grantedAuthority === "COURSE_INSTRUCTOR")).length !== 0
+  		if(is_instructor) {
+  			memberStatus = "INSTRUCTOR"
+  		} else {
+	  		const is_participants = lesson.authorities.filter(authority=>(authority.grantedAuthority === "COURSE_PARTICIPANTS")) !== 0
+	  		
+	  		if(is_participants)
 	  			memberStatus = "APPROVED"
-	  	}
+	  		else
+	  			memberStatus = "NOT"
+  		}
 	  	
 	  	return memberStatus
 	}
@@ -308,8 +308,10 @@ class component extends Component {
 	}
 	clickEdit = (e) => {
 		e.preventDefault();
-		console.log(this)
-		console.log(this.context.router)
+		if(this.memberStatus !== "INSTRUCTOR") {
+			alert("노 교수")
+			return
+		}
 
 		this.context.router.replace("/" + this.props.params.course +"/lesson/" + this.props.params.lesson + "/edit")
 		this.editMode();
@@ -332,9 +334,9 @@ class component extends Component {
 		})
 		
 		this.props.actions.fetchSaveLesson({
-			id: this.props.state.lesson.id,
 			name,
-			content
+			content,
+			url: this.props.state.lesson._links.self.href
 		}).then(e=> {
 			alert("저장되었습니다.");
 			this.cancelEdit();
@@ -394,7 +396,9 @@ class component extends Component {
 		}</div>)
 	}
 	renderTab() {
-
+		if(!this.props.state.lesson)
+			return;
+			
 		switch(this.state.tab) {
 		case 2:
 			return this.renderLinkTab()
