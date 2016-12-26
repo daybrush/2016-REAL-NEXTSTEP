@@ -18,11 +18,9 @@ applyCourse = (e) => {
 	actions.fetchAddMyCourse(course.id);
 }
 renderApply() {
-		console.log(this.props);
-
-    const {  name, id} = this.props.course;	
+    const {  name} = this.props.course;	
 	return (
-   <a href="#" className="course-title" onClick={this.applyCourse}>
+	<a href="#" className="course-title" onClick={this.applyCourse}>
     	<span className="course-title-name">{name}</span>
     	<span className="course-card-options">
     		<i className="fa fa-star-o"></i>
@@ -33,7 +31,7 @@ renderApply() {
 renderLink() {
 	const course = this.props.course
     const {  name, id , instructors} = course
-    const instructor = instructors && instructors[0] || {}
+    const instructor = (instructors && instructors[0]) || {}
     
 	return (
 
@@ -59,7 +57,6 @@ renderLink() {
         )
 }
   render() {
-  	const {isLink} = this.props;
     
     return (
       <li className="course-card col-xxs-12 col-xs-6 col-sm-4 col-md-3">

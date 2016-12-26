@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import validate from "../../class/Validation"
 
 class component extends Component {
 
@@ -13,28 +13,43 @@ state = {
 //\f007
 editMode = () => {
 	this.setState({edit:true});
+	this.inputName.focus();
+
 }
 add = (e) => {
 	const {actions, course, professor} = this.props;
 	
+	const value = this.inputName.value
 	
+	if(!validate(value, ["IS_EMPTY"]))
+		return
+
 	//name, description
 	
 	
-	actions.fetchAddCourse(this.inputName.value, "").then(function(value) {
+	actions.fetchAddCourse(value, "").then(function(value) {
 		//actions.load({type:"add", target:"course", value:{name:value.name, id:3}});
 		console.log(value)
+	}).then(e => {
+		alert("생성했습니다.")
 	}).catch(e => {
 		console.log("ERR", e)
 		if(e.status === 403)
 			alert("권한이 없습니다.")
+		else
+			alert("생성하지 못했습니다.")
 	})
 	
 	this.inputName.value = "";
 	
 	this.close();
 }
-
+handleKey = (e) => {
+	if(e.keyCode !== 13)
+		return false;
+		
+	this.add();
+}
 close = (e) => {
 	this.setState({edit:false})
 }
@@ -57,7 +72,7 @@ close = (e) => {
       <div className="modal-body">
           <div className="form-group">
             <label className="control-label">Name:</label>
-            <input type="text" className="form-control" id="recipient-name" ref={(input) => { this.inputName = input; }}/>
+            <input type="text" className="form-control" id="recipient-name" ref={(input) => { this.inputName = input; }} onKeyUp={this.handleKey} required="true"/>
           </div>
       </div>
       <div className="modal-footer">

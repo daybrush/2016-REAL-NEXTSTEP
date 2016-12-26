@@ -66,7 +66,7 @@ class component extends Component {
 			return;
 			
 		
-		const {actions, state} = this.props;
+		const {actions} = this.props;
 		actions.fetchRequestEnroll({
 			url : this.getSession()._links.self.href
 		}).then(result=> {
@@ -109,8 +109,8 @@ class component extends Component {
 	
 	renderHeader(memberStatus) {
 		const course = this.props.state.course
-		const session = this.getSession()
-		const {startDate, endDate} = session
+
+		//const {startDate, endDate} = session
 		let {name, state} = this.getSession()
 		const instructors = course.instructors
 	
@@ -272,7 +272,7 @@ class component extends Component {
 		const lectures = session.lectures
 		
 		
-	  	lectures.filter(lecture => {
+	  	lectures.forEach(lecture => {
 	  		objLectures[lecture.id] = lecture;
 		});	
 		
@@ -297,10 +297,10 @@ class component extends Component {
 	  			let sublecture = [];
 	  			let lecture = _lecture
 	  			if(typeof _lecture === "undefined") {
-	  				return;
+	  				return ""
 	  			} else if(_lecture instanceof Array) {
 		  			if(!_lecture.length)
-		  				return;
+		  				return ""
 		  				
 		  			lecture = _lecture[0];
 		  			sublecture = _lecture.slice(1, _lecture.length);
@@ -345,7 +345,7 @@ class component extends Component {
 	renderLoading() {
 		return (
 			<div className="course-loading">
-				<p><img src="/images/loading.gif" height="60"/></p>
+				<p><img src="/images/loading.gif" height="60" alt="loading"/></p>
 				<p>Loading...</p>
 			</div>
 			
@@ -393,10 +393,7 @@ class component extends Component {
 			return loadPage("error", {message: "관리자에게 문의해주세요. ", submessage: "message:No Session"})
 			
 
-						
-  		const {lectures} = session;
-
-  		
+		
   		let memberStatus = this.getMemberStatus();
   		
   		

@@ -61,12 +61,15 @@ export const saveLessonPosition = (params) => ({
 	params,
 	value: params.pos
 })
-export const fetchChangeLecture = (params, body) => ({
+export const fetchChangeLecture = (params) => ({
 	[CALL_API]: {
-		endpoint: "/lectures/$id",
+// 		endpoint: "/lectures/$id",
+		url: params.url,
 		type:"CHANGE_LECTURE",
 		params,
-		body
+		body: {
+			name: params.name
+		}
 	}
 })
 
@@ -99,15 +102,14 @@ export const fetchRequestEnroll = (params) => ({
 		}
 	}
 })
-export const fetchAddLecture = (name, is_master, session) => ({
+export const fetchAddLecture = (params) => ({
 	[CALL_API]: {
 		type:"ADD_LECTURE",
-		params : {
-			is_master
-		},
+		endpoint: "/lectures",
+		params,
 		body : {
-			name,
-			session
+			name : params.name,
+			session : params.session
 		}
 	}
 })

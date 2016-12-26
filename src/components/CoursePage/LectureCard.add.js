@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
-import { Link } from 'react-router'
 import * as NEXTActions from '../../actions/Course'
-
+import validate from "../../class/Validation"
 
 
 export default class AddCourseCard extends Component {
@@ -21,14 +20,30 @@ closeEdit = () => {
 addCourse = () => {
 	console.log(this);
 	const name = this.refs.name.value;
-	this.props.actions.fetchAddLecture(name, this.props.is_master, this.props.session._links.self.href);
+	
+	if(!validate(name, ["IS_EMPTY"]))
+		return
+		
+		
+	this.props.actions.fetchAddLecture({
+		name,
+		is_master:this.props.is_master,
+		session:this.props.session._links.self.href
+	});
 	this.closeEdit();
 }
+handleKey = (e) => {
+	if(e.keyCode !== 13)
+		return false;
+		
+	this.addCourse();
+}
+
 renderEdit() {
 	return (
 		<div className="lecture-add-controls"  style={{display:(this.state.edit?"block":"none")}}>
 			<div className="form-controls">
-				<input type="text" ref="name" className="form-control" placeholder="Add a list..."/>
+				<input type="text" ref="name" className="form-control" placeholder="Add a list..." onKeyUp={this.handleKey}/>
 				<button onClick={this.addCourse} className="btn btn-success">Add</button>
 				<button onClick={this.closeEdit} className="btn btn-default btn-close">X</button>
 			</div>
@@ -36,7 +51,14 @@ renderEdit() {
 	
 	)
 }
-  render() {
+handleKey = (e) => {
+	if(e.keyCode !== 13)
+		return false;
+		
+	this.addCourse();
+}
+
+render() {
 
 
     return (

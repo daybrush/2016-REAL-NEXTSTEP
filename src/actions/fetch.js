@@ -30,8 +30,6 @@ export default function fetch(url, info= {}) {
 	}
 	
 	
-	//info.method="GET"
-	//delete info.body
-	console.log(url, "=>", _url);
+
 	return window.fetch(_url, info);
 }

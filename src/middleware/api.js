@@ -21,9 +21,10 @@ function objectToParam(obj) {
 }
 
 const callApi = (options) => {
-  let {type, url, params, body, endpoint} = options;
-  let fullUrl = url || links.DOMAIN +( endpoint || links[type]);
-
+	let {type, url, params, body, endpoint} = options;
+	let fullUrl = url || links.DOMAIN +( endpoint || links[type])
+	fullUrl = fullUrl.replace("{?projection}", "")
+	
 	const matchArray = fullUrl.match(/\$([a-zA-Z]+)/g);
 	if(matchArray)
 		matchArray.forEach((param) => {

@@ -13,8 +13,6 @@ import {Link} from 'react-router'
 import LoginSession from "../class/LoginSession"
 class mainPage extends Component {
 	componentWillMount() {
-		const {actions} = this.props;
-
 		document.body.className = "";
 		
 		this.loadMyCourses(true);
@@ -34,7 +32,7 @@ class mainPage extends Component {
 			id: this.props.state2.login.userId
 		})
 	}
-	componentW
+
 	renderMyCourses() {
 		if(!LoginSession.isLogin())
 			return;
@@ -48,7 +46,6 @@ class mainPage extends Component {
 		</ul>)
 	}
   render() {
-	const {state} = this.props
 	
 	const _Open = (this.props.state2.login.role === "ROLE_INSTRUCTOR"  || this.props.state2.login.role === "ROLE_ADMIN") ? (<Open/>) : ""
     return (

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux';
 import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import DragDrop from "../../class/dragdrop"
 import LessonCard from "./LessonCard"
-import StoreSession from "../../class/StoreSession"
+import validate from "../../class/Validation"
 
 
 import "./css/LectureCard.css"
@@ -203,12 +202,20 @@ showMenu = () => {
 hideMenu = () => {
 	this.setState({menu:false});
 }
-saveMenu = () => {
+saveMenu = (e) => {
+	if(e.keyCode && e.keyCode !== 13)
+		return false;
+		
 	const {lecture, is_master} = this.props, name = this.refs.menu_title.value
+
+	if(!validate(name, ["IS_EMPTY"]))
+		return
+		
+		
 	this.props.actions.fetchChangeLecture({
+		url: lecture._links.self.href,
 		id: lecture.id,
 		is_master,
-	}, {
 		name
 	})
 	
@@ -223,10 +230,18 @@ hideEdit = () => {
 
 
 
-addLesson = () => {
-	console.log(this);
+addLesson = (e) => {
+	if(e.keyCode && e.keyCode !== 13)
+		return false
+		
+
 	const name = this.refs.name.value;
 	const id = this.props.lecture.id
+	
+	if(!validate(name, ["IS_EMPTY"]))
+		return
+		
+	
 	this.props.actions.fetchAddLesson({
 		name,
 		is_master: this.props.is_master,
@@ -333,7 +348,7 @@ renderEdit() {
 	    <div className={classNames({"lesson-card-add":true,"lesson-card-add-show":this.state.edit})}>
 			<span className="lesson-card-add-placeholder" onClick={this.showEdit}>Add a Lesson...</span>
 			<div className="lesson-card-add-controls form-controls">
-				<input type="text" ref="name" className="form-control" placeholder="Add a Lesson..."/>
+				<input type="text" ref="name" className="form-control" placeholder="Add a Lesson..." onKeyUp={this.addLesson} />
 				<button onClick={this.addLesson} className="btn btn-success">Add</button>
 				<button onClick={this.hideEdit} className="btn btn-default btn-close">X</button>		
 			</div>
@@ -359,7 +374,7 @@ renderMenu() {
 		    		<li onClick={this.deleteLecture}>Delete</li>	    		
 		    	</ul>
 				<div className="lecture-card-menu-controls form-controls">
-					<input className="form-control" ref="menu_title"/>
+					<input className="form-control" ref="menu_title" onKeyUp={this.saveMenu} />
 					<button onClick={this.saveMenu} className="btn btn-success">Save</button>
 				</div>
 			</div>

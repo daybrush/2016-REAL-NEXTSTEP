@@ -112,7 +112,10 @@ class component extends Component {
 		this.contentArray.forEach((content,i) => {
 			switch(content.type) {
 			case "pdf":
-				content.component.zoom && content.component.zoom(scale)
+				if(!content.component.zoom)
+					break;
+					
+				content.component.zoom(scale)
 				break;
 			default:
 				break;
@@ -162,11 +165,11 @@ class component extends Component {
 
 
 			
-		let element, rect, page;
+		let element, rect
 		element = content.element
 		
 		if(!element)
-			return;
+			return
 			
 			
 		const windowHeight = window.innerHeight;
@@ -174,7 +177,10 @@ class component extends Component {
 	
 		rect = element.getBoundingClientRect();
 		if((rect.top  <=  windowHeight && rect.bottom > 0) || (rect.bottom  <  windowHeight && rect.bottom > 0 )) {
-			content.component.refreshView && content.component.refreshView(now)
+			if(!content.component.refreshView)
+				return
+				
+			content.component.refreshView(now)
 			
 		}
 	}
@@ -194,7 +200,10 @@ class component extends Component {
 				
 			this._refreshView(content, now);
 			if(content.type === "html") {
-				content.component && content.component.refresh()	
+				if(!content.component)
+					return
+					
+				content.component.refresh()
 			}
 		});
 		
@@ -207,7 +216,8 @@ class component extends Component {
 		if(!LoginSession.isLogin())
 			return memberStatus
 
-  		const loginInfo = LoginSession.getLoginInfo().user
+  		//const loginInfo = LoginSession.getLoginInfo().user
+  		
   		const is_instructor = lesson.authorities.filter(authority=>(authority.grantedAuthority === "COURSE_INSTRUCTOR")).length !== 0
   		if(is_instructor) {
   			memberStatus = "INSTRUCTOR"
