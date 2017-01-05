@@ -79,6 +79,7 @@ addTypes({
 	},
 	"ADD_SESSION": (state, action, session) => {
 		state.course.courseSessions.push(action.value);
+		return Object.assign({}, state);
 	},
 	"ADD_LESSON": (state, action, session) => {
 		let lectures2 = session.lectures.filter(lecture=>(action.params.id === lecture.id))
