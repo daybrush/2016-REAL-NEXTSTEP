@@ -117,6 +117,20 @@ export default connect(
 	    }
 	    return index;
 	}
+	toggleLockLesson = (e) => {
+		const access = this.props.lesson.access = this.props.lesson.access === "PUBLIC" ? "PRIVATE" : "PUBLIC"
+		e.preventDefault();
+		this.props.actions.fetchChangeLesson({
+			lessonId: this.props.lesson.id,
+			lectureId: this.props.lecture.id,
+			is_master: this.props.is_master,
+			url: this.props.lesson._links.self.href,
+			access 
+		}).catch(e=> {
+			console.error(e)
+			alert("실패하였습니다.")
+		})
+	}
 	deleteLesson = (e) => {
 		e.preventDefault();
 		const a = confirm("삭제하시겠습니까?")
@@ -126,7 +140,8 @@ export default connect(
 			
 		this.props.actions.deleteLesson({
 			id: this.props.lesson.id,
-			lectureId: this.props.lecture.id
+			lectureId: this.props.lecture.id,
+			is_master: this.props.is_master
 		}).catch(e=> {
 			console.error(e)
 			alert("실패하였습니다.")
@@ -164,6 +179,7 @@ export default connect(
 		    	<div className="lesson-card-content" ref="content">
 			    	<div className="lesson-card-name"><Link to={"/" +course.id +"/lesson/"+lesson.id}>{lesson.name}</Link></div>
 			    	<Link className="lesson-card-edit glyphicon glyphicon-pencil" to={"/" +course.id+"/lesson/"+lesson.id+"/edit"}></Link>
+			    	<a className="lesson-card-edit glyphicon glyphicon-remove" href="#" onClick={this.toggleLockLesson}>{isAccess?"잠금":"잠금해제"}</a>
 			    	<a className="lesson-card-edit glyphicon glyphicon-remove" href="#" onClick={this.deleteLesson}></a>
 			    	<div className="lesson-card-badges">
 			    		{this.renderBadges(badges)}

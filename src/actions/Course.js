@@ -20,15 +20,28 @@ export const fetchGetMyCourses = (params) => ({
 		type: "GET_MY_COURSES",
 		params
 	}
-});
+})
+
 export const fetchGetCourse = (id) => ({
-  [CALL_API]: {
-    type: "GET_COURSE",
-    params : {
-	    id
-    }
-  }
-});
+	[CALL_API]: {
+		endpoint: "/courses/$id?projection=detail",
+	    type: "GET_COURSE",
+	    params : {
+		    id
+	    }
+	}
+})
+
+export const fetchGetSession = (params) => ({
+	[CALL_API]: {
+		endpoint : "/sessions/$id?projection=detail",
+		type: "GET_SESSION",
+		params
+	}
+})
+
+/*
+
 export const fetchGetSession = (courseId, sessionId) => ({
   [CALL_API]: {
     type: "GET_SESSION",
@@ -39,16 +52,23 @@ export const fetchGetSession = (courseId, sessionId) => ({
     }
   }
 });
+*/
 
 
-export const fetchAddCourse = (name, description="") => ({
+export const fetchAddCourse = (params) => ({
 	[CALL_API]: {
 		type:"ADD_COURSE",
-		body : {
-			name, description
-		}
+		body : params
 	}
 })
+export const fetchAddSession = (params) => ({
+	[CALL_API]: {
+		endpoint: "/courseSessions",
+		type:"ADD_SESSION",
+		body : params
+	}
+})
+
 export const saveLecturePosition = (is_master, pos) => ({
 	type:"SAVE_LECTURE_POSITION",
 	params: {
@@ -72,6 +92,36 @@ export const fetchChangeLecture = (params) => ({
 		}
 	}
 })
+export const fetchChangeSession = (params,body) => ({
+	[CALL_API]: {
+		url: params.url,
+		type:"CHANGE_COURSE",
+		params,
+		body
+	}
+})
+export const fetchChangeSession = (params, body) => ({
+	[CALL_API]: {
+		url: params.url,
+		type:"CHANGE_SESSION",
+		params,
+		body
+	}
+})
+
+
+export const fetchChangeLesson = (params) => ({
+	[CALL_API]: {
+		url: params.url,
+		type:"CHANGE_LESSON",
+		params,
+		body: {
+			access: params.access
+		}
+	}
+})
+
+
 
 export const fetchSwapLecture = (params) => ({
 	[CALL_API]: {

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.6.4",
     "classnames": "^2.2.5",
     "highlight.js": "^9.7.0",
     "marked": "^0.3.6",

@@ -18,6 +18,10 @@ addTypes({
 		state.course.id = action.params.id
 		return Object.assign({}, state)
 	},
+	"GET_SESSION": function(state, action, session) {
+		state.course.defaultSession = action.value
+		return Object.assign({}, state)
+	},
 	"ADD_LECTURE": function(state, action, session) {
 		session.lectures.push(action.value)
 		return Object.assign({}, state);
@@ -38,12 +42,32 @@ addTypes({
 		})
 		return Object.assign({}, state)
 	},
-	"CHANGE_LECTURE" : function(state, action, session) {
+	"CHANGE_LECTURE": function(state, action, session) {
 		session.lectures.filter(lecture => {
 			return lecture.id === action.params.id
 		}).forEach(lecture => {
 			for(var key in action.body) {
 				lecture[key] = action.body[key]
+			}
+		})
+		return Object.assign({}, state)
+	},
+	"CHANGE_LESSON" : function(state, action, session) {
+		session.lectures.filter(lecture => {
+			return lecture.id === action.params.lectureId
+		}).map(lecture => {
+			const lessons = lecture.lessons
+			for(var index in lessons) {
+				if(lessons[index].id === action.params.lessonId)
+					return lessons[index]
+			}
+			return
+		}).forEach(lesson => {
+			if(!lesson)
+				return;
+			
+			for(var key in action.body) {
+				lesson[key] = action.body[key]
 			}
 		})
 		return Object.assign({}, state)

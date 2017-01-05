@@ -24,12 +24,14 @@ class Apply extends Component {
 
     return (
 	    <div>
-	        <div className="page-header"><h3>개설한 강좌 목록</h3></div>
+	        <div className="page-header"><h3>개설한 강좌 목록</h3>
+	        <CourseCardAdd/>
+	        </div>
 	    	<ul className="course-cards">
 	          {state.courses._embedded.courses.map(course =>
 	            <CourseCard course={course} key={course.id} actions={actions} />
 	          )}
-	          <CourseCardAdd/>
+	          
 	      </ul>
       </div>
     )

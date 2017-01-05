@@ -13,6 +13,7 @@ import LoginSession from "../class/LoginSession"
 import StoreSession from "../class/StoreSession"
 import loadPage from "../class/Page"
 import Info from "../components/CoursePage/Info"
+import SessionAdd from "../components/CoursePage/Session.add"
 class component extends Component {
 	courseId = "";
 	sessionId = "";
@@ -88,6 +89,15 @@ class component extends Component {
 	getMaster() {
 		return this.props.state.course.masterSession
 	}
+	
+	loadSession = (id) => {
+		this.props.actions.fetchGetSession({
+			id
+		}).catch(e => {
+			
+		})
+		
+	}
 
 	renderApplyLabel(memberStatus) {
 		switch(memberStatus) {
@@ -111,28 +121,12 @@ class component extends Component {
 		const course = this.props.state.course
 
 		//const {startDate, endDate} = session
-		let {name, state} = this.getSession()
+		let session =  this.getSession(), {name, state} = session
 		const instructors = course.instructors
 	
 	
 	
-/*
-		let nowDate = new Date()
-		let stringNowDate = (nowDate.getYear() + 1900) + "-" + (nowDate.getMonth()+1) + "-" + nowDate.getDate()
 
-		
-		
-		let status = 0;
-		
-		if(!startDate || !endDate)
-			status = 0;
-		else if(startDate < stringNowDate && stringNowDate < endDate)
-			status = 0;
-		else if(startDate > stringNowDate)
-			status = 1;
-		else if(stringNowDate < endDate)
-			status = 2;
-*/
 		let statusName;
 		//IN_SESSION , UPCOMIING, EXPIRED
 		switch(state) {
@@ -171,8 +165,7 @@ class component extends Component {
 					this.setState({show_info:true})
 					e.preventDefault()
 				}}>i</a>
-
-
+				<SessionAdd/>
 	
 				<a className="course-header-btn-show-menu" href="#" onClick={this.showMenu}>
 					<span className="glyphicon glyphicon-option-horizontal"></span>

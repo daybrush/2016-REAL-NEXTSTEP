@@ -10,14 +10,33 @@ section.content .page-header {
 	margin-bottom: 20px;
   border-bottom: 2px solid #ccc;
   clear: both;
+  overflow: hidden;
 }
+
 section.content .page-header h3{
 	font-size: 35px;
 	font-weight: 300;
 	color: #333;
+	float:left;
 }
-
+section.content .page-header .course-card-add {
+	float: right;
+	margin-top: 4px;
+}
+section.content .page-header .course-card-add a {
+	color: #fff;
+	font-size: 1.2em;	
+	padding:8px 15px;
+	background: #2185D0;
+	border-radius: 5px;
+	font-weight: bold;
+}
+section.content .page-header .course-card-add:hover a{
+	background: #1678c2;
+/* 	color: #1678c2; */
+}
 .content-btns {
+	clear: both;
 	text-align: center;
 	padding: 10px 0px;
 }

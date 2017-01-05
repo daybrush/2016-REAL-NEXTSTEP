@@ -4,6 +4,7 @@ import * as NEXTActions from '../../actions/Course'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import validate from "../../class/Validation"
+import classNames from 'classnames'
 //import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.js"
 class component extends Component {
 
@@ -33,10 +34,21 @@ editMode = (e) => {
 	
 	e.preventDefault();
 }
-add = (e) => {
-	const {actions, course, professor} = this.props;
+
+loadSession = (id) => {
+	this.props.actions.fetchGetSession({
+		id
+	}).catch(e => {
+		
+	})
 	
-	const name = this.inputName.value, startDate = this.datepicker1.value, endDate = this.datepicker2.value
+}
+
+
+add = (e) => {
+	const {actions, state} = this.props;
+
+	const name = this.inputName.value, startDate = this.datepicker1.value, endDate = this.datepicker2.value, description = this.description.value
 	
 	if(!validate(name, ["IS_EMPTY"])) {
 		this.inputName.focus()
@@ -54,11 +66,12 @@ add = (e) => {
 	}
 	
 	
-	actions.fetchAddCourse({
+	actions.fetchAddSession({
 		name,
-		description: "",
+		description,
 		startDate,
-		endDate
+		endDate,
+		course: state.course._links.self.href
 	}).then(function(value) {
 		//actions.load({type:"add", target:"course", value:{name:value.name, id:3}});
 		console.log(value)
@@ -103,7 +116,7 @@ renderDialog() {
     <div className="modal-content">
       <div className="modal-header">
         <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.close}><span aria-hidden="true">&times;</span></button>
-        <h4 className="modal-title" id="exampleModalLabel">Create Course</h4>
+        <h4 className="modal-title" id="exampleModalLabel">Create Session</h4>
       </div>
       <div className="modal-body">
           <div className="form-group">
@@ -138,15 +151,9 @@ renderDialog() {
 			<div className="course-add-group">
 				<label className="control-label  col-sm-3 col-xxs-12" for="form-description">Description :</label>
 				<div className="text-name col-sm-9 col-xxs-12 ">
-				    <textarea className="form-control" id="form-description"></textarea>
+				    <textarea className="form-control" id="form-description" ref={e=>{this.description=e}}></textarea>
 			    </div>
-			</div>				
-			<div className="course-add-group">
-				<label className="control-label  col-sm-3 col-xxs-12" for="form-image">Image :</label>
-				<div className="text-name col-sm-9 col-xxs-12 ">
-				    <input type="file" id="form-image"/>
-			    </div>
-			</div>			
+			</div>
           </div>
       </div>
       <div className="modal-footer">
@@ -158,22 +165,37 @@ renderDialog() {
 
 }
 
+renderDropDown() {
+	const session = this.props.state.course.defaultSession
+	return(
+		<div className="btn-group">
+					{this.renderDialog()}
+			<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span ref={e=>{this.menuToggleBtn = e}}>Session111111</span> <span className="caret"></span>
+			</button>
+			<ul className="dropdown-menu">
+			{
+				this.props.state.course.courseSessions.map((session2, i)=> {
+					
+					return(<li key={i} className={classNames({
+						"active" : session.id === session2.id
+					})}><a href="#" onClick={e=>{this.loadSession(session2.id); e.preventDefault();}}>{session2.name}</a></li>)
+			})}
+				<li role="separator" className="divider"></li>
+				<li><a href="#" onClick={this.editMode}>Add Session.</a></li>
+			</ul>
+		</div>)
+}
 
   render() {
 
     
-    return (
-      <li className="course-card-add">
-			<a onClick={this.editMode} href="#">강의개설</a>
-			
-			{this.renderDialog()}
-      </li>
-    )
+    return this.renderDropDown()
   }
 }
 
 const mapStateToProps = state => {
-	return {state: state.MyCourses}
+	return {state: state.CoursePage}
 }
 
 const mapDispatchToProps = dispatch => {

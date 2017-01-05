@@ -1,15 +1,24 @@
+
 .course-cards {
-	overflow: hidden;
+/* 	overflow: hidden; */
 }
 .course-card {
 	position: relative;
-	min-width: 300px;
 	height: 280px;
 	padding: 0;
 	margin-bottom: 10px;
 	padding-right: 10px;
 }
 
+
+@media screen and (max-width: 500px) {
+    .course-cards .course-card {
+	    width: 300px;
+	    float:none;
+	    margin: 0px auto 10px;
+    }
+    
+}
 
 
 
@@ -68,4 +77,50 @@
 	display: inline-block;
 	height: 35px;
 	line-height: 35px;
+}
+
+
+.nextstep-overlay {
+	position: fixed;
+	top:0;
+	left: 0;
+	right: 0;
+	bottom:0;
+	background: rgba(0, 0, 0, 0.2);
+	z-index: 5;
+}
+.course-card-add-dialog {
+	margin: 50px auto;
+}
+.course-card-add-dialog label {
+/* 	margin: 20px 0px; */
+/* 	font-size: 2em; */
+	font-weight: 400;
+	height: 30px;
+	line-height: 30px;
+	font-size: 1.3em;
+}
+.course-add-group .text-name {
+	padding-left: 0;
+	padding-right: 0;
+}
+.course-add-group {
+	clear: both;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.course-add-group .date-group.input-group {
+	float:left;
+}
+.course-add-date-duration {
+	width: 100%;
+	float:left;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	font-size: 30px;
+}
+.course-add-group textarea.form-control {
+	height: 100px;
 }
