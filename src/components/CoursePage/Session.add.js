@@ -48,7 +48,8 @@ loadSession = (id) => {
 add = (e) => {
 	const {actions, state} = this.props;
 
-	const name = this.inputName.value, startDate = this.datepicker1.value, endDate = this.datepicker2.value, description = this.description.value
+	let name = this.inputName.value,
+		startDate = this.datepicker1.value, endDate = this.datepicker2.value, description = this.description.value
 	
 	if(!validate(name, ["IS_EMPTY"])) {
 		this.inputName.focus()
@@ -64,6 +65,9 @@ add = (e) => {
 		this.datepicker2.focus()
 		return
 	}
+	
+	startDate += "T00:00:00.000Z";
+	endDate += "T23:59:59.000Z";
 	
 	
 	actions.fetchAddSession({
