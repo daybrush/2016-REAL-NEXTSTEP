@@ -165,7 +165,13 @@ class component extends Component {
 					this.setState({show_info:true})
 					e.preventDefault()
 				}}>i</a>
-				<SessionAdd/>
+				{(function () {
+					if(memberStatus !== "INSTRUCTOR")
+						return;
+						
+					return (<SessionAdd/>)
+				})()}
+
 	
 				<a className="course-header-btn-show-menu" href="#" onClick={this.showMenu}>
 					<span className="glyphicon glyphicon-option-horizontal"></span>

@@ -77,6 +77,9 @@ addTypes({
 		session.enrollments = action.value._embedded.enrollments;
 		return Object.assign({}, state);
 	},
+	"ADD_SESSION": (state, action, session) => {
+		state.course.courseSessions.push(action.value);
+	},
 	"ADD_LESSON": (state, action, session) => {
 		let lectures2 = session.lectures.filter(lecture=>(action.params.id === lecture.id))
 

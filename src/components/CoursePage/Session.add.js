@@ -82,11 +82,7 @@ add = (e) => {
 	}).then(e => {
 		alert("생성했습니다.")
 	}).catch(e => {
-		console.log("ERR", e)
-		if(e.status === 403)
-			alert("권한이 없습니다.")
-		else
-			alert("생성하지 못했습니다.")
+		alert("생성하지 못했습니다.")
 	})
 	
 	this.inputName.value = "";
@@ -175,7 +171,7 @@ renderDropDown() {
 		<div className="btn-group">
 					{this.renderDialog()}
 			<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			<span ref={e=>{this.menuToggleBtn = e}}>Session111111</span> <span className="caret"></span>
+			<span ref={e=>{this.menuToggleBtn = e}}>{session.name}</span> <span className="caret"></span>
 			</button>
 			<ul className="dropdown-menu">
 			{

@@ -36,7 +36,7 @@ editMode = (e) => {
 add = (e) => {
 	const {actions, course, professor} = this.props;
 	
-	const name = this.inputName.value, startDate = this.datepicker1.value, endDate = this.datepicker2.value
+	let name = this.inputName.value, startDate = this.datepicker1.value, endDate = this.datepicker2.value
 	
 	if(!validate(name, ["IS_EMPTY"])) {
 		this.inputName.focus()
@@ -53,6 +53,9 @@ add = (e) => {
 		return
 	}
 	
+	startDate += "T00:00:00.000Z";
+	endDate += "T23:59:59.000Z";
+	
 	
 	actions.fetchAddCourse({
 		name,
@@ -65,11 +68,8 @@ add = (e) => {
 	}).then(e => {
 		alert("생성했습니다.")
 	}).catch(e => {
-		console.log("ERR", e)
-		if(e.status === 403)
-			alert("권한이 없습니다.")
-		else
-			alert("생성하지 못했습니다.")
+		console.log("ERR", e);
+		alert("생성하지 못했습니다.");
 	})
 	
 	this.inputName.value = "";
