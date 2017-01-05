@@ -100,15 +100,6 @@ export const fetchChangeSession = (params,body) => ({
 		body
 	}
 })
-export const fetchChangeSession = (params, body) => ({
-	[CALL_API]: {
-		url: params.url,
-		type:"CHANGE_SESSION",
-		params,
-		body
-	}
-})
-
 
 export const fetchChangeLesson = (params) => ({
 	[CALL_API]: {
