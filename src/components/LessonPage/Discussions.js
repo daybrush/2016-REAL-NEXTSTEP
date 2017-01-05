@@ -23,6 +23,7 @@ state = {
 }
 mde = "";
 componentWillMount() {
+	console.log("willmount");
 	this.props.actions.fetchGetDiscussions({
 		url: this.props.lesson._links.discussions.href,
 		id: this.props.lessonId

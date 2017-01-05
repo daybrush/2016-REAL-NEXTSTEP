@@ -33,6 +33,12 @@ export default function reducer(state = initialState, action) {
 				discussion.replies.push(action.value)
 			})
 			return Object.assign({}, state)
+		case "CLEAR_LESSON":
+			if(!state.lesson)
+				return state;
+				
+			delete state.lesson.discussions
+			return state;
 		case "GET_LESSON":
 			state.lesson = action.value;
 			

@@ -162,7 +162,7 @@ export default connect(
 
 	render() {
 	    const {  lecture, lesson, course, status} = this.props;
-	    
+	    console.log(lesson);
 	    const isAccess = lesson.access === "PUBLIC"
 	    const badges = lesson.badges || {}
 

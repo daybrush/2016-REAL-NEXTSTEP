@@ -397,7 +397,7 @@ class component extends Component {
   		
   		
   		
-  		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course} session={session} is_master={false}/>) : ""
+  		const addLectureCard = memberStatus === "INSTRUCTOR" && session.lectures.length === 0 ?(<AddLectureCard actions={this.props.actions} course={course} session={session} is_master={false}/>) : ""
   		
   		return (
   		<div className="course-lectrues-wrapper">

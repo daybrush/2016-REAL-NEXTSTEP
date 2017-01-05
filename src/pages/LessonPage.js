@@ -56,14 +56,15 @@ class component extends Component {
 	componentWillMount() {
 		document.body.onscroll = this.refreshView;
 		window.onresize = this.refreshView;
-		const {actions, params} = this.props;
+		const {dispatch, actions, params, state} = this.props;
 		
 		const {course, lesson, type} = params;
 		
 		
 		document.body.className="pdf-open";
-		
-
+		dispatch({
+			type: "CLEAR_LESSON"
+		});
 		actions.fetchGetLesson(lesson).then(result => {
 			const lesson = result.value;
 			const {name} = lesson.lecture
@@ -77,7 +78,6 @@ class component extends Component {
 			}
 			actions.fetchGetEnrollmentsInLesson({
 				id: lesson.id,
-// 				url : lesson.lecture._links.session 
 			}).then(result => {
 				this.memberStatus = this.getMemberStatus(result.value)
 			})
@@ -466,7 +466,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return{  actions: bindActionCreators(NEXTActions, dispatch)}
+  return{  actions: bindActionCreators(NEXTActions, dispatch), dispatch}
 }
 
 export default connect(

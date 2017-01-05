@@ -47,7 +47,7 @@ loadSession = (id) => {
 
 add = (e) => {
 	const {actions, state} = this.props;
-
+	const this2 = this;
 	let name = this.inputName.value,
 		startDate = this.datepicker1.value, endDate = this.datepicker2.value, description = this.description.value
 	
@@ -77,12 +77,11 @@ add = (e) => {
 		endDate,
 		course: state.course._links.self.href
 	}).then(function(value) {
-		//actions.load({type:"add", target:"course", value:{name:value.name, id:3}});
-		console.log(value)
-	}).then(e => {
+		this2.loadSession(value.value.id);
 		alert("생성했습니다.")
 	}).catch(e => {
 		alert("생성하지 못했습니다.")
+		throw e;
 	})
 	
 	this.inputName.value = "";
