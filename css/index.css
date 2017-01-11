@@ -2,25 +2,7 @@ a , a:focus, a:hover {
 	text-decoration: none;
 	color: #000;
 }
-#header {
-	width: 100%;
-	height: 60px;
-	line-height: 60px;
-	text-align: center;
-	background: #1A202D;
-	color: white;
-	position: fixed;
-	top:0;
-	z-index: 3;
-}
-#header a {
-	color: white;
-	height: 100%;
-}
-#header a img{
-	height: 30px;
-	vertical-align: middle;
-}
+
 
 .alert.goal-card {
 	padding: 10px;
@@ -28,7 +10,8 @@ a , a:focus, a:hover {
 }
 .body-wrapper {
 	position: relative;
-	top: 60px;
+	top: 50px;
+	padding-top: 0;
 }
 
 
