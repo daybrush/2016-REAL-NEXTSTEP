@@ -10,7 +10,7 @@
 	padding: 5px 10px;
 }
 .lesson-card:hover .lesson-card-content {
-	background: #e5e5e5;	
+	background: #e5e5e5;
 }
 .lesson-card a {
 	display: block;
@@ -39,6 +39,14 @@
 	visibility: hidden;
 }
 
+
+.glyphicon-lock{
+	margin-right: 15px;
+}
+
+/*<Link className="lesson-card-edit glyphicon glyphicon-pencil" to={"/" +course.id+"/lesson/"+lesson.id+"/edit"}></Link>
+<a className="lesson-card-edit glyphicon glyphicon-remove" href="#" onClick={this.deleteLesson}></a>
+<a className="lesson-card-edit glyphicon glyphicon-lock" href="#" onClick={this.toggleLockLesson}>{isAccess?"○":"●"}</a>*/
 
 
 
@@ -74,8 +82,8 @@
 	height: 10px;
 	margin-left: -5px;
 	margin-top: -5px;
-	background: #00B3E2;	
-	border-radius: 50%;	
+	background: #00B3E2;
+	border-radius: 50%;
 }
 .lesson-card-add {
 	color: #333;
@@ -99,9 +107,28 @@
 	display: none;
 }
 .lesson-card .lesson-card-edit.glyphicon-pencil {
-	right: 25px;
+	right: 55px;
 }
-.lesson-card:hover .lesson-card-edit {
+.lesson-card .lesson-card-edit.glyphicon-remove {
+	right: 30px;
+}
+.lesson-card-access-icon {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	background: url("/images/icons-all.png") no-repeat;
+	background-size:auto 49px;
+	background-position: -66px -8px;
+	right: 5px;
+}
+.lesson-card-access-icon.lesson-card-access {
+	background-size:auto 49px;
+	background-position: -21px -8px;
+}
+
+
+
+.lesson-card.lesson-card-edit-show:hover .lesson-card-edit {
 	display: block;
 }
 .lesson-card .lesson-card-edit:before {
@@ -129,14 +156,14 @@
 }
 .form-controls .btn-success {
 	background-image: none;
-	border: none;	
+	border: none;
 	text-shadow: none;
 	font-weight: bold;
 }
 .form-controls .btn-close {
 	background: transparent;
 	border: none;
-	box-shadow: none;	
+	box-shadow: none;
 	font-weight: bold;
 	color:#777;
 }

@@ -14,20 +14,20 @@ import LoginSession from "../class/LoginSession"
 class mainPage extends Component {
 	componentWillMount() {
 		document.body.className = "";
-		
+
 		this.loadMyCourses(true);
-		
+
 	}
-	componentWillUpdate() {	
+	componentWillUpdate() {
 		this.loadMyCourses();
 	}
 	loadMyCourses = (is_update = false) => {
 		if(!LoginSession.isLogin())
 			return;
-			
+
 		if(!is_update && this.props.state.courses)
 			return;
-		
+
 		this.props.actions.fetchGetMyCourses({
 			id: this.props.state2.login.userId
 		})
@@ -38,24 +38,21 @@ class mainPage extends Component {
 			return;
 		if(!this.props.state.courses)
 			return;
-			
+
 		return (<ul className="course-cards">
-			{this.props.state.courses.map((course, i) => (				
+			{this.props.state.courses.map((course, i) => (
 				<CourseCard isLink="true" course={course} key={course.id} />
 			))}
 		</ul>)
 	}
   render() {
-	
+
 	const _Open = (this.props.state2.login.role === "ROLE_INSTRUCTOR"  || this.props.state2.login.role === "ROLE_ADMIN") ? (<Open/>) : ""
     return (
     	<section className="content">
     		{_Open}
-    		<div className="page-header"><h3>수강 목록</h3></div>
+    		<div className="page-header"><h3>수강목록</h3><Link className="btn btn-apply" to="/apply">강좌 찾아보기</Link></div>
     		{this.renderMyCourses()}
-    		<div className="content-btns">
-	    		<Link className="btn btn-apply" to="/apply">강좌 찾아보기</Link>
-    		</div>
         </section>
     )
   }

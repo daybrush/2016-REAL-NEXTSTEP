@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import marked from '../../js/custommarked';
-
 import hljs from 'highlight.js'
 import 'time-elements';
+import "./css/Discussion.css"
 
 export default class component extends Component {
 	comment = "";
@@ -27,18 +27,18 @@ export default class component extends Component {
 		this.props.contents.forEach(content => {
 			if(content.id !== id)
 				return;
-			
+
 			content.component.trace && content.component.trace(position);
-			
+
 			document.body.scrollTop += content.element.getBoundingClientRect().top
-			
+
 		})
 	}
 	onClick = (e) => {
 		const target = e.target;
 		if(e.target.className === "mark-goto") {
 			this.trace(target.getAttribute("filename"), target.getAttribute("position"))
-			
+
 			return;
 		}
 		this.props.onClick(this.props.discussion)
@@ -56,15 +56,15 @@ export default class component extends Component {
 				})} onClick={this.onClick}>
 				<div className="dicussion-header">
 					<img src={avatarUrl} alt="profile" className="discussion-author-thumb"/>
-					<div className="dicussion-text">
-						<p className="dicussion-author-name">{name}</p>
-						
-						<p className="dicussion-time"><relative-time datetime={createdDate}></relative-time></p>
+						<div className="dicussion-text">
+								<p className="dicussion-author-name">{name}</p>
+								<p className="middle-dot">·</p>
+								<p className="dicussion-time"><relative-time datetime={createdDate}></relative-time></p>
+						</div>
+				</div>
+					<div className="discussion-content"  dangerouslySetInnerHTML={{__html:marked(this.comment)}} ref="content">
 					</div>
-				</div>
-				<div className="discussion-content"  dangerouslySetInnerHTML={{__html:marked(this.comment)}} ref="content">
-				</div>
-	    	</li>
+	    </li>
 	    )
 	}
 }

@@ -13,11 +13,16 @@ import 'time-elements';
 export default class component extends Component {
 	comment = "";
 	componentWillMount() {
-		this.comment = this.props.discussion.comment;
-		this.comment =  this.comment.replace(/\n/g, "<br/>");
+		this.comment = this.props.discussion.comment.replace(/\n/g, "<br/>");
 		this.props.discussion.createdDate += "+09:00"
 	}
+	componentWillUpdate() {
+		this.comment = this.props.discussion.comment.replace(/\n/g, "<br/>");
+	}
 	componentDidMount() {
+		hljs.highlightBlock(this.refs.content);
+	}
+	componentDidUpdate() {
 		hljs.highlightBlock(this.refs.content);
 	}
 	render() {

@@ -1,0 +1,15 @@
+.course-lectrues-wrapper .course-header .btn-group .sessions-dropdown {
+
+  /*border: 1px solid black;*/
+  /*border-radius: 3px;*/
+  /*border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;*/
+  border-radius: 4px 4px 4px 4px;
+  background-color: #f1f1f1;
+  border-color: #ccc;
+  touch-action: manipulation;
+  width: 150px;
+  margin-left: 10px;
+  background-image: none;
+
+}

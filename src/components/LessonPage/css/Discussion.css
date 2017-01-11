@@ -1,0 +1,83 @@
+.middle-dot {
+  color: #DCDEE0;
+  /*font-size: 200px;*/
+}
+
+
+/*DICUSSION-FORM-INPUT*/
+.discussion-form {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
+	/*background: #383838;*/
+	padding: 5px 5px 10px;
+	margin: 0px;
+}
+.discussion-form.form-group {
+	margin: 0px;
+}
+.discussion-input {
+/* 	margin-bottom: 10px; */
+}
+
+.discussion-form-btns {
+	text-align: right;
+}
+.discussion-submit {
+	margin-top: 10px;
+}
+
+
+.discussion-form  .editor-toolbar {
+/* 	opacity: 1; */
+	background: #fff;
+
+}
+.discussion-form  .editor-toolbar a {
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+}
+.discussion-form  .editor-toolbar a:before {
+	line-height: 20px;
+}
+.discussion-form  .CodeMirror{
+    height: 100px;
+    min-height: 100px;
+    padding: 5px;
+}
+.discussion-form  .CodeMirror-scroll {
+	min-height: 100px;
+}
+.discussions-tab .discussion-form .discussion-form-btns .discussion-submit{
+  /*background-color: none;*/
+  background-image: none;
+  background-color: white;
+  color: black;
+  border: 1px solid #DCDEE0;
+  color: #A7AAA9;
+  text-shadow: none;
+  border-radius: 5px;
+  height: 26px;
+  width: 60px;
+  line-height: 12px;
+}
+.discussion-reply-tab-open .discussions-wrapper .discussion-form  {
+	display: none;
+}
+.discussion-reply-tab-open .discussions-wrapper .discussions {
+	bottom: 0;
+}
+
+.discussion-replies {
+	position: absolute;
+    top: 0;
+    bottom: 160px;
+    overflow: auto;
+    width: 100%;
+    left: 0;
+    padding: 0px 0px 5px;
+    margin-top: -10px;
+}

@@ -20,7 +20,7 @@ show = () => {
 	this.setState({show:true});
 }
 hide = () => {
-	this.setState({show:false});	
+	this.setState({show:false});
 }
 
 componentWillMount() {
@@ -49,7 +49,7 @@ login = () => {
 		client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
 		redirect_uri :process.env.REACT_APP_OAUTH_REDIRECT_URI,
 		scope: "user",
-		
+
 	});
 	oauth.login();
 }
@@ -65,7 +65,11 @@ renderLoginStatus() {
 	const {name,id,avatarUrl} = LoginSession.getLoginInfo().user
 	return (
 		<div>
-		<div className="btn header-btn" onClick={this.toggle}><img src={avatarUrl}/> <strong>{name}</strong></div>
+		<div className="setting-btn"><a href="#"></a></div>
+		<div className="btn header-btn" onClick={this.toggle}>
+				<img className="profile-thumb" src={avatarUrl}/>
+				<strong>{name}</strong>
+		</div>
 			<div className="profile-dialog modal-dialog" role="document" style={{display:(is_show?"block":"none")}}>
 			<div className="modal-content">
 			  <div className="modal-header">

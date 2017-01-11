@@ -37,7 +37,7 @@ renderLink() {
 
         <Link to={"/"+ id} className="course-title">
             <div className="course-image img_wrap" >
-                <img src="http://mooc.phinf.nhnnext.org/20160905_104/1473049200503ef0Bj_PNG/python_.png?type=ffn300_166" width="300" height="166" alt={name}/>
+                <img src={"/images/course_thumb/"+(id%5+1) + ".jpg"} width="300" height="166" alt={name}/>
             </div>
 
             <div className="info">

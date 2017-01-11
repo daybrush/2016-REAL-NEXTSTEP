@@ -1,0 +1,18 @@
+.content-btns{
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+}
+
+.content-btns .btn-more {
+  border: 1px solid #DCDEE0;
+  /*margin-top: 250px;*/
+  /*float: right;*/
+  border-radius: 5px;
+  width: 70px;
+  height: 30px;
+  text-align: center;
+  line-height: 15px;
+  background: #fff;
+
+}

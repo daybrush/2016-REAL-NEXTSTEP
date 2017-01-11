@@ -1,6 +1,6 @@
 
 body.pdf-open {
-	background: #404042;
+	/*background: #404042;*/
 }
 
 body.pdf-open #header {
@@ -13,10 +13,10 @@ body.pdf-open #header {
     top: 0px;
     color: #fff;
     height: 100%;
-    line-height: normal; 
+    line-height: normal;
 }
 #header .aside-left-lesson-back a {
-	line-height: 60px;
+	line-height: 50px;
 	height: 40px;
 	font-size: 18px;
 }
@@ -54,7 +54,7 @@ body.pdf-open #header {
 	height: 30px;
 	width: 30px;
 	margin: 0px 10px;
-	
+
 }
 .pdf-page {
 	position: relative;
@@ -62,7 +62,7 @@ body.pdf-open #header {
 /* 	border: 1px solid black; */
 }
 .pdf-page canvas {
-	
+
 }
 .pdf-page.hide-page *{
 	display: none;
@@ -87,7 +87,6 @@ body.pdf-open #header {
 
 /*HTML-PAGE*/
 .html-page {
-	color: white;
 	margin: 30px auto;
 /* 	width: 400px; */
 }
@@ -102,7 +101,7 @@ body.pdf-open #header {
 
 
 .page-wrapper {
-	
+
 }
 .lesson-page-viewer, .lesson-page-edit-area {
 	box-sizing: border-box;
@@ -120,34 +119,55 @@ body.pdf-open #header {
 .page-wrapper .editor-preview-side {
 }
 .lesson-page-edit-name {
-	color: white;
+	color: #535760;
 	background: transparent;
 	padding: 20px;
 	border:0;
 	border-bottom: 2px solid #f55;
+	text-align: center;
 	width: 100%;
 	font-size: 40px;
-
 	margin-bottom: 50px;
 }
 .lesson-page-viewer-name {
-	color: white;
+	color: #535760;
 	padding: 20px;
 	border:0;
-	border-bottom: 2px solid #f55;
+	border-bottom: 1px solid #bdbdbd;
 	width: 100%;
 	font-size: 40px;
-
 	margin-bottom: 50px;
+	text-align: center;
 }
 
 
 .lesson-page-edit-area .CodeMirror-measure {
 }
 
+.lesson-page-edit-area .lesson-page-edit-save {
 
+	border: 1px solid #DCDEE0;
+	color: #A7AAA9;
+	border-radius: 5px;
+	background-color: white;
+	width: 60px;
+	height: 26px;
+	float: right;
+	margin-top: 10px;
+	margin-left: 10px;
+}
 
+.lesson-page-edit-area .lesson-page-edit-cancel {
 
+	border: 1px solid #DCDEE0;
+	color: #A7AAA9;
+	border-radius: 5px;
+	background-color: white;
+	width: 60px;
+	height: 26px;
+	margin-top: 10px;
+	float: right;
+}
 
 
 
@@ -157,13 +177,18 @@ body.pdf-open #header {
 	top: 60px;
 	bottom: 0;
 	width: 300px;
-	background: #383838;
-	border-left: 1px solid #2f2f2f;
+	/*box-shadow: inset 0 0 10px #cfcfce;*/
+	/*top: 0px;*/
+	/*background: #383838;*/
+	/*border-left: 1px solid #2f2f2f;*/
+
 }
 
 
-
-.btn-wrapper {
+/*.body-wrapper .lesson-body{
+	margin-top: -5px;
+}*/
+/*.btn-wrapper {
 	position: fixed;
 	top: 100px;
 	z-index: 10;
@@ -174,6 +199,36 @@ body.pdf-open #header {
 	height: 50px;
 	line-height: 50px;
 	padding: 0px;
+}*/
+
+/*<div className="btn-wrapper">
+	<a className="btn btn-default zoom-in-btn" role="button" onClick={this.addZoom}>+</a>
+	<a className="btn btn-default zoom-out-btn" role="button" onClick={this.minusZoom}>-</a>
+	<a className="btn btn-default lesson-edit-btn" role="button" onClick={this.clickEdit}>수정</a>
+</div>*/
+
+.btn-wrapper{
+
+	position: fixed;
+	top: 80px;
+	z-index: 10;
+	margin-left: 20px;
+	/*border: 1px solid white;*/
+
+}
+
+.btn-wrapper .btn{
+	display: block;
+	border-radius: 30px;
+	background-color: rgba(255,255,255,0);
+	color: white;
+	background-image: none;
+	margin-top: 5px;
+	text-shadow: none;
+	color: gray;
+	width: 40px;
+	height: 40px;
+	line-height: 26px;
 }
 
 
@@ -181,16 +236,20 @@ body.pdf-open #header {
 	position: absolute;
 	left: -50px;
 	width: 50px;
-	height: 100%;
-	top: 0px;
-	background: #222;
+	height: 105%;
+	margin-top: -10px;
+	/*top: -10px;*/
+	/*background: #222;*/
+	/*box-shadow: inset 0px 0px 10px #cfcfce;*/
+	box-shadow: inset 7px 0 13px -7px #cfcfce;
+	z-index: 30;
 }
-.tabs li:before {
+/*.tabs li:before {
 	content: "";
 	background-image: url("/images/tab.png");
 	background-size: 80% auto;
 	width: 30px;
-	height: 30px;	
+	height: 30px;
 	background-position: center 3px;
 	background-repeat:no-repeat;
 	display: block;
@@ -200,18 +259,33 @@ body.pdf-open #header {
 	height: 30px;
 	box-sizing: border-box;
 	margin:10px 0px 10px 10px;
-	border-top-left-radius: 4px;
-	border-bottom-left-radius: 4px;
-	
+
+
+}*/
+.tabs li {
+	width: 50px;
+	height: 50px;
+	box-sizing: border-box;
+	/*border: 1px solid black;*/
+	display: block;
+	background-image: url("../../../public/images/tabIcons.png");
+	background-repeat: no-repeat;
 }
+.tabs li[data-tab="1"]{
+	background-position: 8px 12px;
+}
+.tabs li[data-tab="2"]{
+	background-position: 8px -27px;
+}
+.tabs li[data-tab="3"]{
+	background-position: 8px -64px;
+}
+.tabs li[data-tab="4"]{
+	background-position: 9px -103px;
+}
+
 .tabs li:hover, .tabs li.selected {
-	background-color: #363636;
-}
-.tabs li:nth-child(2):before {
-	background-position: center -45px;	
-}
-.tabs li:nth-child(3):before {
-	background-position: center -82px;	
+	background-color: #DCDEE0;
 }
 
 
@@ -224,7 +298,12 @@ body.pdf-open #header {
     right:0px;
     bottom: 0;
     padding: 0px 5px 0px;
+		/*margin-top: -10px;*/
     position: absolute;
+		/*box-shadow: inset 0px 0px 1px #cfcfce;*/
+		box-shadow: inset 127px 0 13px -127px #cfcfce;
+		z-index: 20;
+
 
 }
 
@@ -239,94 +318,74 @@ body.pdf-open #header {
 	width: 100%;
 	left: 0;
 	padding: 0px 0px 5px;
+	margin-top: -10px;
 }
 .discussion {
 	margin: 5px;
 	padding: 5px;
 	background: #333;
 	min-height: 50px;
+	border-bottom: 1px solid #DCDEE0;
+	/*z-index: -30;*/
 }
+
+
 .discussion.discussion-selected {
-	background: #F4DCFC;
+	background: #F2F3F3;
 }
 .discussions-tab .hljs {
 	margin: 0;
 }
-/*DICUSSION-FORM-INPUT*/
-.discussion-form {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	box-sizing: border-box;
-	background: #383838;
-	padding: 5px 5px 10px;
-	margin: 0px;
-}
-.discussion-form.form-group {
-	margin: 0px;
-}
-.discussion-input {
-/* 	margin-bottom: 10px; */
-}
 
-.discussion-form-btns {
-	text-align: right;
-}
-.discussion-submit {
-	margin-top: 10px;
-}
-.discussions-wrapper .editor-toolbar {
-/* 	opacity: 1; */
-	background: #fff;
-	
-}
-.discussions-wrapper .editor-toolbar a {
-	width: 20px;
-	height: 20px;
-	margin-right: 5px;
-}
-.discussions-wrapper .editor-toolbar a:before {
-	line-height: 20px;
-}
-.discussions-wrapper .CodeMirror{
-    height: 100px;
-    min-height: 100px;
-    padding: 5px;
-}
-.discussions-wrapper .CodeMirror-scroll {
-	min-height: 100px;
-}
 /*DISCUSSION - MAIN*/
 .discussion {
 	background: white;
+	/*border:1px solid black;*/
 }
 .discussion-author-thumb {
 	width: 50px;
 	height: 50px;
-	border-radius: 5px;	
+	border-radius: 30px;
 	display: inline-block;
 }
 .dicussion-text {
 	display: inline-block;
-	height: 50px;
+	height: 30px;
 	vertical-align: middle;
 	box-sizing: border-box;
-	padding: 5px;
+	padding: 5px 5px 5px 0px;
 	margin-left: 5px;
+	/*border:1px solid red;*/
+
+		/*border-radius: 10px;*/
 }
 .dicussion-text p {
 	margin: 0;
 	line-height: 20px;
+	display: inline-block;
+	margin-left: 7px;
+	/*border: 1px solid black;*/
 }
 .dicussion-author-name {
-	color: #007CEB;
-	font-weight: bold;
+	color: #333;
+	font-size: 15px;
+	font-weight: 400;
+	/*margin-right: 5px;*/
 }
 .dicussion-time {
 	font-size: 12px;
-	color:#999;
+	color:#959595;
+	/*margin-left: 10px;*/
 }
+
+.discussions .discussion .discussion-content{
+	display: inline-block;
+	/*border:1px solid black;*/
+	margin-left: 63px;
+	top: -13px;
+	position: relative;
+}
+
 .discussion-content.hljs {
 	background: inherit;
 	padding: 0;
@@ -347,12 +406,14 @@ body.pdf-open #header {
 /*DISCUSSION-REPLY*/
 .discussion-reply-tab-open .discussions-wrapper {
 	width: 50%;
+
 }
 .discussion-reply-tab-open .discussion-reply-tab {
 	display: block;
 }
 .discussion-reply-tab {
-	border-left: 1px solid #333;
+	/*border-left: 1px solid #333;*/
+	box-shadow: inset 7px 0 17px -7px #cfcfce;
 	width: 50%;
 	position: absolute;
 	top:0;
@@ -376,7 +437,7 @@ body.pdf-open #header {
 	height: 40px;
 	line-height: 20px;
 	text-align: center;
-	
+
 }
 .discussion-reply-tab-close a:hover {
 	color: #000;
@@ -384,12 +445,14 @@ body.pdf-open #header {
 }
 
 
+.discussion-form .CodeMirror {
+
+	border-radius: 3px;
+}
+
 
 /*CUSTOM MARK*/
 .mark-goto {
 	font-weight: bold;
 	color: #f55;
 }
-
-
-

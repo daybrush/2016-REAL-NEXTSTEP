@@ -2,13 +2,13 @@ import React, {  Component } from 'react'
 import { Link } from 'react-router'
 import Profile from '../components/Profile'
 import StoreSession from "../class/StoreSession"
+import "./css/Header.css"
 export default class Header extends Component {
 	state = {
 		update : true,
 		btns : {
 			"logo" : (<Link className="header-logo" to="/" key="logo"><img src="/images/logo.png" alt="logo"/></Link>),
-			"profile" : (<Profile key="profile"/>)
-			
+			"profile" : (<Profile key="profile"/>),
 		}
 	}
 	addButton(btns) {
@@ -19,11 +19,11 @@ export default class Header extends Component {
 			obj[name] = btns[name];
 		}
 		this.setState({update:true})
-		
+
 		console.log("header", this.state)
 	}
 	componentWillMount() {
-		StoreSession.setStore("header", this)	
+		StoreSession.setStore("header", this)
 	}
 	componentWillUnMount() {
 		StoreSession.unsetStore("header", this)

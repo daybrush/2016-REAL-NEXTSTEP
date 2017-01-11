@@ -27,17 +27,17 @@ class component extends Component {
 		const {course, session} = params;
 		this.courseId = course;
 		this.sessionId = session;
-		
+
 		console.log("course : " + course + "  session : " + session)
 		//by Course Id
 		if(typeof course !== "undefined")
 			actions.fetchGetCourse(course).catch(e => {
 				alert("페이지가 존재하지 않습니다.")
 			})
-			
-			
+
+
 		StoreSession.setStore("coursepage", this)
-		
+
 	}
 	componentWillUnmount() {
 		StoreSession.unsetStore("coursepage")
@@ -47,7 +47,7 @@ class component extends Component {
 			const session = this.getSession()
 			if(typeof session === "undefined")
 				return;
-			
+
 			this.orderLectures(session);
 			this.orderLectures(this.getMaster(), true);
 		} catch(e) {
@@ -65,14 +65,14 @@ class component extends Component {
 		}
 		if(!confirm("강의를 신청하시겠습니까?"))
 			return;
-			
-		
+
+
 		const {actions} = this.props;
 		actions.fetchRequestEnroll({
 			url : this.getSession()._links.self.href
 		}).then(result=> {
 			alert("신청되었습니다.")
-			
+
 			actions.fetchGetEnrollments({
 				id : this.getSession().id
 			}).catch(e => {
@@ -89,43 +89,43 @@ class component extends Component {
 	getMaster() {
 		return this.props.state.course.masterSession
 	}
-	
+
 	loadSession = (id) => {
 		this.props.actions.fetchGetSession({
 			id
 		}).catch(e => {
-			
+
 		})
-		
+
 	}
 
 	renderApplyLabel(memberStatus) {
 		switch(memberStatus) {
 			case "INSTRUCTOR":
-				return (<a className="course-header-apply label" href="#">관리자</a>)		
+				return (<a className="course-header-apply label" href="#">관리자</a>)
 			case "APPROVED":
-				return (<a className="course-header-apply label" href="#">승인 ㅇㅇ</a>)	
+				return (<a className="course-header-apply label" href="#">승인 ㅇㅇ</a>)
 			case "PENDING":
-				return (<a className="course-header-apply label" href="#">신청중</a>)	
+				return (<a className="course-header-apply label" href="#">신청중</a>)
 			case "REJECTED":
-				return (<a className="course-header-apply label label-danger" href="#">거절당함</a>)	
+				return (<a className="course-header-apply label label-danger" href="#">거절당함</a>)
 			case "NOT_LOGIN":
 			case "REQUIRE_APPLY":
 			default:
-				return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
+				return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)
 		}
-		//return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)			
+		//return (<a className="course-header-apply label" href="#" onClick={this.applyCourse}>신청하기</a>)
 	}
-	
+
 	renderHeader(memberStatus) {
 		const course = this.props.state.course
 
 		//const {startDate, endDate} = session
 		let session =  this.getSession(), {name, state} = session
 		const instructors = course.instructors
-	
-	
-	
+
+
+
 
 		let statusName;
 		//IN_SESSION , UPCOMIING, EXPIRED
@@ -141,9 +141,6 @@ class component extends Component {
 				statusName = "강의중";
 				break;
 		}
-		
-			  	
-
 
 		return (
 			<div className="course-header">
@@ -153,14 +150,11 @@ class component extends Component {
 					"label-end": state === "EXPIRED",
 					"label-upcomming": state === "UPCOMMING",
 					"label-inprogress label-success": state === "IN_SESSION",
-					
+
 				})}>{statusName}</span>
-				<span className="course-header-name">{name}</span>
-				
-				
-				{instructors.map((instructor,i) => (
-				<span className="course-header-professor" key={i}><Link to={"/professor/"+instructor.id} >{instructor.name}</Link></span>				
-				))}
+
+				<span className="course-header-name">{name} </span>
+
 				<a className="course-header-info" href="#" onClick={(e)=>{
 					this.setState({show_info:true})
 					e.preventDefault()
@@ -168,37 +162,33 @@ class component extends Component {
 				{(function () {
 					if(memberStatus !== "INSTRUCTOR")
 						return;
-						
+
 					return (<SessionAdd/>)
 				})()}
 
-	
 				<a className="course-header-btn-show-menu" href="#" onClick={this.showMenu}>
 					<span className="glyphicon glyphicon-option-horizontal"></span>
 					<span className="course-header-btn-text">Show Menu</span>
 				</a>
-
-				{this.renderApplyLabel(memberStatus)}							
-
-
+				{this.renderApplyLabel(memberStatus)}
 			</div>
-			
+
 		)
 	}
 	renderParticipants(memberStatus) {
 		const session = this.getSession()
 		if(!session)
-			return ""		
-		
+			return ""
+
 		return (<Participants session={session} status={memberStatus} ref="participants"/>)
-			
-		
+
+
 	}
 	orderLectures = (session, is_master = false) => {
   		const objLectures = {};
 		let pos = session.pos || []
 		let lectures = session.lectures
-		
+
   		let addPos = lectures.filter(lecture => {
 	  		objLectures[lecture.id] = lecture;
 	  		try {
@@ -209,12 +199,12 @@ class component extends Component {
 		  	}
 		  	session.pos = pos
 	  		return pos.every((id, index) => {
-		  		
+
 		  		//lecture가 pos Array에  하나라도 없을 때 true를 return한다.
-		  		
+
 				if(id instanceof Array)
 					return id.indexOf(lecture.id) === -1
-				
+
 				return id !== lecture.id
 	  		})
   		}).map(lecture=>(lecture.id))
@@ -223,75 +213,75 @@ class component extends Component {
 
   		let is_update = false;
 
-  		
+
   		if(addPos.length > 0) {
 	  		pos = pos.concat(addPos);
 	  		is_update = true;
 
   		}
-  		
+
   		addPos = pos;
   		pos = pos.filter((id, i) => {
 	  		if(id instanceof Array) {
 		  		id = pos[i] = id.filter(id => (id in objLectures))
 				return id.length !== 0 && id.every(id => (id in objLectures))
 			}
-				
+
 			return id in objLectures
-	  		
-	  		
+
+
 	  	})
 
   		if(pos.length !== addPos.length) {
 	  		is_update = true;
   		}
-  		
+
   		if(is_update) {
 	  		const id = session.id
 	  		console.log(id, session)
 			this.props.actions.saveLecturePosition(is_master, pos)
 			this.props.actions.fetchSwapLecture({
 				id,
-				pos, 
+				pos,
 				is_master,
 				url: session._links.self.href
 			})
 
   		}
-  		
-  		
+
+
   		return pos;
 	}
-	
+
 	renderLectures(session,  memberStatus, is_master = false ) {
 
   		const course = this.props.state.course;
 		const objLectures = {};
 
 		const lectures = session.lectures
-		
-		
+
+
 	  	lectures.forEach(lecture => {
 	  		objLectures[lecture.id] = lecture;
-		});	
-		
+		});
+
 
 		let pos = this.orderLectures(session, is_master);
 
-		
+
 		const _pos = pos.map((id, i)=> {
 			if(typeof id === "object")
 				return id.map(id => {
 					return objLectures[id]
 				})
-			
-			
+
+
 			return objLectures[id]
 		})
 
 		const participants = this.getSession().enrollments.filter(enrollment=>(enrollment.status === "APPROVED"))
-		
-		
+
+
   		return (<div className="lecture-cards">{_pos.map((_lecture,i) => {
 	  			let sublecture = [];
 	  			let lecture = _lecture
@@ -300,10 +290,10 @@ class component extends Component {
 	  			} else if(_lecture instanceof Array) {
 		  			if(!_lecture.length)
 		  				return ""
-		  				
+
 		  			lecture = _lecture[0];
 		  			sublecture = _lecture.slice(1, _lecture.length);
-		  			
+
 	  			}
 	  			const props = {
 					key: lecture.id,
@@ -318,7 +308,7 @@ class component extends Component {
 				}
 				return (<LectureCard {...props}/>)
 			})}</div>)
-  		
+
 
 	}
 	renderMaster(memberStatus) {
@@ -329,8 +319,8 @@ class component extends Component {
 		const course =this.props.state.course;
 		const master = this.getMaster();
 
-		
-		if(!master)			
+
+		if(!master)
 			return;
 
   		const addLectureCard = memberStatus === "INSTRUCTOR" ?(<AddLectureCard actions={this.props.actions} course={course} session={master} is_master={true}/>) : ""
@@ -347,7 +337,7 @@ class component extends Component {
 				<p><img src="/images/loading.gif" height="60" alt="loading"/></p>
 				<p>Loading...</p>
 			</div>
-			
+
 		)
 	}
 	getMemberStatus() {
@@ -358,7 +348,7 @@ class component extends Component {
 	  		const loginInfo = LoginSession.getLoginInfo().user
 	  		const instructor = course.instructors.filter(instructor => (loginInfo.username === instructor.username))
 	  		const enrollment = this.getSession().enrollments.filter(enrollment=>(enrollment.user.username === loginInfo.username))
-	  		if(instructor.length !== 0) 
+	  		if(instructor.length !== 0)
 	  			memberStatus = "INSTRUCTOR"
 	  		else if(enrollment.length === 0)
 	  			memberStatus = "REQUIRE_APPLY"
@@ -369,7 +359,7 @@ class component extends Component {
 	  		else
 	  			memberStatus = "APPROVED"
 	  	}
-	  	
+
 	  	return memberStatus
 	}
 	renderInfo() {
@@ -385,36 +375,35 @@ class component extends Component {
 
 		if(!("defaultSession" in course))
 			return loadPage("loading")
-			
+
 		const session = this.getSession()
-			
+
 		if(!session)
 			return loadPage("error", {message: "관리자에게 문의해주세요. ", submessage: "message:No Session"})
-			
 
-		
+
+
   		let memberStatus = this.getMemberStatus();
-  		
-  		
-  		
+
+
+
   		const addLectureCard = memberStatus === "INSTRUCTOR" && session.lectures.length === 0 ?(<AddLectureCard actions={this.props.actions} course={course} session={session} is_master={false}/>) : ""
-  		
+
   		return (
+
   		<div className="course-lectrues-wrapper">
-
-
-  		
-		{this.renderHeader(memberStatus)}
-		{this.renderParticipants(memberStatus)}  
-		{this.renderInfo()}		
-		<div className="course-lectures">
-			<div className="course-session-lectures">
-			{this.renderLectures(session, memberStatus, false)}
-				{addLectureCard}
-			</div>
-			{this.renderMaster(memberStatus)}
-		</div>
-  		<div className="lecture-participant-list"></div>
+				{this.renderHeader(memberStatus)}
+				{this.renderParticipants(memberStatus)}
+				{this.renderInfo()}
+				<div className="session-lectures-area"></div>
+				<div className="course-lectures">
+					<div className="course-session-lectures">
+					{this.renderLectures(session, memberStatus, false)}
+						{addLectureCard}
+					</div>
+					{this.renderMaster(memberStatus)}
+				</div>
+		  		<div className="lecture-participant-list"></div>
   		</div>
   		)
   	}
@@ -431,6 +420,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(component)
-
-
- 

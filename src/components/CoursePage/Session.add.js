@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import validate from "../../class/Validation"
 import classNames from 'classnames'
+import './css/Session.add.css'
+
 //import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.js"
 class component extends Component {
 
@@ -31,7 +33,7 @@ componentDidMount() {
 editMode = (e) => {
 	this.setState({edit:true});
 	this.inputName.focus();
-	
+
 	e.preventDefault();
 }
 
@@ -39,9 +41,9 @@ loadSession = (id) => {
 	this.props.actions.fetchGetSession({
 		id
 	}).catch(e => {
-		
+
 	})
-	
+
 }
 
 
@@ -50,7 +52,7 @@ add = (e) => {
 	const this2 = this;
 	let name = this.inputName.value,
 		startDate = this.datepicker1.value, endDate = this.datepicker2.value, description = this.description.value
-	
+
 	if(!validate(name, ["IS_EMPTY"])) {
 		this.inputName.focus()
 		return
@@ -60,16 +62,16 @@ add = (e) => {
 		this.datepicker1.focus()
 		return
 	}
-		
+
 	if(!validate(endDate, ["IS_EMPTY", "IS_DATE"])) {
 		this.datepicker2.focus()
 		return
 	}
-	
+
 	startDate += "T00:00:00.000Z";
 	endDate += "T23:59:59.000Z";
-	
-	
+
+
 	actions.fetchAddSession({
 		name,
 		description,
@@ -83,17 +85,17 @@ add = (e) => {
 		alert("생성하지 못했습니다.")
 		throw e;
 	})
-	
+
 	this.inputName.value = "";
-	
+
 	this.close();
 }
 handleKey = (e) => {
 	if(e.keyCode !== 13)
 		return false;
-	
-	
-	this.datepicker1.focus();	
+
+
+	this.datepicker1.focus();
 	//this.add();
 }
 close = (e) => {
@@ -103,7 +105,7 @@ close = (e) => {
 modalClose = (e) => {
  	if(e.target !== this.modal)
  		return
- 		
+
  	this.close()
 }
 
@@ -119,16 +121,16 @@ renderDialog() {
       </div>
       <div className="modal-body">
           <div className="form-group">
-          
+
             <div className="course-add-group">
 	            <label className="control-label  col-sm-3 col-xxs-12">Name :</label>
 	            <div className="text-name col-sm-9 col-xxs-12">
-		            <input type="text" className="form-control" id="recipient-name" ref={(input) => { this.inputName = input; }} onKeyUp={this.handleKey} 
+		            <input type="text" className="form-control" id="recipient-name" ref={(input) => { this.inputName = input; }} onKeyUp={this.handleKey}
 		            required="true"/>
 	            </div>
             </div>
-            
-            
+
+
             <div className="course-add-group">
 	            <label className="control-label col-sm-3 col-xxs-12" for="form-duration">Duration :</label>
 
@@ -139,7 +141,7 @@ renderDialog() {
 				    </div>
 				</div>
 				<div className="course-add-date-duration col-sm-1 col-xxs-12 "> ~ </div>
-				
+
 				<div className="date-group input-group input col-sm-4 col-xxs-12 ">
 				    <input type="text" className="form-control datepicker2" ref={(e)=>{this.datepicker2 = e}}/>
 				    <div className="input-group-addon">
@@ -169,13 +171,13 @@ renderDropDown() {
 	return(
 		<div className="btn-group">
 					{this.renderDialog()}
-			<button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button type="button" className="btn btn-default dropdown-toggle sessions-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<span ref={e=>{this.menuToggleBtn = e}}>{session.name}</span> <span className="caret"></span>
 			</button>
 			<ul className="dropdown-menu">
 			{
 				this.props.state.course.courseSessions.map((session2, i)=> {
-					
+
 					return(<li key={i} className={classNames({
 						"active" : session.id === session2.id
 					})}><a href="#" onClick={e=>{this.loadSession(session2.id); e.preventDefault();}}>{session2.name}</a></li>)
@@ -188,7 +190,7 @@ renderDropDown() {
 
   render() {
 
-    
+
     return this.renderDropDown()
   }
 }
