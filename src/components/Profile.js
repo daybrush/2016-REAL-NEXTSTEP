@@ -46,10 +46,10 @@ login = () => {
 	const oauth = new OAuth({
 		name: "github",
 		authorize_uri : "https://github.com/login/oauth/authorize",
-		// client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
-		// redirect_uri :process.env.REACT_APP_OAUTH_REDIRECT_URI,
-        client_id: e707ca2f9a1556499b5a,
-        redirect_uri :http://srello.xyz/login.html,
+		client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
+		redirect_uri :process.env.REACT_APP_OAUTH_REDIRECT_URI,
+        // client_id: e707ca2f9a1556499b5a,
+        // redirect_uri :http://srello.xyz/login.html,
 		scope: "user",
 
 	});
